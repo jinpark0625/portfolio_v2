@@ -67,32 +67,12 @@ const Star = ({
   // });
   // rotation={[0, 0, Math.PI / 4]}
 
-  /**
-   * whale
-   */
-  const whaleMaterials = new THREE.MeshBasicMaterial({
-    wireframe: true,
-    color: 0x000000,
-    transparent: true,
-    opacity: 0.05,
-  });
-  const obj = useLoader(OBJLoader, "/textures/Mesh_Whale.obj");
-  obj.children[0].material = whaleMaterials;
-
-  const spaRef = useRef();
+  const groupRef = useRef();
 
   useLayoutEffect(() => {
-    // go = textRef.current.geometry.attributes.position.array;
-    // const textGeo = <textGeometry args={["test", fontConfig]} />;
-    // ref.current.geometry = textRef.current.geometry;
-
-    console.log("처음ref는?", ref);
-
+    console.log(ref);
     const textSample = new MeshSurfaceSampler(textRef.current);
     textSample.build();
-
-    // spaRef.current.updateMatrixWorld(true);
-    // ref.current.updateMatrixWorld(true);
 
     const tempPosition = new Vector3();
     for (let i = 0; i < count; i++) {
@@ -103,28 +83,29 @@ const Star = ({
         0
       );
     }
-
     points = new Float32Array(vertices);
-    // // spaRef.current.geometry.setAttribute(
-    // //   "position",
-    // //   new THREE.BufferAttribute(points, 3)
-    // // );
-    // ref.current.geometry.setAttribute(
-    //   "position",
-    //   new THREE.BufferAttribute(points, 3)
-    // );
-    // console.log("ref는?", ref);
-    // console.log("positiondms?", points);
-  }, []);
+    ref.current.geometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(points, 3)
+    );
 
-  console.log(sphere, points);
+    ref.current.geometry.computeBoundingBox();
+    const center = ref.current.geometry.boundingBox.getCenter(new Vector3());
+
+    ref.current.position.x = -center.x;
+    ref.current.position.y = -center.y;
+  }, []);
 
   return (
     <>
-      <group>
+      <group ref={groupRef}>
+        <mesh>
+          <planeGeometry />
+        </mesh>
         <Text3D
-          letterSpacing={-0.06}
-          size={0.5}
+          letterSpacing={-0.1}
+          size={1}
+          position={[0, 0, 0]}
           font={Poppins}
           ref={textRef}
           visible={false}
@@ -133,29 +114,16 @@ const Star = ({
           <meshStandardMaterial color="white" />
         </Text3D>
 
-        {/* <Sparkles
-          ref={spaRef}
-          count={1000}
-          size={scale}
-          // position={[0, 0, 0]}
-          // scale={[4, 1.5, 4]}
-          // speed={0.3}
-        /> */}
-
-        {/* <mesh position={[0, 0, 0]} ref={fontRef}>
-          <textGeometry args={["test", fontConfig]} />
-          <meshPhysicalMaterial attach="material" color={0x5c2301} />
-        </mesh> */}
-        <Points positions={points} ref={ref} stride={3} frustumCulled={false}>
-          <PointMaterial
-            transparent
+        <points ref={ref}>
+          <pointsMaterial
+            attach="material"
             color={starsOpt.starColor}
             size={starsOpt.starSize}
-            sizeAttenuation={true}
-            depthWrite={false}
-            ref={materialRef}
+            alphaTest={0.2}
+            // map={colorMap}
+            // vertexColors={true}
           />
-        </Points>
+        </points>
       </group>
     </>
   );
@@ -213,6 +181,7 @@ export default function Home({ results }) {
           position: [0, 0, 3],
         }}
         gl={{ antialias: false }}
+        dpr={[1, 2]}
       >
         <OrbitControls makeDefault />
         {/* <ambientLight intensity={0.5} /> */}
