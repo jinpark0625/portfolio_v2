@@ -97,7 +97,11 @@ const Star = ({
     const tempPosition = new Vector3();
     for (let i = 0; i < count; i++) {
       textSample.sample(tempPosition);
-      vertices.push(tempPosition.x, tempPosition.y, 0);
+      vertices.push(
+        (Math.random() - 0.5) * 0.01 + tempPosition.x,
+        (Math.random() - 0.5) * 0.02 + tempPosition.y,
+        0
+      );
     }
 
     points = new Float32Array(vertices);
@@ -125,7 +129,7 @@ const Star = ({
           ref={textRef}
           visible={false}
         >
-          test
+          Test
           <meshStandardMaterial color="white" />
         </Text3D>
 
