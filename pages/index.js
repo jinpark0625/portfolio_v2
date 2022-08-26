@@ -13,6 +13,8 @@ import {
   Text3D,
   Center,
   useCursor,
+  ScrollControls,
+  useScroll,
 } from "@react-three/drei";
 import * as random from "maath/random";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
@@ -31,23 +33,42 @@ import { vertexShader, fragmentShader } from "./shader";
 const raycaster = new THREE.Raycaster();
 let pointsValue;
 
-const Star = ({ starsOpt, pos, width, height }) => {
+const Star = ({}) => {
+  /**
+   * options
+   */
   // refs
   const ref = useRef();
   const textRef = useRef();
   const planeRef = useRef();
-
-  const { viewport } = useThree();
+  // three options
+  const { width, height } = useThree((state) => state.viewport);
   const { gl } = useThree();
-
+  // particles' count
   const count = 15000;
 
-  //animation
+  const [sphere] = useState(() =>
+    random.inSphere(new Float32Array(1000), { radius: 1.5 })
+  );
+
+  /**
+   * scroll events
+   */
+  const scroll = useScroll();
+
+  /**
+   * animation
+   * params : mouse, camera, clock
+   * change mouse position, raycast
+   */
   useFrame(({ mouse, camera, clock }) => {
+    /**
+     * mouse events
+     */
     ref.current.material.uniforms.uTime.value = clock.getElapsedTime();
 
-    const x = (mouse.x * viewport.width) / 2;
-    const y = (mouse.y * viewport.height) / 2;
+    const x = (mouse.x * width) / 2;
+    const y = (mouse.y * height) / 2;
 
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects([planeRef.current]);
@@ -55,10 +76,23 @@ const Star = ({ starsOpt, pos, width, height }) => {
     if (intersects[0]) {
       ref.current.material.uniforms.uMouse.value = new Vector2(x, y);
     }
+
+    /**
+     * scroll events
+     */
+    const r1 = scroll.range(0, 1 / 3);
+    const r2 = scroll.range(1 / 3, 1 / 3);
+    const r3 = scroll.range(2 / 3, 1 / 3);
+
+    if (r1 > 0.3) {
+      ref.current.material.uniforms.uRandom.value = r1;
+    }
   });
 
-  const groupRef = useRef();
-
+  /**
+   * get position of text
+   * set attributes for partics' geometry
+   */
   useLayoutEffect(() => {
     textRef.current.letterSpacing = 3;
     const textSample = new MeshSurfaceSampler(textRef.current);
@@ -104,7 +138,10 @@ const Star = ({ starsOpt, pos, width, height }) => {
       new THREE.BufferAttribute(indices, 1)
     );
   }, []);
-  // * gl.getPixelRatio()
+
+  /**
+   * set uniforms for particles
+   */
   const uniforms = useMemo(
     () => ({
       uMouse: {
@@ -118,6 +155,9 @@ const Star = ({ starsOpt, pos, width, height }) => {
         value: 0,
       },
       uColor: { value: new THREE.Color(0x0f85d6) },
+      uRandom: {
+        value: 1,
+      },
     }),
     []
   );
@@ -129,7 +169,7 @@ const Star = ({ starsOpt, pos, width, height }) => {
         <meshBasicMaterial wireframe={true} />
       </mesh>
       <Center>
-        <animated.group ref={groupRef}>
+        <animated.group>
           <Text3D
             size={1}
             letterSpacing={2}
@@ -164,15 +204,6 @@ export default function Home({ results }) {
 
   const canvasRef = useRef();
 
-  const positionRef = useRef({
-    mouseX: 0,
-    mouseY: 0,
-    destinationX: 0,
-    destinationY: 0,
-    distanceX: 0,
-    distanceY: 0,
-  });
-
   useEffect(() => {
     setWindowSize({
       width: window.innerWidth,
@@ -195,32 +226,12 @@ export default function Home({ results }) {
     });
   }, []);
 
-  const [starsOpt, setStarsOpt] = useState({
-    starSize: 0.005,
-    starColor: "white",
-    background: "#17191c",
-  });
-
-  const [props, set] = useSpring(() => ({
-    pos: { x: 0, y: 0, z: 0 },
-  }));
-
-  const radius = 0.2;
-
   return (
     <div
       style={{
         width: windowSize.width,
         height: windowSize.height,
-        background: starsOpt.background,
-      }}
-      onMouseMove={({ clientX, clientY }) => {
-        const x = (clientX / window.innerWidth) * 2 - 1;
-        const y = -(clientY / window.innerHeight) * 2 + 1;
-
-        set({
-          pos: { x: x, y: y, z: 0 },
-        });
+        background: "#17191c",
       }}
     >
       <Seo title="Home" />
@@ -236,8 +247,16 @@ export default function Home({ results }) {
         gl={{ antialias: false }}
         dpr={[1, 2]}
       >
-        <OrbitControls makeDefault />
-        <Star starsOpt={starsOpt} pos={props} />
+        <ScrollControls
+          pages={3}
+          distance={1}
+          damping={4}
+          horizontal={false}
+          infinite={false}
+        >
+          {/* <OrbitControls makeDefault /> */}
+          <Star />
+        </ScrollControls>
         <axesHelper
           position={[0, 0, 0]}
           onUpdate={(self) => self.setColors("#ff2080", "#20ff80", "#2080ff")}

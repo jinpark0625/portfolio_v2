@@ -3,6 +3,7 @@ uniform vec3 uMouse;
 uniform float uSize;
 uniform float uPixelRatio;
 uniform float uTime;
+uniform float uRandom;
 
 attribute float aScale;
 attribute float pindex;
@@ -97,6 +98,8 @@ void main()
     //0.5가 커지면 원이커진다?
     particlePosition.x -= distanceToMouse * 0.5 * rndz * cos(angle);
     particlePosition.y -= distanceToMouse * 0.5 * rndz * sin(angle);
+
+    particlePosition.xy += uRandom * rndz;
 
     //camera
 
