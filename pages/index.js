@@ -70,11 +70,18 @@ const Star = ({}) => {
     const x = (mouse.x * width) / 2;
     const y = (mouse.y * height) / 2;
 
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects([planeRef.current]);
+    // raycaster.setFromCamera(mouse, camera);
+    // const intersects = raycaster.intersectObjects([planeRef.current]);
 
-    if (intersects[0]) {
+    // // if (intersects[0]) {
+
+    // //   ref.current.material.uniforms.uMouse.value = new Vector2(x, y);
+    // //   ref.current.material.uniforms.uMouseTrigger.value = 1;
+    // // }
+
+    if (hovered) {
       ref.current.material.uniforms.uMouse.value = new Vector2(x, y);
+      ref.current.material.uniforms.uMouseTrigger.value = 1;
     }
 
     /**
@@ -85,7 +92,7 @@ const Star = ({}) => {
     const r3 = scroll.range(2 / 3, 1 / 3);
 
     if (r1 > 0.3) {
-      ref.current.material.uniforms.uRandom.value = r1;
+      ref.current.material.uniforms.uRandom.value = r1 * 5;
     }
   });
 
@@ -147,6 +154,9 @@ const Star = ({}) => {
       uMouse: {
         value: new Vector2(0, 0),
       },
+      uMouseTrigger: {
+        value: 0,
+      },
       uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
       uSize: {
         value: 1.5,
@@ -161,10 +171,18 @@ const Star = ({}) => {
     }),
     []
   );
+  const [hovered, setHovered] = useState(false);
+  useCursor(hovered);
 
   return (
     <>
-      <mesh ref={planeRef} position={[0, 0, 0]} visible={false}>
+      <mesh
+        ref={planeRef}
+        position={[0, 0, 0]}
+        visible={false}
+        onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
+        onPointerOut={(e) => setHovered(false)}
+      >
         <planeGeometry args={[5, 3, 2, 2]} />
         <meshBasicMaterial wireframe={true} />
       </mesh>

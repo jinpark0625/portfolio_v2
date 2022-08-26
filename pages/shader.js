@@ -4,6 +4,7 @@ uniform float uSize;
 uniform float uPixelRatio;
 uniform float uTime;
 uniform float uRandom;
+uniform float uMouseTrigger;
 
 attribute float aScale;
 attribute float pindex;
@@ -96,10 +97,10 @@ void main()
     float distanceToMouse = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.03, -4., 1.), 2.5);
 
     //0.5가 커지면 원이커진다?
-    particlePosition.x -= distanceToMouse * 0.5 * rndz * cos(angle);
-    particlePosition.y -= distanceToMouse * 0.5 * rndz * sin(angle);
+    particlePosition.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
+    particlePosition.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
 
-    particlePosition.xy += uRandom * rndz;
+    // particlePosition.xy += uRandom * rndz * 4.;
 
     //camera
 
