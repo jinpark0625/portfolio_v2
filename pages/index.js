@@ -15,11 +15,14 @@ import {
   useCursor,
   ScrollControls,
   useScroll,
+  Html,
 } from "@react-three/drei";
 import * as random from "maath/random";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import Poppins from "../public/fonts/Poppins_Bold.json";
 import Inter from "../public/fonts/Inter_Bold.json";
+import FounterSemi from "../public/fonts/FoundersGroteskSemibold.json";
+import FounterBold from "../public/fonts/FoundersGroteskBold.json";
 import * as THREE from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { extend } from "@react-three/fiber";
@@ -91,8 +94,9 @@ const Star = ({}) => {
     const r2 = scroll.range(1 / 3, 1 / 3);
     const r3 = scroll.range(2 / 3, 1 / 3);
 
-    if (r1 > 0.3) {
-      ref.current.material.uniforms.uRandom.value = r1 * 5;
+    ref.current.material.uniforms.uRandom.value = r1;
+    if (r1 > 0.75) {
+      set(false);
     }
   });
 
@@ -166,13 +170,24 @@ const Star = ({}) => {
       },
       uColor: { value: new THREE.Color(0x0f85d6) },
       uRandom: {
-        value: 1,
+        value: 0,
+      },
+      uFrequency: {
+        value: 8,
+      },
+      uAmplitude: {
+        value: 4,
+      },
+      uResolution: {
+        value: new Vector2(width, height),
       },
     }),
     []
   );
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
+
+  const [hidden, set] = useState();
 
   return (
     <>
@@ -192,7 +207,7 @@ const Star = ({}) => {
             size={1}
             letterSpacing={2}
             position={[0, 0, 0]}
-            font={Inter}
+            font={Poppins}
             ref={textRef}
             visible={false}
           >
@@ -209,6 +224,27 @@ const Star = ({}) => {
             />
           </points>
         </animated.group>
+      </Center>
+      <Center>
+        <Html
+          transform
+          occlude
+          onOcclude={set}
+          style={{
+            transition: "all 0.5s",
+            opacity: hidden ? 0 : 1,
+            transform: `scale(${hidden ? 0.5 : 1})`,
+          }}
+        >
+          <p
+            style={{
+              color: "#fff",
+              fontSize: "4px",
+            }}
+          >
+            Hello, I'm frontend developer.
+          </p>
+        </Html>
       </Center>
     </>
   );

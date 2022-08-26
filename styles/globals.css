@@ -5,6 +5,8 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: "FounderGrotesk";
+  -webkit-font-smoothing: antialiased;
 }
 .scrollArea {
   position: absolute;
