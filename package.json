@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/core": "^7.18.13",
     "@react-spring/three": "^9.5.2",
     "@react-three/drei": "^9.22.7",
     "@react-three/fiber": "^8.3.1",
@@ -22,7 +23,9 @@
     "three-stdlib": "^2.14.1"
   },
   "devDependencies": {
+    "babel-plugin-glsl": "^1.0.0",
     "eslint": "8.22.0",
-    "eslint-config-next": "12.2.5"
+    "eslint-config-next": "12.2.5",
+    "glslify": "^7.1.1"
   }
 }
