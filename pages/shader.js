@@ -245,7 +245,7 @@ vec3 circle(vec2 coord, vec2 loc, float r){
 void main()
 {
     float opacity = (uRandom - 1.0) * -1.;
-    float try = clamp(opacity, 0.07, 0.18);
+    float try = clamp(opacity, 0.04, 0.18);
 
     //0.5 와 노멀라이즈된 UV값의 중간점을 찾는다.
     float distnaceToCenter = distance(gl_PointCoord, vec2(0.5));

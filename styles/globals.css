@@ -8,6 +8,9 @@ body {
   font-family: "FounderGrotesk";
   -webkit-font-smoothing: antialiased;
 }
+body:hover {
+  cursor: auto !important;
+}
 .scrollArea {
   position: absolute;
   top: 0;

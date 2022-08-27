@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useEffect, useRef, useMemo, useLayoutEffect } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useLayoutEffect,
+  Suspense,
+} from "react";
 import Seo from "../components/seo";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import {
@@ -16,6 +23,7 @@ import {
   ScrollControls,
   useScroll,
   Html,
+  useProgress,
 } from "@react-three/drei";
 import * as random from "maath/random";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
@@ -30,11 +38,11 @@ import DatGui, { DatColor, DatNumber } from "react-dat-gui";
 import { Vector2, Vector3 } from "three";
 import { MeshSurfaceSampler, OBJLoader } from "three-stdlib";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
-import { useSpring, animated, config } from "@react-spring/three";
+// import { useSpring, animated, config } from "@react-spring/three";
+import { useSpring, animated, config } from "react-spring";
 import { vertexShader, fragmentShader } from "./shader";
 
 const raycaster = new THREE.Raycaster();
-let pointsValue;
 
 const Star = ({}) => {
   /**
@@ -53,7 +61,7 @@ const Star = ({}) => {
   const [sphere] = useState(() =>
     random.inSphere(new Float32Array(1000), { radius: 1.5 })
   );
-
+  const obj = useLoader(OBJLoader, "/textures/Mesh_Whale.obj");
   /**
    * scroll events
    */
@@ -73,15 +81,6 @@ const Star = ({}) => {
     const x = (mouse.x * width) / 2;
     const y = (mouse.y * height) / 2;
 
-    // raycaster.setFromCamera(mouse, camera);
-    // const intersects = raycaster.intersectObjects([planeRef.current]);
-
-    // // if (intersects[0]) {
-
-    // //   ref.current.material.uniforms.uMouse.value = new Vector2(x, y);
-    // //   ref.current.material.uniforms.uMouseTrigger.value = 1;
-    // // }
-
     if (hovered) {
       ref.current.material.uniforms.uMouse.value = new Vector2(x, y);
       ref.current.material.uniforms.uMouseTrigger.value = 1;
@@ -96,7 +95,10 @@ const Star = ({}) => {
 
     ref.current.material.uniforms.uRandom.value = r1;
     if (r1 > 0.75) {
-      set(false);
+      // set(false);
+      setFirstText(true);
+    } else {
+      setFirstText(false);
     }
   });
 
@@ -187,7 +189,25 @@ const Star = ({}) => {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
 
-  const [hidden, set] = useState();
+  const [firstText, setFirstText] = useState(false);
+  const styles = useSpring({
+    from: {
+      opacity: 0,
+      transform: "scale(1.2,1.2)",
+    },
+    to: [
+      {
+        opacity: firstText ? 1 : 0,
+        transform: "scale(1.0,1.0)",
+      },
+      {
+        opacity: firstText ? 1 : 0,
+        transform: firstText ? "scale(1.0, 1.0)" : "scale(0.8, 0.8)",
+      },
+    ],
+    // loop: true,
+    config: { duration: "600" },
+  });
 
   return (
     <>
@@ -201,8 +221,9 @@ const Star = ({}) => {
         <planeGeometry args={[5, 3, 2, 2]} />
         <meshBasicMaterial wireframe={true} />
       </mesh>
+
       <Center>
-        <animated.group>
+        <group>
           <Text3D
             size={1}
             letterSpacing={2}
@@ -223,30 +244,40 @@ const Star = ({}) => {
               transparent={true}
             />
           </points>
-        </animated.group>
+        </group>
       </Center>
-      <Center>
-        <Html
-          transform
-          occlude
-          onOcclude={set}
+      <Html
+        center
+        style={{
+          width: "500px",
+        }}
+      >
+        <animated.div
           style={{
-            transition: "all 0.5s",
-            opacity: hidden ? 0 : 1,
-            transform: `scale(${hidden ? 0.5 : 1})`,
+            color: "#fff",
+            fontSize: "20px",
+            textAlign: "center",
+            ...styles,
           }}
         >
-          <p
-            style={{
-              color: "#fff",
-              fontSize: "4px",
-            }}
-          >
-            Hello, I'm frontend developer.
-          </p>
-        </Html>
-      </Center>
+          Hello, I'm frontend developer.
+        </animated.div>
+      </Html>
     </>
+  );
+};
+
+const Loader = () => {
+  const { active, progress, errors, item, loaded, total } = useProgress();
+  return (
+    <Html
+      center
+      style={{
+        color: "#fff",
+      }}
+    >
+      {progress} % loaded
+    </Html>
   );
 };
 
@@ -296,27 +327,28 @@ export default function Home({ results }) {
           near: 0.1,
           far: 1000,
           aspect: windowSize.width / windowSize.height,
-          position: [0, 0, 3],
+          // position: [0, 0, 2],
         }}
         gl={{ antialias: false }}
         dpr={[1, 2]}
       >
-        <ScrollControls
-          pages={3}
-          distance={1}
-          damping={4}
-          horizontal={false}
-          infinite={false}
-        >
-          {/* <OrbitControls makeDefault /> */}
-          <Star />
-        </ScrollControls>
-        <axesHelper
+        <Suspense fallback={<Loader />}>
+          <ScrollControls
+            pages={3}
+            distance={1}
+            damping={4}
+            horizontal={false}
+            infinite={false}
+          >
+            <Star />
+          </ScrollControls>
+        </Suspense>
+        {/* <axesHelper
           position={[0, 0, 0]}
           onUpdate={(self) => self.setColors("#ff2080", "#20ff80", "#2080ff")}
           width={windowSize.width}
           height={windowSize.height}
-        />
+        /> */}
       </Canvas>
     </div>
   );
