@@ -31,6 +31,7 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import Poppins from "../public/fonts/Poppins_Bold.json";
 import Inter from "../public/fonts/Inter_Bold.json";
 import FounterSemi from "../public/fonts/FoundersGroteskSemibold.json";
+import FounterReg from "../public/fonts/FounderGroteskReugular.json";
 import FounterBold from "../public/fonts/FoundersGroteskBold.json";
 import * as THREE from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
@@ -45,15 +46,7 @@ import { vertexShader, fragmentShader } from "./shader";
 
 const raycaster = new THREE.Raycaster();
 
-const Paragraph = memo(function TextField({
-  body,
-  index,
-  currentBodyIndex,
-  bodyFadeOutIndex,
-}) {
-  console.log("body는?", body);
-  console.log("index는?", index, index === currentBodyIndex);
-
+const Paragraph = memo(function TextField({ body, index, currentBodyIndex }) {
   const styles = useSpring(
     index === currentBodyIndex
       ? {
@@ -66,6 +59,7 @@ const Paragraph = memo(function TextField({
             transform: "scale(1.0,1.0)",
           },
           reset: true,
+          delay: 300,
           config: { duration: "400" },
         }
       : {
@@ -73,10 +67,16 @@ const Paragraph = memo(function TextField({
             opacity: 1,
             transform: "scale(1.0,1.0)",
           },
-          to: {
-            opacity: 0,
-            transform: "scale(0.8,0.8)",
-          },
+          to: [
+            {
+              opacity: 0,
+              transform: "scale(0.8,0.8)",
+            },
+            {
+              opacity: 0,
+              transform: "scale(1.2,1.2)",
+            },
+          ],
           reset: true,
           config: { duration: "400" },
         }
@@ -96,6 +96,7 @@ const Paragraph = memo(function TextField({
           textAlign: "center",
           willChange: "transform",
           transition: "all, .4s",
+          visibility: index === currentBodyIndex ? "visible" : "hidden",
           ...styles,
         }}
       >
@@ -104,6 +105,57 @@ const Paragraph = memo(function TextField({
     </Html>
   );
 });
+
+// const Texts = ({ body, index }) => {
+//   const content = useMemo(() => {
+//     return (content = body);
+//   }, []);
+//   const scroll = useScroll();
+
+//   const ref = useRef();
+//   const currentIndex = useRef(null);
+
+//   useFrame(({ mouse, camera, clock }) => {
+//     /**
+//      * scroll events
+//      */
+//     const r1 = scroll.range(0, 1 / 3);
+//     const r2 = scroll.range(1 / 3, 1 / 3);
+//     const r3 = scroll.range(2 / 3, 1 / 3);
+
+//     if (r1 >= 0.7) {
+//       currentIndex.current = 0;
+//       ref.current.visible = true;
+
+//       if (ref.current.fontSize > 0.18) {
+//         ref.current.fontSize = (r1 - 1) * -1 * 0.74;
+//       }
+//     }
+//     else if (r1 < 0.75) {
+//       currentIndex.current = null;
+//     }
+
+//     if (r2 >= 0.65) {
+//       ref.current.fontSize = ref.current.fontSize * ((r2 - 1) * -10 - 2.5);
+//     }
+//     if (r2 > 0.75) {
+//       ref.current.fontSize = r2 * 0.17;
+//       currentIndex.current = 1;
+//     }
+//   });
+
+//   return (
+//     <Text
+//       font={FounterReg}
+//       characters="abcdefghijklmnopqrstuvwxyz0123456789!"
+//       fontSize={0.222}
+//       ref={ref}
+//     >
+//       {/* {index === currentIndex?.current && content} */}
+//       {content}
+//     </Text>
+//   );
+// };
 
 const Star = ({}) => {
   /**
@@ -156,27 +208,15 @@ const Star = ({}) => {
 
     ref.current.material.uniforms.uRandom.value = r1;
 
-    if (r1 > 0.75) {
+    if (r1 > 0.6) {
       setCurrentBodyIndex(0);
-      // setBodyFadeOutIndex(null);
-    } else if (r1 < 0.75) {
+    } else if (r1 < 0.6) {
       setCurrentBodyIndex(null);
-      // setBodyFadeOutIndex(0);
-    }
-
-    // console.log(r2);
-
-    if (r2 > 0.72) {
-      setCurrentBodyIndex(null);
-      // setBodyFadeOutIndex(0);
     }
 
     if (r2 > 0.75) {
       setCurrentBodyIndex(1);
-      // setBodyFadeOutIndex(null);
     }
-    // else if (r2 < 0.75) {
-    // }
   });
 
   /**
@@ -268,7 +308,7 @@ const Star = ({}) => {
   useCursor(hoveredRef);
 
   const [currentBodyIndex, setCurrentBodyIndex] = useState(null);
-  const [bodyFadeOutIndex, setBodyFadeOutIndex] = useState(null);
+
   const bodyCentents = ["Hello, I'm frontend developer.", "Nice to meet you."];
 
   return (
@@ -311,13 +351,22 @@ const Star = ({}) => {
         </group>
       </Center>
 
+      {/* {bodyCentents.map((body, index) => (
+        <Texts
+          key={index}
+          body={body}
+          index={index}
+          currentBodyIndex={currentBodyIndex}
+          bodyFadeOutIndex={bodyFadeOutIndex}
+        />
+      ))} */}
+
       {bodyCentents.map((body, index) => (
         <Paragraph
           key={index}
           body={body}
           index={index}
           currentBodyIndex={currentBodyIndex}
-          bodyFadeOutIndex={bodyFadeOutIndex}
         />
       ))}
     </>
