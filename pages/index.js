@@ -7,6 +7,7 @@ import {
   useMemo,
   useLayoutEffect,
   Suspense,
+  memo,
 } from "react";
 import Seo from "../components/seo";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
@@ -43,6 +44,66 @@ import { useSpring, animated, config } from "react-spring";
 import { vertexShader, fragmentShader } from "./shader";
 
 const raycaster = new THREE.Raycaster();
+
+const Paragraph = memo(function TextField({
+  body,
+  index,
+  currentBodyIndex,
+  bodyFadeOutIndex,
+}) {
+  console.log("body는?", body);
+  console.log("index는?", index, index === currentBodyIndex);
+
+  const styles = useSpring(
+    index === currentBodyIndex
+      ? {
+          from: {
+            opacity: 0,
+            transform: "scale(1.2,1.2)",
+          },
+          to: {
+            opacity: 1,
+            transform: "scale(1.0,1.0)",
+          },
+          reset: true,
+          config: { duration: "400" },
+        }
+      : {
+          from: {
+            opacity: 1,
+            transform: "scale(1.0,1.0)",
+          },
+          to: {
+            opacity: 0,
+            transform: "scale(0.8,0.8)",
+          },
+          reset: true,
+          config: { duration: "400" },
+        }
+  );
+
+  return (
+    <Html
+      center
+      style={{
+        width: "500px",
+      }}
+    >
+      <animated.div
+        style={{
+          color: "#fff",
+          fontSize: "20px",
+          textAlign: "center",
+          willChange: "transform",
+          transition: "all, .4s",
+          ...styles,
+        }}
+      >
+        {body}
+      </animated.div>
+    </Html>
+  );
+});
 
 const Star = ({}) => {
   /**
@@ -81,7 +142,7 @@ const Star = ({}) => {
     const x = (mouse.x * width) / 2;
     const y = (mouse.y * height) / 2;
 
-    if (hovered) {
+    if (hoveredRef.current) {
       ref.current.material.uniforms.uMouse.value = new Vector2(x, y);
       ref.current.material.uniforms.uMouseTrigger.value = 1;
     }
@@ -94,12 +155,28 @@ const Star = ({}) => {
     const r3 = scroll.range(2 / 3, 1 / 3);
 
     ref.current.material.uniforms.uRandom.value = r1;
+
     if (r1 > 0.75) {
-      // set(false);
-      setFirstText(true);
-    } else {
-      setFirstText(false);
+      setCurrentBodyIndex(0);
+      // setBodyFadeOutIndex(null);
+    } else if (r1 < 0.75) {
+      setCurrentBodyIndex(null);
+      // setBodyFadeOutIndex(0);
     }
+
+    // console.log(r2);
+
+    if (r2 > 0.72) {
+      setCurrentBodyIndex(null);
+      // setBodyFadeOutIndex(0);
+    }
+
+    if (r2 > 0.75) {
+      setCurrentBodyIndex(1);
+      // setBodyFadeOutIndex(null);
+    }
+    // else if (r2 < 0.75) {
+    // }
   });
 
   /**
@@ -186,28 +263,13 @@ const Star = ({}) => {
     }),
     []
   );
-  const [hovered, setHovered] = useState(false);
-  useCursor(hovered);
 
-  const [firstText, setFirstText] = useState(false);
-  const styles = useSpring({
-    from: {
-      opacity: 0,
-      transform: "scale(1.2,1.2)",
-    },
-    to: [
-      {
-        opacity: firstText ? 1 : 0,
-        transform: "scale(1.0,1.0)",
-      },
-      {
-        opacity: firstText ? 1 : 0,
-        transform: firstText ? "scale(1.0, 1.0)" : "scale(0.8, 0.8)",
-      },
-    ],
-    // loop: true,
-    config: { duration: "600" },
-  });
+  const hoveredRef = useRef(false);
+  useCursor(hoveredRef);
+
+  const [currentBodyIndex, setCurrentBodyIndex] = useState(null);
+  const [bodyFadeOutIndex, setBodyFadeOutIndex] = useState(null);
+  const bodyCentents = ["Hello, I'm frontend developer.", "Nice to meet you."];
 
   return (
     <>
@@ -215,8 +277,10 @@ const Star = ({}) => {
         ref={planeRef}
         position={[0, 0, 0]}
         visible={false}
-        onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
-        onPointerOut={(e) => setHovered(false)}
+        onPointerOver={(e) => (
+          e.stopPropagation(), (hoveredRef.current = true)
+        )}
+        onPointerOut={(e) => (hoveredRef.current = false)}
       >
         <planeGeometry args={[5, 3, 2, 2]} />
         <meshBasicMaterial wireframe={true} />
@@ -246,23 +310,16 @@ const Star = ({}) => {
           </points>
         </group>
       </Center>
-      <Html
-        center
-        style={{
-          width: "500px",
-        }}
-      >
-        <animated.div
-          style={{
-            color: "#fff",
-            fontSize: "20px",
-            textAlign: "center",
-            ...styles,
-          }}
-        >
-          Hello, I'm frontend developer.
-        </animated.div>
-      </Html>
+
+      {bodyCentents.map((body, index) => (
+        <Paragraph
+          key={index}
+          body={body}
+          index={index}
+          currentBodyIndex={currentBodyIndex}
+          bodyFadeOutIndex={bodyFadeOutIndex}
+        />
+      ))}
     </>
   );
 };
