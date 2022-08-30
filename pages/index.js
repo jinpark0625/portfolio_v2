@@ -40,122 +40,56 @@ import DatGui, { DatColor, DatNumber } from "react-dat-gui";
 import { Vector2, Vector3 } from "three";
 import { MeshSurfaceSampler, OBJLoader } from "three-stdlib";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
-// import { useSpring, animated, config } from "@react-spring/three";
-import { useSpring, animated, config } from "react-spring";
+import {
+  useSpring,
+  animated,
+  config,
+  useTransition,
+} from "@react-spring/three";
+// import { useSpring, animated, config } from "react-spring";
 import { vertexShader, fragmentShader } from "./shader";
 
 const raycaster = new THREE.Raycaster();
 
-const Paragraph = memo(function TextField({ body, index, currentBodyIndex }) {
-  const styles = useSpring(
-    index === currentBodyIndex
-      ? {
-          from: {
-            opacity: 0,
-            transform: "scale(1.2,1.2)",
-          },
-          to: {
-            opacity: 1,
-            transform: "scale(1.0,1.0)",
-          },
-          reset: true,
-          delay: 300,
-          config: { duration: "400" },
-        }
-      : {
-          from: {
-            opacity: 1,
-            transform: "scale(1.0,1.0)",
-          },
-          to: [
-            {
-              opacity: 0,
-              transform: "scale(0.8,0.8)",
-            },
-            {
-              opacity: 0,
-              transform: "scale(1.2,1.2)",
-            },
-          ],
-          reset: true,
-          config: { duration: "400" },
-        }
-  );
+const AnimatedText = animated(Text);
+const Texts = memo(function Texts({ body, index, currentBodyIndex }) {
+  const content = useMemo(() => {
+    return (content = body);
+  }, []);
+
+  /**
+   * animation if statements
+   */
+  const transitions = useTransition(currentBodyIndex === index, {
+    from: { scale: [1.15, 1.15, 1.15], fillOpacity: 0 },
+    enter: { scale: [1.0, 1.0, 1.0], fillOpacity: 1 },
+    leave: { scale: [0.85, 0.85, 0.85], fillOpacity: 0 },
+    config: {
+      duration: "400",
+    },
+  });
 
   return (
-    <Html
-      center
-      style={{
-        width: "500px",
-      }}
-    >
-      <animated.div
-        style={{
-          color: "#fff",
-          fontSize: "20px",
-          textAlign: "center",
-          willChange: "transform",
-          transition: "all, .4s",
-          visibility: index === currentBodyIndex ? "visible" : "hidden",
-          ...styles,
-        }}
-      >
-        {body}
-      </animated.div>
-    </Html>
+    <>
+      {transitions(({ scale, fillOpacity }, item) => {
+        return (
+          item && (
+            <AnimatedText
+              font={FounterReg}
+              characters="abcdefghijklmnopqrstuvwxyz0123456789!"
+              fontSize={0.18}
+              scale={scale}
+              fillOpacity={fillOpacity}
+            >
+              {/* {index === currentBodyIndex && content} */}
+              {content}
+            </AnimatedText>
+          )
+        );
+      })}
+    </>
   );
 });
-
-// const Texts = ({ body, index }) => {
-//   const content = useMemo(() => {
-//     return (content = body);
-//   }, []);
-//   const scroll = useScroll();
-
-//   const ref = useRef();
-//   const currentIndex = useRef(null);
-
-//   useFrame(({ mouse, camera, clock }) => {
-//     /**
-//      * scroll events
-//      */
-//     const r1 = scroll.range(0, 1 / 3);
-//     const r2 = scroll.range(1 / 3, 1 / 3);
-//     const r3 = scroll.range(2 / 3, 1 / 3);
-
-//     if (r1 >= 0.7) {
-//       currentIndex.current = 0;
-//       ref.current.visible = true;
-
-//       if (ref.current.fontSize > 0.18) {
-//         ref.current.fontSize = (r1 - 1) * -1 * 0.74;
-//       }
-//     }
-//     else if (r1 < 0.75) {
-//       currentIndex.current = null;
-//     }
-
-//     if (r2 >= 0.65) {
-//       ref.current.fontSize = ref.current.fontSize * ((r2 - 1) * -10 - 2.5);
-//     }
-//     if (r2 > 0.75) {
-//       ref.current.fontSize = r2 * 0.17;
-//       currentIndex.current = 1;
-//     }
-//   });
-
-//   return (
-//     <Text
-//       font={FounterReg}
-//       characters="abcdefghijklmnopqrstuvwxyz0123456789!"
-//       fontSize={0.222}
-//       ref={ref}
-//     >
-//       {/* {index === currentIndex?.current && content} */}
-//       {content}
-//     </Text>
-//   );
-// };
 
 const Star = ({}) => {
   /**
@@ -202,21 +136,19 @@ const Star = ({}) => {
     /**
      * scroll events
      */
-    const r1 = scroll.range(0, 1 / 3);
-    const r2 = scroll.range(1 / 3, 1 / 3);
-    const r3 = scroll.range(2 / 3, 1 / 3);
+    const aScroll = scroll.range(0, 1 / 3);
 
-    ref.current.material.uniforms.uRandom.value = r1;
+    ref.current.material.uniforms.uRandom.value = aScroll;
 
-    if (r1 > 0.6) {
-      setCurrentBodyIndex(0);
-    } else if (r1 < 0.6) {
-      setCurrentBodyIndex(null);
-    }
+    const a = scroll.visible(0, 0.7 / 3);
+    const b = scroll.visible(0.7 / 3, 1 / 3);
+    const c = scroll.visible(1.7 / 3, 0.15 / 3);
+    const d = scroll.visible(1.85 / 3, 1 / 3);
 
-    if (r2 > 0.75) {
-      setCurrentBodyIndex(1);
-    }
+    a && setCurrentBodyIndex(null);
+    b && setCurrentBodyIndex(0);
+    c && setCurrentBodyIndex(null);
+    d && setCurrentBodyIndex(1);
   });
 
   /**
@@ -309,7 +241,9 @@ const Star = ({}) => {
 
   const [currentBodyIndex, setCurrentBodyIndex] = useState(null);
 
-  const bodyCentents = ["Hello, I'm frontend developer.", "Nice to meet you."];
+  const bodyCentents = useMemo(() => {
+    return ["Hello, I'm frontend developer.", "Nice to meet you."];
+  }, []);
 
   return (
     <>
@@ -351,18 +285,8 @@ const Star = ({}) => {
         </group>
       </Center>
 
-      {/* {bodyCentents.map((body, index) => (
-        <Texts
-          key={index}
-          body={body}
-          index={index}
-          currentBodyIndex={currentBodyIndex}
-          bodyFadeOutIndex={bodyFadeOutIndex}
-        />
-      ))} */}
-
       {bodyCentents.map((body, index) => (
-        <Paragraph
+        <Texts
           key={index}
           body={body}
           index={index}

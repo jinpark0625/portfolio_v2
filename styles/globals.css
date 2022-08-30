@@ -11,6 +11,9 @@ body {
 body:hover {
   cursor: auto !important;
 }
+/* div {
+  scroll-snap-type: y mandatory;
+} */
 .scrollArea {
   position: absolute;
   top: 0;
