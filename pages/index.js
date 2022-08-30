@@ -52,7 +52,10 @@ import { vertexShader, fragmentShader } from "./shader";
 const raycaster = new THREE.Raycaster();
 
 const AnimatedText = animated(Text);
-const Texts = memo(function Texts({ body, index, currentBodyIndex }) {
+const Texts = memo(function Texts({ body, index, currentBodyIndex, fontLoad }) {
+  /**
+   * body texts
+   */
   const content = useMemo(() => {
     return (content = body);
   }, []);
@@ -69,19 +72,28 @@ const Texts = memo(function Texts({ body, index, currentBodyIndex }) {
     },
   });
 
+  /**
+   * font config
+   */
+
+  // const fonts = new FontLoader().parse(FounterReg);
+
+  const fontProps = {
+    font: process.env.NEXT_PUBLIC_API_URL + "/fonts/Inter-Bold.woff",
+    fontSize: 0.18,
+    characters: "abcdefghijklmnopqrstuvwxyz0123456789!",
+  };
+
   return (
     <>
       {transitions(({ scale, fillOpacity }, item) => {
         return (
           item && (
             <AnimatedText
-              font={FounterReg}
-              characters="abcdefghijklmnopqrstuvwxyz0123456789!"
-              fontSize={0.18}
+              {...fontProps}
               scale={scale}
               fillOpacity={fillOpacity}
             >
-              {/* {index === currentBodyIndex && content} */}
               {content}
             </AnimatedText>
           )
@@ -245,6 +257,15 @@ const Star = ({}) => {
     return ["Hello, I'm frontend developer.", "Nice to meet you."];
   }, []);
 
+  // const font = useLoader(FontLoader, "/fonts/FoundersGroteskSemibold.json");
+
+  const [fontLoad, setFontLoad] = useState();
+
+  useEffect(() => {
+    const load = new FontLoader().parse(FounterBold);
+    setFontLoad(load);
+  }, []);
+
   return (
     <>
       <mesh
@@ -285,12 +306,20 @@ const Star = ({}) => {
         </group>
       </Center>
 
+      {/* <Text
+        font={process.env.NEXT_PUBLIC_API_URL + "/fonts/Inter-Bold.woff"}
+        fontSize={2}
+      >
+        Wtf
+      </Text> */}
+
       {bodyCentents.map((body, index) => (
         <Texts
           key={index}
           body={body}
           index={index}
           currentBodyIndex={currentBodyIndex}
+          fontLoad={fontLoad}
         />
       ))}
     </>
