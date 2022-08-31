@@ -15,7 +15,7 @@ attribute float angle;
 
 
 uniform float uTrigger;
-attribute vec3 pos;
+attribute vec3 modelPos;
 
 float PI = 3.1415926535389793238;
 
@@ -191,10 +191,6 @@ void main()
 
     vec3 particlePosition = (modelMatrix * vec4(position, 1.0)).xyz;
 
-    vec3 modelPosition = (modelMatrix * vec4(pos, 1.0)).xyz;
-
-
-
     //rotate particles
     float rotateAngle = atan(particlePosition.x, particlePosition.y);
     float distanceToCenter = length(particlePosition.xy);
@@ -219,10 +215,13 @@ void main()
     particlePosition.x += uRandom * sin(rotateAngle * 4.) * distortion;
     particlePosition.y += uRandom * cos(rotateAngle * 4.) * distortion;
 
+    //second model
     vec3 morphed = vec3(0.0,0.0,0.0);
-    morphed += (pos - position) * uTrigger;
-    morphed += position;
+    morphed += (modelPos - particlePosition) * uTrigger;
+    morphed += particlePosition;
 
+    morphed.x += distanceToMouse * 0.1 * rndz * cos(angle) * uMouseTrigger;
+    morphed.y += distanceToMouse * 0.1 * rndz * sin(angle) * uMouseTrigger;
 
 
     //camera

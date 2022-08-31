@@ -156,16 +156,23 @@ const Star = ({}) => {
     const d = scroll.visible(1.85 / 5, 0.7 / 5);
     const e = scroll.visible(2.55 / 5, 1 / 5);
     const eRange = scroll.range(2.55 / 5, 1 / 5);
+    const f = scroll.visible(3.55 / 5, 1 / 5);
+
+    const testNum = Number(eRange.toFixed(2));
 
     a && setCurrentBodyIndex(null);
     b && setCurrentBodyIndex(0);
     c && setCurrentBodyIndex(null);
-    d && setCurrentBodyIndex(1);
-    if (e) {
+    if (d) {
       setCurrentBodyIndex(1);
-      // dotsToModel();
-      // test();
-      ref.current.material.uniforms.uTrigger.value = eRange;
+      ref.current.material.uniforms.uTrigger.value = 0;
+    }
+    if (e) {
+      setCurrentBodyIndex(null);
+      ref.current.material.uniforms.uTrigger.value = testNum;
+    }
+    if (f) {
+      ref.current.material.uniforms.uTrigger.value = 1;
     }
   });
 
@@ -173,27 +180,20 @@ const Star = ({}) => {
    * get model position
    */
 
-  const testRef = useRef();
-
-  const dotsToModel = () => {
-    ref.current.geometry.morphAttributes.position = testRef.current;
-  };
-
-  const test = () => {
+  const getModelPosition = () => {
     const modelSample = new MeshSurfaceSampler(modelObj.children[0]);
     modelSample.build();
     const tempPosition = new Vector3();
     const vertices = new Float32Array(count * 3);
-    // const vertices = new Vector3();
     for (let i = 0, j = 0; i < count; i++) {
       const i3 = i * 3;
       modelSample.sample(tempPosition);
       vertices[i3 + 0] = (Math.random() - 0.5) * 0.04 + tempPosition.x;
       vertices[i3 + 1] = (Math.random() - 0.5) * 0.02 + tempPosition.y;
-      vertices[i3 + 2] = (Math.random() - 0.5) * 0.02 + tempPosition.z;
+      vertices[i3 + 2] = (Math.random() - 0.5) * 0.04 + tempPosition.z;
     }
     ref.current.geometry.setAttribute(
-      "pos",
+      "modelPos",
       new THREE.BufferAttribute(vertices, 3)
     );
   };
@@ -249,7 +249,7 @@ const Star = ({}) => {
     //추가
     // console.log(ref.current.geometry.morphAttributes.position);
     // ref.current.geometry.morphAttributes.position = [];
-    test();
+    getModelPosition();
   }, []);
 
   /**
