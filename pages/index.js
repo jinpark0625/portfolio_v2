@@ -52,7 +52,7 @@ import { vertexShader, fragmentShader } from "./shader";
 const raycaster = new THREE.Raycaster();
 
 const AnimatedText = animated(Text);
-const Texts = memo(function Texts({ body, index, currentBodyIndex, fontLoad }) {
+const Texts = memo(function Texts({ body, index, currentBodyIndex }) {
   /**
    * body texts
    */
@@ -75,11 +75,9 @@ const Texts = memo(function Texts({ body, index, currentBodyIndex, fontLoad }) {
   /**
    * font config
    */
-
-  // const fonts = new FontLoader().parse(FounterReg);
-
   const fontProps = {
-    font: process.env.NEXT_PUBLIC_API_URL + "/fonts/Inter-Bold.woff",
+    font:
+      process.env.NEXT_PUBLIC_API_URL + "/fonts/FoundersGroteskRegular.woff",
     fontSize: 0.18,
     characters: "abcdefghijklmnopqrstuvwxyz0123456789!",
   };
@@ -120,7 +118,7 @@ const Star = ({}) => {
   const [sphere] = useState(() =>
     random.inSphere(new Float32Array(1000), { radius: 1.5 })
   );
-  const obj = useLoader(OBJLoader, "/textures/Mesh_Whale.obj");
+  const modelObj = useLoader(OBJLoader, "/textures/model.obj");
   /**
    * scroll events
    */
@@ -148,21 +146,57 @@ const Star = ({}) => {
     /**
      * scroll events
      */
-    const aScroll = scroll.range(0, 1 / 3);
+    const aScroll = scroll.range(0, 1 / 5);
 
     ref.current.material.uniforms.uRandom.value = aScroll;
 
-    const a = scroll.visible(0, 0.7 / 3);
-    const b = scroll.visible(0.7 / 3, 1 / 3);
-    const c = scroll.visible(1.7 / 3, 0.15 / 3);
-    const d = scroll.visible(1.85 / 3, 1 / 3);
+    const a = scroll.visible(0, 0.7 / 5);
+    const b = scroll.visible(0.7 / 5, 1 / 5);
+    const c = scroll.visible(1.7 / 5, 0.15 / 5);
+    const d = scroll.visible(1.85 / 5, 0.7 / 5);
+    const e = scroll.visible(2.55 / 5, 1 / 5);
+    const eRange = scroll.range(2.55 / 5, 1 / 5);
 
     a && setCurrentBodyIndex(null);
     b && setCurrentBodyIndex(0);
     c && setCurrentBodyIndex(null);
     d && setCurrentBodyIndex(1);
+    if (e) {
+      setCurrentBodyIndex(1);
+      // dotsToModel();
+      // test();
+      ref.current.material.uniforms.uTrigger.value = eRange;
+    }
   });
 
+  /**
+   * get model position
+   */
+
+  const testRef = useRef();
+
+  const dotsToModel = () => {
+    ref.current.geometry.morphAttributes.position = testRef.current;
+  };
+
+  const test = () => {
+    const modelSample = new MeshSurfaceSampler(modelObj.children[0]);
+    modelSample.build();
+    const tempPosition = new Vector3();
+    const vertices = new Float32Array(count * 3);
+    // const vertices = new Vector3();
+    for (let i = 0, j = 0; i < count; i++) {
+      const i3 = i * 3;
+      modelSample.sample(tempPosition);
+      vertices[i3 + 0] = (Math.random() - 0.5) * 0.04 + tempPosition.x;
+      vertices[i3 + 1] = (Math.random() - 0.5) * 0.02 + tempPosition.y;
+      vertices[i3 + 2] = (Math.random() - 0.5) * 0.02 + tempPosition.z;
+    }
+    ref.current.geometry.setAttribute(
+      "pos",
+      new THREE.BufferAttribute(vertices, 3)
+    );
+  };
   /**
    * get position of text
    * set attributes for partics' geometry
@@ -211,6 +245,11 @@ const Star = ({}) => {
       "pindex",
       new THREE.BufferAttribute(indices, 1)
     );
+
+    //추가
+    // console.log(ref.current.geometry.morphAttributes.position);
+    // ref.current.geometry.morphAttributes.position = [];
+    test();
   }, []);
 
   /**
@@ -244,6 +283,10 @@ const Star = ({}) => {
       uResolution: {
         value: new Vector2(width, height),
       },
+      //추가
+      uTrigger: {
+        value: 0,
+      },
     }),
     []
   );
@@ -257,14 +300,10 @@ const Star = ({}) => {
     return ["Hello, I'm frontend developer.", "Nice to meet you."];
   }, []);
 
-  // const font = useLoader(FontLoader, "/fonts/FoundersGroteskSemibold.json");
-
-  const [fontLoad, setFontLoad] = useState();
-
-  useEffect(() => {
-    const load = new FontLoader().parse(FounterBold);
-    setFontLoad(load);
-  }, []);
+  // useEffect(() => {
+  //   const load = new FontLoader().parse(FounterBold);
+  //   setFontLoad(load);
+  // }, []);
 
   return (
     <>
@@ -306,20 +345,12 @@ const Star = ({}) => {
         </group>
       </Center>
 
-      {/* <Text
-        font={process.env.NEXT_PUBLIC_API_URL + "/fonts/Inter-Bold.woff"}
-        fontSize={2}
-      >
-        Wtf
-      </Text> */}
-
       {bodyCentents.map((body, index) => (
         <Texts
           key={index}
           body={body}
           index={index}
           currentBodyIndex={currentBodyIndex}
-          fontLoad={fontLoad}
         />
       ))}
     </>
@@ -386,14 +417,13 @@ export default function Home({ results }) {
           near: 0.1,
           far: 1000,
           aspect: windowSize.width / windowSize.height,
-          // position: [0, 0, 2],
         }}
         gl={{ antialias: false }}
         dpr={[1, 2]}
       >
         <Suspense fallback={<Loader />}>
           <ScrollControls
-            pages={3}
+            pages={5}
             distance={1}
             damping={4}
             horizontal={false}

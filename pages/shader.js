@@ -13,6 +13,10 @@ attribute float aScale;
 attribute float pindex;
 attribute float angle;
 
+
+uniform float uTrigger;
+attribute vec3 pos;
+
 float PI = 3.1415926535389793238;
 
 vec3 mod289(vec3 x) {
@@ -184,7 +188,12 @@ void main()
     float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.1)));
     float distortion = snoise4(vec4(position * uFrequency, uTime * .005)) * uAmplitude;
 
+
     vec3 particlePosition = (modelMatrix * vec4(position, 1.0)).xyz;
+
+    vec3 modelPosition = (modelMatrix * vec4(pos, 1.0)).xyz;
+
+
 
     //rotate particles
     float rotateAngle = atan(particlePosition.x, particlePosition.y);
@@ -210,9 +219,15 @@ void main()
     particlePosition.x += uRandom * sin(rotateAngle * 4.) * distortion;
     particlePosition.y += uRandom * cos(rotateAngle * 4.) * distortion;
 
+    vec3 morphed = vec3(0.0,0.0,0.0);
+    morphed += (pos - position) * uTrigger;
+    morphed += position;
+
+
+
     //camera
 
-    vec4 viewPosition = viewMatrix * vec4(particlePosition, 1.);
+    vec4 viewPosition = viewMatrix * vec4(morphed, 1.);
 
     gl_Position = projectionMatrix * viewPosition;
 
