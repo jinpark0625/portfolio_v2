@@ -119,6 +119,7 @@ const Star = ({}) => {
     random.inSphere(new Float32Array(1000), { radius: 1.5 })
   );
   const modelObj = useLoader(OBJLoader, "/textures/model.obj");
+  const modelObjTwo = useLoader(OBJLoader, "/textures/Chicken_01.obj");
   /**
    * scroll events
    */
@@ -150,17 +151,25 @@ const Star = ({}) => {
 
     ref.current.material.uniforms.uRandom.value = aScroll;
 
-    const a = scroll.visible(0, 0.7 / 5);
-    const b = scroll.visible(0.7 / 5, 1 / 5);
-    const c = scroll.visible(1.7 / 5, 0.15 / 5);
-    const d = scroll.visible(1.85 / 5, 0.7 / 5);
-    const e = scroll.visible(2.55 / 5, 1 / 5);
-    const eRange = scroll.range(2.55 / 5, 1 / 5);
-    const f = scroll.visible(3.55 / 5, 1 / 5);
+    const a = scroll.visible(0, 0.7 / 7);
+    const b = scroll.visible(0.7 / 7, 1 / 7);
+    const c = scroll.visible(1.7 / 7, 0.15 / 7);
+    const d = scroll.visible(1.85 / 7, 0.7 / 7);
+    const e = scroll.visible(2.55 / 7, 1 / 7);
+    const eRange = scroll.range(2.55 / 7, 1 / 7);
+    const eOpacity = scroll.range(3 / 7, 0.55 / 7);
+    const f = scroll.visible(3.55 / 7, 1 / 7);
+    const fRange = scroll.range(3.55 / 7, 1 / 7);
+    const g = scroll.visible(4.55 / 7, 0.7 / 7);
+    const gRange = scroll.range(4.55 / 7, 0.7 / 7);
+    const h = scroll.visible(5.25 / 7, 1 / 7);
 
     const testNum = Number(eRange.toFixed(2));
+    const testNumTwo = Number(fRange.toFixed(2));
 
-    a && setCurrentBodyIndex(null);
+    if (a) {
+      setCurrentBodyIndex(null);
+    }
     b && setCurrentBodyIndex(0);
     c && setCurrentBodyIndex(null);
     if (d) {
@@ -170,9 +179,18 @@ const Star = ({}) => {
     if (e) {
       setCurrentBodyIndex(null);
       ref.current.material.uniforms.uTrigger.value = testNum;
+      ref.current.material.uniforms.uOpacity.value = eOpacity;
+      ref.current.material.uniforms.uTriggerTwo.value = 0;
     }
     if (f) {
       ref.current.material.uniforms.uTrigger.value = 1;
+      // ref.current.material.uniforms.uOpacity.value = 0;
+      ref.current.material.uniforms.uRandomSecond.value = fRange;
+    }
+    if (g) {
+      ref.current.material.uniforms.uTrigger.value = 0;
+      ref.current.material.uniforms.uRandom.value = gRange;
+      ref.current.material.uniforms.uTriggerTwo.value = testNumTwo;
     }
   });
 
@@ -194,6 +212,24 @@ const Star = ({}) => {
     }
     ref.current.geometry.setAttribute(
       "modelPos",
+      new THREE.BufferAttribute(vertices, 3)
+    );
+  };
+
+  const getModelPositionTwo = () => {
+    const modelSample = new MeshSurfaceSampler(modelObjTwo.children[0]);
+    modelSample.build();
+    const tempPosition = new Vector3();
+    const vertices = new Float32Array(count * 3);
+    for (let i = 0, j = 0; i < count; i++) {
+      const i3 = i * 3;
+      modelSample.sample(tempPosition);
+      vertices[i3 + 0] = (Math.random() - 0.5) * 0.04 + tempPosition.x;
+      vertices[i3 + 1] = (Math.random() - 0.5) * 0.02 + tempPosition.y;
+      vertices[i3 + 2] = (Math.random() - 0.5) * 0.04 + tempPosition.z;
+    }
+    ref.current.geometry.setAttribute(
+      "modelPosTwo",
       new THREE.BufferAttribute(vertices, 3)
     );
   };
@@ -250,6 +286,7 @@ const Star = ({}) => {
     // console.log(ref.current.geometry.morphAttributes.position);
     // ref.current.geometry.morphAttributes.position = [];
     getModelPosition();
+    getModelPositionTwo();
   }, []);
 
   /**
@@ -287,6 +324,15 @@ const Star = ({}) => {
       uTrigger: {
         value: 0,
       },
+      uTriggerTwo: {
+        value: 0,
+      },
+      uRandomSecond: {
+        value: 0,
+      },
+      uOpacity: {
+        value: 0,
+      },
     }),
     []
   );
@@ -297,7 +343,11 @@ const Star = ({}) => {
   const [currentBodyIndex, setCurrentBodyIndex] = useState(null);
 
   const bodyCentents = useMemo(() => {
-    return ["Hello, I'm frontend developer.", "Nice to meet you."];
+    return [
+      "Hello, I'm frontend developer.",
+      "Nice to meet you.",
+      "I'm very smart so hire me.",
+    ];
   }, []);
 
   // useEffect(() => {
@@ -423,7 +473,7 @@ export default function Home({ results }) {
       >
         <Suspense fallback={<Loader />}>
           <ScrollControls
-            pages={5}
+            pages={7}
             distance={1}
             damping={4}
             horizontal={false}

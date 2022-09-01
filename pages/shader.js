@@ -17,6 +17,11 @@ attribute float angle;
 uniform float uTrigger;
 attribute vec3 modelPos;
 
+uniform float uTriggerTwo;
+attribute vec3 modelPosTwo;
+uniform float uRandomSecond;
+
+
 float PI = 3.1415926535389793238;
 
 vec3 mod289(vec3 x) {
@@ -206,7 +211,8 @@ void main()
     
     float distanceToMouse = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.03, -4., 1.), 2.5);
     
-    float dist = smoothstep(0., 1., length(particlePosition.xyz));
+    // radius 크기를 찾아서 수정필요
+    float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.01, -4., 1.), 7.);
 
     //0.5가 커지면 원이커진다?
     particlePosition.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
@@ -216,17 +222,24 @@ void main()
     particlePosition.y += uRandom * cos(rotateAngle * 4.) * distortion;
 
     //second model
-    vec3 morphed = vec3(0.0,0.0,0.0);
+    vec3 morphed = vec3(0.0);
     morphed += (modelPos - particlePosition) * uTrigger;
     morphed += particlePosition;
 
-    morphed.x += distanceToMouse * 0.1 * rndz * cos(angle) * uMouseTrigger;
-    morphed.y += distanceToMouse * 0.1 * rndz * sin(angle) * uMouseTrigger;
+    morphed.x += uRandomSecond * sin(rotateAngle * 4.) * distortion;
+    morphed.y += uRandomSecond * cos(rotateAngle * 4.) * distortion;
 
+    morphed.x += distanceToMouseSecond * 0.8 * rndz * cos(angle) * uMouseTrigger;
+    morphed.y += distanceToMouseSecond * 0.8 * rndz * sin(angle) * uMouseTrigger;
+
+    //third model
+    vec3 morphedTwo = vec3(0.0);
+    morphedTwo += (modelPosTwo - morphed) * uTriggerTwo;
+    morphedTwo += morphed;
 
     //camera
 
-    vec4 viewPosition = viewMatrix * vec4(morphed, 1.);
+    vec4 viewPosition = viewMatrix * vec4(morphedTwo, 1.);
 
     gl_Position = projectionMatrix * viewPosition;
 
@@ -240,6 +253,8 @@ export const fragmentShader = `
 uniform vec3 uColor;
 uniform float uRandom;
 uniform vec2 uResolution;
+uniform float uTrigger;
+uniform float uOpacity;
 
 vec3 colorA = vec3(0.148,.141,.912);
 vec3 colorB = vec3(1.,.833,0.224);
@@ -259,21 +274,13 @@ vec3 circle(vec2 coord, vec2 loc, float r){
 void main()
 {
     float opacity = (uRandom - 1.0) * -1.;
+    opacity += uOpacity;
+    
     float try = clamp(opacity, 0.04, 0.18);
 
     //0.5 와 노멀라이즈된 UV값의 중간점을 찾는다.
     float distnaceToCenter = distance(gl_PointCoord, vec2(0.5));
     float strength = try / distnaceToCenter - 0.05 * 2.0;
-
-
-    // vec2 st =  gl_FragCoord.xy / uResolution.xy;
-    // vec3 color =  vec3(0.0);
-    // vec3 pct = vec3(st.x);
-
-    // color = mix(colorA, colorB, pct);
-
-    // vec2 coord = gl_FragCoord.xy / uResolution;
-    // vec3 col = circle(coord, vec2(1.), .3);
 
     gl_FragColor = vec4(1.0, 1.0, 1.0, strength);
 }
