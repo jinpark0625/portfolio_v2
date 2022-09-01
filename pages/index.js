@@ -118,8 +118,13 @@ const Star = ({}) => {
   const [sphere] = useState(() =>
     random.inSphere(new Float32Array(1000), { radius: 1.5 })
   );
-  const modelObj = useLoader(OBJLoader, "/textures/model.obj");
-  const modelObjTwo = useLoader(OBJLoader, "/textures/Chicken_01.obj");
+
+  const modelObj = useLoader(OBJLoader, [
+    "/textures/model.obj",
+    "/textures/Mesh_Whale.obj",
+  ]);
+
+  // const modelObjTwo = useLoader(OBJLoader, "/textures/Chicken_01.obj");
   /**
    * scroll events
    */
@@ -165,7 +170,7 @@ const Star = ({}) => {
     const h = scroll.visible(5.25 / 7, 1 / 7);
 
     const testNum = Number(eRange.toFixed(2));
-    const testNumTwo = Number(fRange.toFixed(2));
+    const testNumTwo = Number(gRange.toFixed(2));
 
     if (a) {
       setCurrentBodyIndex(null);
@@ -180,26 +185,27 @@ const Star = ({}) => {
       setCurrentBodyIndex(null);
       ref.current.material.uniforms.uTrigger.value = testNum;
       ref.current.material.uniforms.uOpacity.value = eOpacity;
-      ref.current.material.uniforms.uTriggerTwo.value = 0;
+      ref.current.material.uniforms.uRandomSecond.value = 0;
     }
     if (f) {
       ref.current.material.uniforms.uTrigger.value = 1;
-      // ref.current.material.uniforms.uOpacity.value = 0;
       ref.current.material.uniforms.uRandomSecond.value = fRange;
+      ref.current.material.uniforms.uTriggerTwo.value = 0;
     }
     if (g) {
-      ref.current.material.uniforms.uTrigger.value = 0;
-      ref.current.material.uniforms.uRandom.value = gRange;
+      ref.current.material.uniforms.uRandomSecond.value = 1;
       ref.current.material.uniforms.uTriggerTwo.value = testNumTwo;
+    }
+    if (h) {
+      ref.current.material.uniforms.uTriggerTwo.value = 1;
     }
   });
 
   /**
    * get model position
    */
-
   const getModelPosition = () => {
-    const modelSample = new MeshSurfaceSampler(modelObj.children[0]);
+    const modelSample = new MeshSurfaceSampler(modelObj[0].children[0]);
     modelSample.build();
     const tempPosition = new Vector3();
     const vertices = new Float32Array(count * 3);
@@ -217,16 +223,17 @@ const Star = ({}) => {
   };
 
   const getModelPositionTwo = () => {
-    const modelSample = new MeshSurfaceSampler(modelObjTwo.children[0]);
+    const modelSample = new MeshSurfaceSampler(modelObj[1].children[0]);
+    modelSample.geometry.rotateY(45);
     modelSample.build();
     const tempPosition = new Vector3();
     const vertices = new Float32Array(count * 3);
     for (let i = 0, j = 0; i < count; i++) {
       const i3 = i * 3;
       modelSample.sample(tempPosition);
-      vertices[i3 + 0] = (Math.random() - 0.5) * 0.04 + tempPosition.x;
-      vertices[i3 + 1] = (Math.random() - 0.5) * 0.02 + tempPosition.y;
-      vertices[i3 + 2] = (Math.random() - 0.5) * 0.04 + tempPosition.z;
+      vertices[i3 + 0] = (Math.random() - 0.5) * 0.04 + tempPosition.x * 0.01;
+      vertices[i3 + 1] = (Math.random() - 0.5) * 0.02 + tempPosition.y * 0.01;
+      vertices[i3 + 2] = (Math.random() - 0.5) * 0.04 + tempPosition.z * 0.01;
     }
     ref.current.geometry.setAttribute(
       "modelPosTwo",
@@ -331,6 +338,9 @@ const Star = ({}) => {
         value: 0,
       },
       uOpacity: {
+        value: 0,
+      },
+      uRandomThird: {
         value: 0,
       },
     }),

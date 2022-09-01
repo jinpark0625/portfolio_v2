@@ -226,6 +226,7 @@ void main()
     morphed += (modelPos - particlePosition) * uTrigger;
     morphed += particlePosition;
 
+    //스크롤시 흩어지는 파티클
     morphed.x += uRandomSecond * sin(rotateAngle * 4.) * distortion;
     morphed.y += uRandomSecond * cos(rotateAngle * 4.) * distortion;
 
@@ -237,8 +238,9 @@ void main()
     morphedTwo += (modelPosTwo - morphed) * uTriggerTwo;
     morphedTwo += morphed;
 
-    //camera
 
+
+    //camera
     vec4 viewPosition = viewMatrix * vec4(morphedTwo, 1.);
 
     gl_Position = projectionMatrix * viewPosition;
@@ -275,7 +277,7 @@ void main()
 {
     float opacity = (uRandom - 1.0) * -1.;
     opacity += uOpacity;
-    
+
     float try = clamp(opacity, 0.04, 0.18);
 
     //0.5 와 노멀라이즈된 UV값의 중간점을 찾는다.
