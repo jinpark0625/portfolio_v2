@@ -17,18 +17,31 @@ import {
   useProgress,
   Scroll,
 } from "@react-three/drei";
+import { TextureLoader, LinearFilter } from "three";
+
+const Item = ({ map, height }) => {
+  console.log(height);
+  return (
+    <mesh position={[0, height, 0]}>
+      <planeGeometry />
+      <meshBasicMaterial map={map} />
+    </mesh>
+  );
+};
 
 const Items = () => {
   const { width, height } = useThree((state) => state.viewport);
 
-  // slide speed options
-  // const [current, target, ease] = useMemo(() => {
-  //   const current = 0;
-  //   const target = 0;
-  //   const ease = 0.075;
-
-  //   return [current, target, ease];
-  // }, []);
+  const images = [
+    "/images/1.webp",
+    "/images/2.webp",
+    "/images/3.webp",
+    "/images/4.webp",
+  ];
+  const textures = useLoader(TextureLoader, images);
+  const [img1, img2, img3, img4] = textures.map(
+    (texture) => ((texture.minFilter = LinearFilter), texture)
+  );
 
   const current = useRef(0);
   const target = useRef(0);
@@ -36,202 +49,197 @@ const Items = () => {
 
   const scrollableRef = useRef();
 
-  // Linear inetepolation used for smooth scrolling and image offset uniform adjustment
-  // const lerp = (start, end, t) => {
-  //   return start * (1 - t) + end * t;
-  // };
-
-  // useFrame(({ clock }) => {
-  //   target.current = window.scrollY;
-  //   current = lerp(current.current, target.current, ease.current);
-  //   scrollableRef.current.style.transform = `translate3d(0,${-current}px, 0)`;
-  // });
-
   return (
-    // <Html
-    //   style={{
-    //     position: "fixed",
-    //     width: "100%",
-    //     hegiht: "100vh",
-    //   }}
-    //   fullscreen
-    //   center
-    //   className="main"
-    // >
-    <Scroll html>
-      <div
-        style={{
-          position: "absolute",
-          width: "100vw",
-          top: 0,
-          left: 0,
-          willChange: "transform",
-        }}
-        className="scrollable"
-        ref={scrollableRef}
-      >
-        <div className="container">
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "100vh",
-              overflow: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1
-              style={{
-                position: "absolute",
-                left: 0,
-                top: "60%",
-                left: "55%",
-                zIndex: "10",
-                color: "#fff",
-                mixBlendMode: "difference",
-              }}
-            >
-              TEST1
-            </h1>
-            <div
-              style={{
-                position: "absolute",
-                height: "60%",
-                width: "300px",
-                // visibility: "hidden",
-              }}
-            >
-              <Image
-                src="/images/1.webp"
-                alt="image"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "100vh",
-              overflot: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1
-              style={{
-                position: "absolute",
-                left: 0,
-                top: "60%",
-                left: "55%",
-                zIndex: "10",
-                color: "#fff",
-                mixBlendMode: "difference",
-              }}
-            >
-              TEST2
-            </h1>
-            <div
-              style={{
-                position: "absolute",
-                height: "60%",
-                width: "300px",
-              }}
-            >
-              <Image
-                src="/images/2.webp"
-                alt="image"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "100vh",
-              overflot: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1
-              style={{
-                position: "absolute",
-                left: 0,
-                top: "60%",
-                left: "55%",
-                zIndex: "10",
-                color: "#fff",
-                mixBlendMode: "difference",
-              }}
-            >
-              TEST3
-            </h1>
-            <div
-              style={{
-                position: "absolute",
-                height: "60%",
-                width: "300px",
-              }}
-            >
-              <Image
-                src="/images/3.webp"
-                alt="image"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "100vh",
-              overflot: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1
-              style={{
-                position: "absolute",
-                left: 0,
-                top: "60%",
-                left: "55%",
-                zIndex: "10",
-                color: "#fff",
-                mixBlendMode: "difference",
-              }}
-            >
-              TEST4
-            </h1>
-            <div
-              style={{
-                position: "absolute",
-                height: "60%",
-                width: "300px",
-              }}
-            >
-              <Image
-                src="/images/4.webp"
-                alt="image"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Scroll>
-    // </Html>
+    <>
+      <Scroll>
+        {textures.map((item, index) => (
+          <Item key={index} map={item} height={height * -index} />
+        ))}
+        {/* <div
+    //     style={{
+    //       position: "absolute",
+    //       width: "100vw",
+    //       top: 0,
+    //       left: 0,
+    //       willChange: "transform",
+    //     }}
+    //     className="scrollable"
+    //     ref={scrollableRef}
+    //   >
+    //     <div className="container">
+    //       <div
+    //         style={{
+    //           position: "relative",
+    //           width: "100%",
+    //           height: "100vh",
+    //           overflow: "hidden",
+    //           display: "flex",
+    //           alignItems: "center",
+    //           justifyContent: "center",
+    //         }}
+    //       >
+    //         <h1
+    //           style={{
+    //             position: "absolute",
+    //             left: 0,
+    //             top: "60%",
+    //             left: "55%",
+    //             zIndex: "10",
+    //             color: "#fff",
+    //             mixBlendMode: "difference",
+    //           }}
+    //         >
+    //           TEST1
+    //         </h1>
+    //         <div
+    //           style={{
+    //             position: "absolute",
+    //             height: "60%",
+    //             width: "300px",
+    //             // visibility: "hidden",
+    //           }}
+    //         >
+    //           <Image
+    //             src="/images/1.webp"
+    //             alt="image"
+    //             layout="fill"
+    //             objectFit="cover"
+    //           />
+    //         </div>
+    //       </div>
+    //       <div
+    //         style={{
+    //           position: "relative",
+    //           width: "100%",
+    //           height: "100vh",
+    //           overflot: "hidden",
+    //           display: "flex",
+    //           alignItems: "center",
+    //           justifyContent: "center",
+    //         }}
+    //       >
+    //         <h1
+    //           style={{
+    //             position: "absolute",
+    //             left: 0,
+    //             top: "60%",
+    //             left: "55%",
+    //             zIndex: "10",
+    //             color: "#fff",
+    //             mixBlendMode: "difference",
+    //           }}
+    //         >
+    //           TEST2
+    //         </h1>
+    //         <div
+    //           style={{
+    //             position: "absolute",
+    //             height: "60%",
+    //             width: "300px",
+    //           }}
+    //         >
+    //           <Image
+    //             src="/images/2.webp"
+    //             alt="image"
+    //             layout="fill"
+    //             objectFit="cover"
+    //           />
+    //         </div>
+    //       </div>
+    //       <div
+    //         style={{
+    //           position: "relative",
+    //           width: "100%",
+    //           height: "100vh",
+    //           overflot: "hidden",
+    //           display: "flex",
+    //           alignItems: "center",
+    //           justifyContent: "center",
+    //         }}
+    //       >
+    //         <h1
+    //           style={{
+    //             position: "absolute",
+    //             left: 0,
+    //             top: "60%",
+    //             left: "55%",
+    //             zIndex: "10",
+    //             color: "#fff",
+    //             mixBlendMode: "difference",
+    //           }}
+    //         >
+    //           TEST3
+    //         </h1>
+    //         <div
+    //           style={{
+    //             position: "absolute",
+    //             height: "60%",
+    //             width: "300px",
+    //           }}
+    //         >
+    //           <Image
+    //             src="/images/3.webp"
+    //             alt="image"
+    //             layout="fill"
+    //             objectFit="cover"
+    //           />
+    //         </div>
+    //       </div>
+    //       <div
+    //         style={{
+    //           position: "relative",
+    //           width: "100%",
+    //           height: "100vh",
+    //           overflot: "hidden",
+    //           display: "flex",
+    //           alignItems: "center",
+    //           justifyContent: "center",
+    //         }}
+    //       >
+    //         <h1
+    //           style={{
+    //             position: "absolute",
+    //             left: 0,
+    //             top: "60%",
+    //             left: "55%",
+    //             zIndex: "10",
+    //             color: "#fff",
+    //             mixBlendMode: "difference",
+    //           }}
+    //         >
+    //           TEST4
+    //         </h1>
+    //         <div
+    //           style={{
+    //             position: "absolute",
+    //             height: "60%",
+    //             width: "300px",
+    //           }}
+    //         >
+    //           <Image
+    //             src="/images/4.webp"
+    //             alt="image"
+    //             layout="fill"
+    //             objectFit="cover"
+    //           />
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div> */}
+      </Scroll>
+      <Scroll html>
+        <h1 style={{ color: "#fff", position: "absolute", top: "0" }}>Hello</h1>
+        <h1 style={{ color: "#fff", position: "absolute", top: "100vh" }}>
+          Test
+        </h1>
+        <h1 style={{ color: "#fff", position: "absolute", top: "200vh" }}>
+          Test
+        </h1>
+        <h1 style={{ color: "#fff", position: "absolute", top: "300vh" }}>
+          Test
+        </h1>
+      </Scroll>
+    </>
   );
 };
 
