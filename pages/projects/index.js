@@ -1,4 +1,11 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useMemo,
+  Suspense,
+  useLayoutEffect,
+} from "react";
 import Image from "next/image";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import {
@@ -17,14 +24,69 @@ import {
   useProgress,
   Scroll,
 } from "@react-three/drei";
-import { TextureLoader, LinearFilter } from "three";
+import { TextureLoader, LinearFilter, Vector2 } from "three";
+import { vertexShader, fragmentShader } from "./shader";
+import lerp from "lerp";
 
+let target = 0;
+let current = 0;
+let ease = 0.075;
 const Item = ({ map, height }) => {
-  console.log(height);
+  const ref = useRef();
+
+  // useFrame(()=>{
+  //   const {pages, top} = state;
+  //   material.current.scale = lerp(material.current.scale, offsetFactor - top.current / ((pages - 1) * viewportHeight), 0.1)
+  //   material.current.shift = lerp(material.current.shift, (top.current - last) / 150, 0.1)
+  //   last = top.current
+  // })
+  const scroll = useScroll();
+
+  useFrame(() => {
+    // console.log(scroll.scroll.current);
+    // ref.current.material.uniform.scale.value =
+    // console.log(scroll);
+    if (map) {
+      ref.current.material.uniforms.hasTexture.value = 1;
+    }
+
+    target = scroll.scroll.current;
+    current = lerp(current, target, ease);
+
+    ref.current.material.uniforms.uOffset.value = new Vector2(
+      0,
+      -(target - current) * 0.3
+    );
+  });
+
+  const uniforms = useMemo(
+    () => ({
+      scale: { value: 0 },
+      shift: { value: 0 },
+      uOffset: {
+        value: new Vector2(),
+      },
+      uAlpha: {
+        value: 1,
+      },
+      uTexture: {
+        value: map,
+      },
+      hasTexture: {
+        value: 0,
+      },
+    }),
+    []
+  );
+
   return (
-    <mesh position={[0, height, 0]}>
-      <planeGeometry />
-      <meshBasicMaterial map={map} />
+    <mesh position={[0, height, 0]} ref={ref}>
+      <planeGeometry args={[3, 3]} />
+      <shaderMaterial
+        uniforms={uniforms}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+      />
     </mesh>
   );
 };
@@ -292,15 +354,17 @@ const Projects = () => {
         gl={{ antialias: false }}
         dpr={[1, 2]}
       >
-        <ScrollControls
-          pages={4} // Each page takes 100% of the height of the canvas
-          distance={1} // A factor that increases scroll bar travel (default: 1)
-          damping={4} // Friction, higher is faster (default: 4)
-          horizontal={false} // Can also scroll horizontally (default: false)
-          infinite={false} // Can also scroll infinitely (default: false)
-        >
-          <Items />
-        </ScrollControls>
+        <Suspense fallback={null}>
+          <ScrollControls
+            pages={4} // Each page takes 100% of the height of the canvas
+            distance={1} // A factor that increases scroll bar travel (default: 1)
+            damping={4} // Friction, higher is faster (default: 4)
+            horizontal={false} // Can also scroll horizontally (default: false)
+            infinite={false} // Can also scroll infinitely (default: false)
+          >
+            <Items />
+          </ScrollControls>
+        </Suspense>
       </Canvas>
     </div>
   );
