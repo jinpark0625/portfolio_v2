@@ -6,8 +6,8 @@
 
 html,
 body {
-  width: 100%;
-  height: 100vh;
+  /* width: 100%;
+  height: 100vh; */
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -20,6 +20,11 @@ body:hover {
 /* div {
   scroll-snap-type: y mandatory;
 } */
+
+.canvas > div {
+  z-index: 1;
+}
+
 .scrollArea {
   position: absolute;
   top: 0;
@@ -28,6 +33,7 @@ body:hover {
   height: 100vh;
   overflow: auto;
 }
+
 .loading {
   position: absolute;
   top: 0px;

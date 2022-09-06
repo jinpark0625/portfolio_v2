@@ -5,6 +5,8 @@ import React, {
   useMemo,
   Suspense,
   useLayoutEffect,
+  createContext,
+  useContext,
 } from "react";
 import Image from "next/image";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
@@ -27,292 +29,65 @@ import {
 import { TextureLoader, LinearFilter, Vector2 } from "three";
 import { vertexShader, fragmentShader } from "./shader";
 import lerp from "lerp";
+import * as THREE from "three";
+import state from "../../components/scrollStore";
+import { Block, useBlock } from "../../components/blocks";
 
-let target = 0;
-let current = 0;
-let ease = 0.075;
-const Item = ({ map, height }) => {
-  const ref = useRef();
-
-  // useFrame(()=>{
-  //   const {pages, top} = state;
-  //   material.current.scale = lerp(material.current.scale, offsetFactor - top.current / ((pages - 1) * viewportHeight), 0.1)
-  //   material.current.shift = lerp(material.current.shift, (top.current - last) / 150, 0.1)
-  //   last = top.current
-  // })
-  const scroll = useScroll();
-
-  useFrame(() => {
-    // console.log(scroll.scroll.current);
-    // ref.current.material.uniform.scale.value =
-    // console.log(scroll);
-    if (map) {
-      ref.current.material.uniforms.hasTexture.value = 1;
-    }
-
-    target = scroll.scroll.current;
-    current = lerp(current, target, ease);
-
-    ref.current.material.uniforms.uOffset.value = new Vector2(
-      0,
-      -(target - current) * 0.3
-    );
-  });
-
-  const uniforms = useMemo(
-    () => ({
-      scale: { value: 0 },
-      shift: { value: 0 },
-      uOffset: {
-        value: new Vector2(),
-      },
-      uAlpha: {
-        value: 1,
-      },
-      uTexture: {
-        value: map,
-      },
-      hasTexture: {
-        value: 0,
-      },
-    }),
-    []
-  );
-
+function Plane({ color = "white", ...props }) {
   return (
-    <mesh position={[0, height, 0]} ref={ref}>
-      <planeGeometry args={[3, 3]} />
-      <shaderMaterial
-        uniforms={uniforms}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-      />
+    <mesh {...props}>
+      <planeGeometry />
+      <meshBasicMaterial color={color} />
     </mesh>
   );
-};
-
-const Items = () => {
-  const { width, height } = useThree((state) => state.viewport);
-
-  const images = [
-    "/images/1.webp",
-    "/images/2.webp",
-    "/images/3.webp",
-    "/images/4.webp",
-  ];
-  const textures = useLoader(TextureLoader, images);
-  const [img1, img2, img3, img4] = textures.map(
-    (texture) => ((texture.minFilter = LinearFilter), texture)
-  );
-
-  const current = useRef(0);
-  const target = useRef(0);
-  const ease = useRef(0.075);
-
-  const scrollableRef = useRef();
-
+}
+function Content({ left, children }) {
+  const { contentMaxWidth, canvasWidth, margin } = useBlock();
+  const aspect = 1.75;
+  const alignRight = (canvasWidth - contentMaxWidth - margin) / 2;
   return (
-    <>
-      <Scroll>
-        {textures.map((item, index) => (
-          <Item key={index} map={item} height={height * -index} />
-        ))}
-        {/* <div
-    //     style={{
-    //       position: "absolute",
-    //       width: "100vw",
-    //       top: 0,
-    //       left: 0,
-    //       willChange: "transform",
-    //     }}
-    //     className="scrollable"
-    //     ref={scrollableRef}
-    //   >
-    //     <div className="container">
-    //       <div
-    //         style={{
-    //           position: "relative",
-    //           width: "100%",
-    //           height: "100vh",
-    //           overflow: "hidden",
-    //           display: "flex",
-    //           alignItems: "center",
-    //           justifyContent: "center",
-    //         }}
-    //       >
-    //         <h1
-    //           style={{
-    //             position: "absolute",
-    //             left: 0,
-    //             top: "60%",
-    //             left: "55%",
-    //             zIndex: "10",
-    //             color: "#fff",
-    //             mixBlendMode: "difference",
-    //           }}
-    //         >
-    //           TEST1
-    //         </h1>
-    //         <div
-    //           style={{
-    //             position: "absolute",
-    //             height: "60%",
-    //             width: "300px",
-    //             // visibility: "hidden",
-    //           }}
-    //         >
-    //           <Image
-    //             src="/images/1.webp"
-    //             alt="image"
-    //             layout="fill"
-    //             objectFit="cover"
-    //           />
-    //         </div>
-    //       </div>
-    //       <div
-    //         style={{
-    //           position: "relative",
-    //           width: "100%",
-    //           height: "100vh",
-    //           overflot: "hidden",
-    //           display: "flex",
-    //           alignItems: "center",
-    //           justifyContent: "center",
-    //         }}
-    //       >
-    //         <h1
-    //           style={{
-    //             position: "absolute",
-    //             left: 0,
-    //             top: "60%",
-    //             left: "55%",
-    //             zIndex: "10",
-    //             color: "#fff",
-    //             mixBlendMode: "difference",
-    //           }}
-    //         >
-    //           TEST2
-    //         </h1>
-    //         <div
-    //           style={{
-    //             position: "absolute",
-    //             height: "60%",
-    //             width: "300px",
-    //           }}
-    //         >
-    //           <Image
-    //             src="/images/2.webp"
-    //             alt="image"
-    //             layout="fill"
-    //             objectFit="cover"
-    //           />
-    //         </div>
-    //       </div>
-    //       <div
-    //         style={{
-    //           position: "relative",
-    //           width: "100%",
-    //           height: "100vh",
-    //           overflot: "hidden",
-    //           display: "flex",
-    //           alignItems: "center",
-    //           justifyContent: "center",
-    //         }}
-    //       >
-    //         <h1
-    //           style={{
-    //             position: "absolute",
-    //             left: 0,
-    //             top: "60%",
-    //             left: "55%",
-    //             zIndex: "10",
-    //             color: "#fff",
-    //             mixBlendMode: "difference",
-    //           }}
-    //         >
-    //           TEST3
-    //         </h1>
-    //         <div
-    //           style={{
-    //             position: "absolute",
-    //             height: "60%",
-    //             width: "300px",
-    //           }}
-    //         >
-    //           <Image
-    //             src="/images/3.webp"
-    //             alt="image"
-    //             layout="fill"
-    //             objectFit="cover"
-    //           />
-    //         </div>
-    //       </div>
-    //       <div
-    //         style={{
-    //           position: "relative",
-    //           width: "100%",
-    //           height: "100vh",
-    //           overflot: "hidden",
-    //           display: "flex",
-    //           alignItems: "center",
-    //           justifyContent: "center",
-    //         }}
-    //       >
-    //         <h1
-    //           style={{
-    //             position: "absolute",
-    //             left: 0,
-    //             top: "60%",
-    //             left: "55%",
-    //             zIndex: "10",
-    //             color: "#fff",
-    //             mixBlendMode: "difference",
-    //           }}
-    //         >
-    //           TEST4
-    //         </h1>
-    //         <div
-    //           style={{
-    //             position: "absolute",
-    //             height: "60%",
-    //             width: "300px",
-    //           }}
-    //         >
-    //           <Image
-    //             src="/images/4.webp"
-    //             alt="image"
-    //             layout="fill"
-    //             objectFit="cover"
-    //           />
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div> */}
-      </Scroll>
-      <Scroll html>
-        <h1 style={{ color: "#fff", position: "absolute", top: "0" }}>Hello</h1>
-        <h1 style={{ color: "#fff", position: "absolute", top: "100vh" }}>
-          Test
-        </h1>
-        <h1 style={{ color: "#fff", position: "absolute", top: "200vh" }}>
-          Test
-        </h1>
-        <h1 style={{ color: "#fff", position: "absolute", top: "300vh" }}>
-          Test
-        </h1>
-      </Scroll>
-    </>
+    <group position={[alignRight * (left ? -1 : 1), 0, 0]}>
+      <Plane
+        scale={[contentMaxWidth, contentMaxWidth / aspect, 1]}
+        color="#bfe2ca"
+      />
+      {children}
+    </group>
   );
-};
+}
+
+// const Pages = ({ scroll }) => {
+//   const images = [
+//     "/images/1.webp",
+//     "/images/2.webp",
+//     "/images/3.webp",
+//     "/images/4.webp",
+//   ];
+//   const textures = useLoader(TextureLoader, images);
+//   const [img1, img2, img3, img4] = textures.map(
+//     (texture) => ((texture.minFilter = LinearFilter), texture)
+//   );
+//   return (
+//     <>
+//       <Block scroll={scroll} factor={1.5} offset={0}>
+//         <Content scroll={scroll} map={img1}></Content>
+//       </Block>
+//       <Block scroll={scroll} factor={2.0} offset={1}>
+//         <Content scroll={scroll} map={img2}></Content>
+//       </Block>
+//       <Block scroll={scroll} factor={1.5} offset={2}>
+//         <Content scroll={scroll} map={img3}></Content>
+//       </Block>
+//     </>
+//   );
+// };
 
 const Projects = () => {
   const [windowSize, setWindowSize] = useState({
     width: null,
     height: null,
   });
-
   const canvasRef = useRef();
-
   useEffect(() => {
     setWindowSize({
       width: window.innerWidth,
@@ -335,37 +110,45 @@ const Projects = () => {
     });
   }, []);
 
+  const scrollArea = useRef();
+  const onScroll = (e) => (state.top.current = e.target.scrollTop);
+  //void 즉시 실행함수
+  useEffect(() => void onScroll({ target: scrollArea.current }), []);
+
   return (
     <div
       style={{
-        width: windowSize.width,
-        height: windowSize.height,
+        width: "100vw",
+        height: "100vh",
         background: "#17191c",
+        overflow: "hidden",
       }}
     >
       <Canvas
         ref={canvasRef}
-        camera={{
-          fov: 75,
-          near: 0.1,
-          far: 1000,
-          aspect: windowSize.width / windowSize.height,
-        }}
-        gl={{ antialias: false }}
-        dpr={[1, 2]}
+        className="canvas"
+        linear
+        orthographic
+        camera={{ zoom: 75, position: [0, 0, 500] }}
       >
         <Suspense fallback={null}>
-          <ScrollControls
-            pages={4} // Each page takes 100% of the height of the canvas
-            distance={1} // A factor that increases scroll bar travel (default: 1)
-            damping={4} // Friction, higher is faster (default: 4)
-            horizontal={false} // Can also scroll horizontally (default: false)
-            infinite={false} // Can also scroll infinitely (default: false)
-          >
-            <Items />
-          </ScrollControls>
+          {/* First section */}
+          <Block factor={1.5} offset={0}>
+            <Content left />
+          </Block>
+          {/* Second section */}
+          <Block factor={2.0} offset={1}>
+            <Content />
+          </Block>
+          {/* Last section */}
+          <Block factor={1.5} offset={2}>
+            <Content left></Content>
+          </Block>
         </Suspense>
       </Canvas>
+      <div className="scrollArea" ref={scrollArea} onScroll={onScroll}>
+        <div style={{ height: `${state.pages * 100}vh` }} />
+      </div>
     </div>
   );
 };
