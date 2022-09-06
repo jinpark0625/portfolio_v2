@@ -46,8 +46,8 @@ import {
   config,
   useTransition,
 } from "@react-spring/three";
-// import { useSpring, animated, config } from "react-spring";
 import { vertexShader, fragmentShader } from "./shader";
+import Loader from "../components/loader";
 
 const raycaster = new THREE.Raycaster();
 
@@ -414,20 +414,6 @@ const Star = ({}) => {
         />
       ))}
     </>
-  );
-};
-
-const Loader = () => {
-  const { active, progress, errors, item, loaded, total } = useProgress();
-  return (
-    <Html
-      center
-      style={{
-        color: "#fff",
-      }}
-    >
-      {progress} % loaded
-    </Html>
   );
 };
 

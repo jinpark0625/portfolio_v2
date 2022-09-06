@@ -32,6 +32,7 @@ import lerp from "lerp";
 import * as THREE from "three";
 import state from "../../components/scrollStore";
 import { Block, useBlock } from "../../components/blocks";
+import Loader from "../../components/loader";
 
 function Plane({ color = "white", map, ...props }) {
   return (
@@ -127,33 +128,6 @@ const Pages = () => {
 };
 
 const Projects = () => {
-  const [windowSize, setWindowSize] = useState({
-    width: null,
-    height: null,
-  });
-  const canvasRef = useRef();
-  useEffect(() => {
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener("resize", () => {
-      handleResize();
-    });
-
-    return window.removeEventListener("resize", () => {
-      handleResize();
-    });
-  }, []);
-
   const scrollArea = useRef();
   const onScroll = (e) => (state.top.current = e.target.scrollTop);
   //void 즉시 실행함수
@@ -169,13 +143,12 @@ const Projects = () => {
       }}
     >
       <Canvas
-        ref={canvasRef}
         className="canvas"
         linear
         orthographic
         camera={{ zoom: 75, position: [0, 0, 500] }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loader />}>
           <Pages />
         </Suspense>
       </Canvas>
