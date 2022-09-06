@@ -33,7 +33,7 @@ function Block({ children, offset, factor, ...props }) {
 }
 
 function useBlock() {
-  const { sections, pages } = state;
+  const { sections, pages, zoom } = state;
   const { size, viewport } = useThree();
   const offset = useContext(offsetContext);
   const viewportWidth = viewport.width;
@@ -42,8 +42,10 @@ function useBlock() {
   const canvasHeight = viewportHeight;
   const mobile = size.width < 700;
   const margin = canvasWidth * (mobile ? 0.8 : 0.6);
+  // const margin = canvasWidth * (mobile ? 0.2 : 0.1);
   const contentMaxWidth = canvasWidth * (mobile ? 0.8 : 0.6);
   const sectionHeight = canvasHeight * ((pages - 1) / (sections - 1));
+  const offsetFactor = (offset + 1.0) / sections;
 
   return {
     viewport,
@@ -56,6 +58,7 @@ function useBlock() {
     margin,
     contentMaxWidth,
     sectionHeight,
+    offsetFactor,
   };
 }
 

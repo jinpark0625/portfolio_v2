@@ -17,7 +17,7 @@ class CustomMaterial extends ShaderMaterial {
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.);
       }`,
       fragmentShader: `
-      uniform sampler2D texture;
+      uniform sampler2D uTexture;
       uniform float hasTexture;
       uniform float shift;
       uniform float scale;
@@ -29,14 +29,17 @@ class CustomMaterial extends ShaderMaterial {
         float angle = 1.55;
         vec2 p = (vUv - vec2(0.5, 0.5)) * (1.0 - scale) + vec2(0.5, 0.5);
         vec2 offset = shift / 4.0 * vec2(cos(angle), sin(angle));
-        vec4 cr = texture2D(texture, p + offset);
-        vec4 cga = texture2D(texture, p);
-        vec4 cb = texture2D(texture, p - offset);
-        if (hasTexture == 1.0) gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);
+        vec4 cr = texture2D(uTexture, p + offset);
+        vec4 cga = texture2D(uTexture, p);
+        vec4 cb = texture2D(uTexture, p - offset);
+
+        // vec4 test = texture2D(uTexture, vUv);
+
+        if (hasTexture == 1.0) gl_FragColor =  vec4(cr.r, cga.g, cb.b, cga.a);
         else gl_FragColor = vec4(color, opacity);
       }`,
       uniforms: {
-        texture: { value: null },
+        uTexture: { value: null },
         hasTexture: { value: 0 },
         scale: { value: 0 },
         shift: { value: 0 },
@@ -64,11 +67,11 @@ class CustomMaterial extends ShaderMaterial {
 
   set map(value) {
     this.uniforms.hasTexture.value = !!value;
-    this.uniforms.texture.value = value;
+    this.uniforms.uTexture.value = value;
   }
 
   get map() {
-    return this.uniforms.texture.value;
+    return this.uniforms.uTexture.value;
   }
 
   get color() {

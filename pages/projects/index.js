@@ -27,18 +27,40 @@ import {
   Scroll,
 } from "@react-three/drei";
 import { TextureLoader, LinearFilter, Vector2 } from "three";
-import { vertexShader, fragmentShader } from "./shader";
-import lerp from "lerp";
 import * as THREE from "three";
-import state from "../../components/scrollStore";
-import { Block, useBlock } from "../../components/blocks";
+import state from "../../components/project/scrollStore";
+import { Block, useBlock } from "../../components/project";
+import "../../components/project/projectsShader";
 import Loader from "../../components/loader";
 
 function Plane({ color = "white", map, ...props }) {
+  const { viewportHeight, offsetFactor } = useBlock();
+  const material = useRef();
+  let last = state.top.current;
+  useFrame(() => {
+    const { pages, top } = state;
+    material.current.scale = THREE.MathUtils.lerp(
+      material.current.scale,
+      offsetFactor - top.current / ((pages - 1) * (viewportHeight * 75)),
+      0.1
+    );
+    material.current.shift = THREE.MathUtils.lerp(
+      material.current.shift,
+      (top.current - last) / 150,
+      0.1
+    );
+    last = top.current;
+  });
+
   return (
     <mesh {...props}>
-      <planeGeometry />
-      <meshBasicMaterial color={color} map={map} />
+      <planeGeometry attach="geometry" args={[1, 1, 32, 32]} />
+      <customMaterial
+        ref={material}
+        attach="material"
+        color={color}
+        map={map}
+      />
     </mesh>
   );
 }
@@ -46,6 +68,7 @@ function Content({ left, children, map }) {
   const { contentMaxWidth, canvasWidth, margin } = useBlock();
   const aspect = 1.75;
   const alignRight = (canvasWidth - contentMaxWidth - margin) / 2;
+
   return (
     <group position={[alignRight * (left ? -1 : 1), 0, 0]}>
       <Plane
@@ -146,7 +169,7 @@ const Projects = () => {
         className="canvas"
         linear
         orthographic
-        camera={{ zoom: 75, position: [0, 0, 500] }}
+        camera={{ zoom: state.zoom, position: [0, 0, 500] }}
       >
         <Suspense fallback={<Loader />}>
           <Pages />
