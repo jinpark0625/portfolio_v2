@@ -22,6 +22,7 @@ function Block({ children, offset, factor, ...props }) {
       0.1
     );
   });
+
   return (
     <offsetContext.Provider value={offset}>
       <group {...props} position={[0, -sectionHeight * offset * factor, 0]}>
