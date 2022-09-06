@@ -2,23 +2,30 @@ import * as THREE from "three";
 import React, { createContext, useRef, useContext } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import state from "./scrollStore";
-import { useScroll } from "@react-three/drei";
 
 const offsetContext = createContext(0);
 
 function Block({ children, offset, factor, ...props }) {
-  const scroll = useScroll();
-
-  const { offset: parentOffset, sectionHeight, canvasHeight } = useBlock();
+  const { offset: parentOffset, sectionHeight } = useBlock();
   const ref = useRef();
   //offset is the section index,
   // Fetch parent offset and the height of a single section
   offset = offset !== undefined ? offset : parentOffset;
+  // Runs every frame and lerps the inner block into its place
+  useFrame(() => {
+    const curY = ref.current.position.y;
+    const curTop = state.top.current;
+    //a factor, which gets added to the offset position and subtracted using scrollTop, it will control the blocks speed and direction
+    ref.current.position.y = THREE.MathUtils.lerp(
+      curY,
+      (curTop / state.zoom) * factor,
+      0.1
+    );
+  });
 
   return (
     <offsetContext.Provider value={offset}>
-      {/* 첫번째 그룹이 position을 설정 */}
-      <group {...props} position={[0, -canvasHeight * offset, 0]}>
+      <group {...props} position={[0, -sectionHeight * offset * factor, 0]}>
         <group ref={ref}>{children}</group>
       </group>
     </offsetContext.Provider>

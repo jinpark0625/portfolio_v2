@@ -12,7 +12,7 @@ class CustomMaterial extends ShaderMaterial {
 
       void main() {
         vec3 pos = position;
-        pos.y = pos.y + ((sin(uv.x * M_PI) * shift * 5.0) * 0.125);
+        pos.y = pos.y + ((sin(uv.x * M_PI) * shift * 2.0) * 0.125);
         vUv = uv;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos,1.);
       }`,
@@ -33,9 +33,10 @@ class CustomMaterial extends ShaderMaterial {
         vec4 cga = texture2D(uTexture, p);
         vec4 cb = texture2D(uTexture, p - offset);
 
-        // vec4 test = texture2D(uTexture, vUv);
+        vec4 test = texture2D(uTexture, p);
 
-        if (hasTexture == 1.0) gl_FragColor =  vec4(cr.r, cga.g, cb.b, cga.a);
+        // if (hasTexture == 1.0) gl_FragColor =  vec4(cr.r, cga.g, cb.b, cga.a);
+        if (hasTexture == 1.0) gl_FragColor =  test;
         else gl_FragColor = vec4(color, opacity);
       }`,
       uniforms: {

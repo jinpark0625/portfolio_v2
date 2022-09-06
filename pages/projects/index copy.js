@@ -36,31 +36,20 @@ import Loader from "../../components/loader";
 function Plane({ color = "white", map, ...props }) {
   const { viewportHeight, offsetFactor } = useBlock();
   const material = useRef();
-
-  const scroll = useScroll();
-  let last = scroll.scroll.current;
-
-  console.log(viewportHeight);
-
+  let last = state.top.current;
   useFrame(() => {
     const { pages, top } = state;
-
     material.current.scale = THREE.MathUtils.lerp(
       material.current.scale,
-      offsetFactor -
-        (scroll.scroll.current / ((pages - 1) * viewportHeight)) * 10,
+      offsetFactor - top.current / ((pages - 1) * (viewportHeight * 75)),
       0.1
     );
-
-    console.log(scroll.scroll.current / ((pages - 1) * viewportHeight));
-
     material.current.shift = THREE.MathUtils.lerp(
       material.current.shift,
-      (scroll.scroll.current - last) * 10,
+      (top.current - last) / 150,
       0.1
     );
-
-    last = scroll.scroll.current;
+    last = top.current;
   });
 
   return (
@@ -106,18 +95,13 @@ const Pages = () => {
   const { contentMaxWidth, mobile } = useBlock();
   const aspect = 1.75;
   const pixelWidth = contentMaxWidth * state.zoom;
-
   return (
-    <Scroll>
+    <>
       {/* First section */}
-      <Block offset={0}>
+      <Block factor={1.2} offset={0}>
         <Content left map={img1}>
           <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
-              color: "#fff",
-            }}
+            style={{ width: pixelWidth / (mobile ? 1 : 2), textAlign: "right" }}
             position={[
               mobile ? -contentMaxWidth / 2 : 0,
               -contentMaxWidth / 2 / aspect - 0.4,
@@ -131,14 +115,10 @@ const Pages = () => {
         </Content>
       </Block>
       {/* Second section */}
-      <Block offset={1}>
+      <Block factor={1.2} offset={1}>
         <Content map={img2}>
           <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
-              color: "#fff",
-            }}
+            style={{ width: pixelWidth / (mobile ? 1 : 2), textAlign: "right" }}
             position={[
               mobile ? -contentMaxWidth / 2 : 0,
               -contentMaxWidth / 2 / aspect - 0.4,
@@ -152,14 +132,10 @@ const Pages = () => {
         </Content>
       </Block>
       {/* Last section */}
-      <Block offset={2}>
+      <Block factor={1.2} offset={2}>
         <Content left map={img3}>
           <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "left",
-              color: "#fff",
-            }}
+            style={{ width: pixelWidth / (mobile ? 1 : 2), textAlign: "left" }}
             position={[
               -contentMaxWidth / 2,
               -contentMaxWidth / 2 / aspect - 0.4,
@@ -170,15 +146,15 @@ const Pages = () => {
           </Html>
         </Content>
       </Block>
-    </Scroll>
+    </>
   );
 };
 
 const Projects = () => {
-  // const scrollArea = useRef();
-  // const onScroll = (e) => (state.top.current = e.target.scrollTop);
-  // //void 즉시 실행함수
-  // useEffect(() => void onScroll({ target: scrollArea.current }), []);
+  const scrollArea = useRef();
+  const onScroll = (e) => (state.top.current = e.target.scrollTop);
+  //void 즉시 실행함수
+  useEffect(() => void onScroll({ target: scrollArea.current }), []);
 
   return (
     <div
@@ -196,24 +172,14 @@ const Projects = () => {
         linear
         orthographic
         camera={{ zoom: state.zoom, position: [0, 0, 500] }}
-        // onScroll={onScroll}
-        // ref={scrollArea}
       >
         <Suspense fallback={<Loader />}>
-          <ScrollControls
-            pages={3}
-            distance={1}
-            damping={4}
-            horizontal={false}
-            // infinite={true}
-          >
-            <Pages />
-          </ScrollControls>
+          <Pages />
         </Suspense>
       </Canvas>
-      {/* <div className="scrollArea" ref={scrollArea} onScroll={onScroll}>
+      <div className="scrollArea" ref={scrollArea} onScroll={onScroll}>
         <div style={{ height: `${state.pages * 100}vh` }} />
-      </div> */}
+      </div>
     </div>
   );
 };
