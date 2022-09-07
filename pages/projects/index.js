@@ -40,19 +40,14 @@ function Plane({ color = "white", map, ...props }) {
   const scroll = useScroll();
   let last = scroll.scroll.current;
 
-  console.log(viewportHeight);
-
   useFrame(() => {
-    const { pages, top } = state;
+    const { pages } = state;
 
     material.current.scale = THREE.MathUtils.lerp(
       material.current.scale,
-      offsetFactor -
-        (scroll.scroll.current / ((pages - 1) * viewportHeight)) * 10,
+      offsetFactor - (scroll.scroll.current / (pages - 1)) * 1.338,
       0.1
     );
-
-    console.log(scroll.scroll.current / ((pages - 1) * viewportHeight));
 
     material.current.shift = THREE.MathUtils.lerp(
       material.current.shift,
@@ -75,16 +70,27 @@ function Plane({ color = "white", map, ...props }) {
     </mesh>
   );
 }
-function Content({ left, children, map }) {
+function Content({ left, children, map, offset, half }) {
   const { contentMaxWidth, canvasWidth, margin } = useBlock();
   const aspect = 1.75;
+
   const alignRight = (canvasWidth - contentMaxWidth - margin) / 2;
+  console.log("alignRight", alignRight);
 
   return (
-    <group position={[alignRight * (left ? -1 : 1), 0, 0]}>
+    <group
+      position={
+        half ? [alignRight * half, 0, 0] : [alignRight * (left ? -1 : 1), 0, 0]
+      }
+    >
       <Plane
-        scale={[contentMaxWidth, contentMaxWidth / aspect, 1]}
-        color="#bfe2ca"
+        scale={
+          offset
+            ? [contentMaxWidth / 1.65, contentMaxWidth / 1.65, 1]
+            : [contentMaxWidth, contentMaxWidth / aspect, 1]
+        }
+        // color="#bfe2ca"
+        color="#220F08"
         map={map}
       />
       {children}
@@ -93,46 +99,49 @@ function Content({ left, children, map }) {
 }
 
 const Pages = () => {
-  const images = [
-    "/images/1.webp",
-    "/images/2.webp",
-    "/images/3.webp",
-    "/images/4.webp",
-  ];
-  const textures = useLoader(TextureLoader, images);
-  const [img1, img2, img3, img4] = textures.map(
+  const textures = useLoader(TextureLoader, state.images);
+  const [img1, img2, img3, img4, img5, img6] = textures.map(
     (texture) => ((texture.minFilter = LinearFilter), texture)
   );
   const { contentMaxWidth, mobile } = useBlock();
   const aspect = 1.75;
   const pixelWidth = contentMaxWidth * state.zoom;
 
+  const {
+    viewport: { width },
+  } = useThree();
+
+  console.log(contentMaxWidth, width);
+  console.log(pixelWidth / 2);
+
   return (
     <Scroll>
       {/* First section */}
       <Block offset={0}>
-        <Content left map={img1}>
+        <Content map={img1}>
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
               textAlign: "right",
               color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
             position={[
-              mobile ? -contentMaxWidth / 2 : 0,
+              -contentMaxWidth / 2 / aspect + 0.5,
               -contentMaxWidth / 2 / aspect - 0.4,
               1,
             ]}
           >
-            We’ve found that the people whose EEG doesn’t show any alpha-wave
-            activity when they’re relaxed aren’t likely to respond significantly
-            to the substance.
+            <h1>Good Cafeteria</h1>
+            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
           </Html>
         </Content>
       </Block>
       {/* Second section */}
       <Block offset={1}>
-        <Content map={img2}>
+        <Content left map={img2}>
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
@@ -145,28 +154,92 @@ const Pages = () => {
               1,
             ]}
           >
-            We’ve found that the people whose EEG doesn’t show any alpha-wave
-            activity when they’re relaxed aren’t likely to respond significantly
-            to the substance.
+            <h1>Yellow Basket</h1>
+            <p style={{ color: "#aaa" }}>WEB DEVELOPMENT</p>
           </Html>
         </Content>
       </Block>
-      {/* Last section */}
-      <Block offset={2}>
-        <Content left map={img3}>
+      {/* Third section */}
+      <Block offset={2.8}>
+        <Content map={img3} offset={2} half={-2.2}>
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "left",
+              textAlign: "right",
               color: "#fff",
             }}
             position={[
-              -contentMaxWidth / 2,
+              mobile ? -contentMaxWidth / 2 : -contentMaxWidth / 5,
               -contentMaxWidth / 2 / aspect - 0.4,
               1,
             ]}
           >
-            Education and enlightenment.
+            <h1>Bin Works</h1>
+            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
+          </Html>
+        </Content>
+      </Block>
+      {/* Fourth section */}
+      <Block offset={2.4}>
+        <Content map={img4} offset={2} half={2.2}>
+          <Html
+            style={{
+              width: pixelWidth / (mobile ? 1 : 2),
+              textAlign: "right",
+              color: "#fff",
+            }}
+            position={[
+              mobile ? -contentMaxWidth / 2 : -contentMaxWidth / 5,
+              -contentMaxWidth / 2 / aspect - 0.4,
+              1,
+            ]}
+          >
+            <h1>Four Toon</h1>
+            <p style={{ color: "#aaa" }}>WEB DEVELOPMENT</p>
+          </Html>
+        </Content>
+      </Block>
+      {/* Fifth section */}
+      <Block offset={4}>
+        <Content left map={img5}>
+          <Html
+            style={{
+              width: pixelWidth / (mobile ? 1 : 2),
+              textAlign: "right",
+              color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            position={[
+              // mobile ? -contentMaxWidth / 2 : 0,
+              -contentMaxWidth / 2 / aspect + 0.5,
+              -contentMaxWidth / 2 / aspect - 0.4,
+              1,
+            ]}
+          >
+            <h1>JoolWang</h1>
+            <p style={{ color: "#aaa" }}>WEB DEVELOPMENT</p>
+          </Html>
+        </Content>
+      </Block>
+      {/* Last section */}
+      <Block offset={5}>
+        <Content map={img6}>
+          <Html
+            style={{
+              width: pixelWidth / (mobile ? 1 : 2),
+              textAlign: "right",
+              color: "#fff",
+            }}
+            position={[
+              mobile ? -contentMaxWidth / 2 : 0,
+              -contentMaxWidth / 2 / aspect - 0.4,
+              1,
+            ]}
+          >
+            <h1>Jeju Carrot RentCar</h1>
+            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
           </Html>
         </Content>
       </Block>
@@ -175,11 +248,6 @@ const Pages = () => {
 };
 
 const Projects = () => {
-  // const scrollArea = useRef();
-  // const onScroll = (e) => (state.top.current = e.target.scrollTop);
-  // //void 즉시 실행함수
-  // useEffect(() => void onScroll({ target: scrollArea.current }), []);
-
   return (
     <div
       style={{
@@ -196,12 +264,10 @@ const Projects = () => {
         linear
         orthographic
         camera={{ zoom: state.zoom, position: [0, 0, 500] }}
-        // onScroll={onScroll}
-        // ref={scrollArea}
       >
         <Suspense fallback={<Loader />}>
           <ScrollControls
-            pages={3}
+            pages={6.5}
             distance={1}
             damping={4}
             horizontal={false}
@@ -211,9 +277,6 @@ const Projects = () => {
           </ScrollControls>
         </Suspense>
       </Canvas>
-      {/* <div className="scrollArea" ref={scrollArea} onScroll={onScroll}>
-        <div style={{ height: `${state.pages * 100}vh` }} />
-      </div> */}
     </div>
   );
 };

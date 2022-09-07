@@ -33,7 +33,8 @@ class CustomMaterial extends ShaderMaterial {
         vec4 cga = texture2D(uTexture, p);
         vec4 cb = texture2D(uTexture, p - offset);
 
-        vec4 test = texture2D(uTexture, p);
+        // vec4 test = texture2D(uTexture, p);
+        vec4 test = texture2D(uTexture, vUv);
 
         // if (hasTexture == 1.0) gl_FragColor =  vec4(cr.r, cga.g, cb.b, cga.a);
         if (hasTexture == 1.0) gl_FragColor =  test;

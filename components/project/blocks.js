@@ -1,15 +1,12 @@
 import * as THREE from "three";
 import React, { createContext, useRef, useContext } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
 import state from "./scrollStore";
-import { useScroll } from "@react-three/drei";
 
 const offsetContext = createContext(0);
 
 function Block({ children, offset, factor, ...props }) {
-  const scroll = useScroll();
-
-  const { offset: parentOffset, sectionHeight, canvasHeight } = useBlock();
+  const { offset: parentOffset, canvasHeight } = useBlock();
   const ref = useRef();
   //offset is the section index,
   // Fetch parent offset and the height of a single section
@@ -34,9 +31,9 @@ function useBlock() {
   const canvasWidth = viewportWidth;
   const canvasHeight = viewportHeight;
   const mobile = size.width < 700;
-  const margin = canvasWidth * (mobile ? 0.8 : 0.6);
+  const margin = canvasWidth * (mobile ? 0.8 : 0.7);
   // const margin = canvasWidth * (mobile ? 0.2 : 0.1);
-  const contentMaxWidth = canvasWidth * (mobile ? 0.8 : 0.6);
+  const contentMaxWidth = canvasWidth * (mobile ? 0.8 : 0.54);
   const sectionHeight = canvasHeight * ((pages - 1) / (sections - 1));
   const offsetFactor = (offset + 1.0) / sections;
 
