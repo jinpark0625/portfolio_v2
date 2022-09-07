@@ -45,7 +45,7 @@ function Plane({ color = "white", map, ...props }) {
 
     material.current.scale = THREE.MathUtils.lerp(
       material.current.scale,
-      offsetFactor - (scroll.scroll.current / (pages - 1)) * 1.338,
+      offsetFactor - (scroll.scroll.current / (pages - 1)) * 3.4,
       0.1
     );
 
@@ -73,9 +73,7 @@ function Plane({ color = "white", map, ...props }) {
 function Content({ left, children, map, offset, half }) {
   const { contentMaxWidth, canvasWidth, margin } = useBlock();
   const aspect = 1.75;
-
   const alignRight = (canvasWidth - contentMaxWidth - margin) / 2;
-  console.log("alignRight", alignRight);
 
   return (
     <group
@@ -86,7 +84,7 @@ function Content({ left, children, map, offset, half }) {
       <Plane
         scale={
           offset
-            ? [contentMaxWidth / 1.65, contentMaxWidth / 1.65, 1]
+            ? [contentMaxWidth / offset, contentMaxWidth / offset, 1]
             : [contentMaxWidth, contentMaxWidth / aspect, 1]
         }
         // color="#bfe2ca"
@@ -111,9 +109,6 @@ const Pages = () => {
     viewport: { width },
   } = useThree();
 
-  console.log(contentMaxWidth, width);
-  console.log(pixelWidth / 2);
-
   return (
     <Scroll>
       {/* First section */}
@@ -122,7 +117,6 @@ const Pages = () => {
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
               color: "#fff",
               display: "flex",
               flexDirection: "column",
@@ -145,11 +139,13 @@ const Pages = () => {
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
               color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
             position={[
-              mobile ? -contentMaxWidth / 2 : 0,
+              -contentMaxWidth / 2 / aspect + 0.5,
               -contentMaxWidth / 2 / aspect - 0.4,
               1,
             ]}
@@ -160,37 +156,19 @@ const Pages = () => {
         </Content>
       </Block>
       {/* Third section */}
-      <Block offset={2.8}>
-        <Content map={img3} offset={2} half={-2.2}>
+      <Block offset={2.2}>
+        <Content map={img3} offset={1.45} half={-1.7}>
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
               color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
             position={[
-              mobile ? -contentMaxWidth / 2 : -contentMaxWidth / 5,
-              -contentMaxWidth / 2 / aspect - 0.4,
-              1,
-            ]}
-          >
-            <h1>Bin Works</h1>
-            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
-          </Html>
-        </Content>
-      </Block>
-      {/* Fourth section */}
-      <Block offset={2.4}>
-        <Content map={img4} offset={2} half={2.2}>
-          <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
-              color: "#fff",
-            }}
-            position={[
-              mobile ? -contentMaxWidth / 2 : -contentMaxWidth / 5,
-              -contentMaxWidth / 2 / aspect - 0.4,
+              -contentMaxWidth / 2 / aspect + 0.5,
+              -contentMaxWidth / 2 / 1.45 - 0.4,
               1,
             ]}
           >
@@ -199,20 +177,40 @@ const Pages = () => {
           </Html>
         </Content>
       </Block>
-      {/* Fifth section */}
-      <Block offset={4}>
-        <Content left map={img5}>
+      {/* Fourth section */}
+      <Block offset={2}>
+        <Content map={img4} offset={1.45} half={1.7}>
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
               color: "#fff",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
             position={[
-              // mobile ? -contentMaxWidth / 2 : 0,
+              -contentMaxWidth / 2 / aspect + 0.5,
+              -contentMaxWidth / 2 / 1.45 - 0.4,
+              1,
+            ]}
+          >
+            <h1>Bin Works</h1>
+            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
+          </Html>
+        </Content>
+      </Block>
+      {/* Fifth section */}
+      <Block offset={3.2}>
+        <Content map={img5}>
+          <Html
+            style={{
+              width: pixelWidth / (mobile ? 1 : 2),
+              color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            position={[
               -contentMaxWidth / 2 / aspect + 0.5,
               -contentMaxWidth / 2 / aspect - 0.4,
               1,
@@ -224,16 +222,18 @@ const Pages = () => {
         </Content>
       </Block>
       {/* Last section */}
-      <Block offset={5}>
-        <Content map={img6}>
+      <Block offset={4.2}>
+        <Content left map={img6}>
           <Html
             style={{
               width: pixelWidth / (mobile ? 1 : 2),
-              textAlign: "right",
               color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
             position={[
-              mobile ? -contentMaxWidth / 2 : 0,
+              -contentMaxWidth / 2 / aspect + 0.5,
               -contentMaxWidth / 2 / aspect - 0.4,
               1,
             ]}
@@ -267,7 +267,7 @@ const Projects = () => {
       >
         <Suspense fallback={<Loader />}>
           <ScrollControls
-            pages={6.5}
+            pages={5.2}
             distance={1}
             damping={4}
             horizontal={false}
