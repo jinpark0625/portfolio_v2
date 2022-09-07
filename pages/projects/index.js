@@ -34,24 +34,25 @@ import "../../components/project/projectsShader";
 import Loader from "../../components/loader";
 
 function Plane({ color = "white", map, ...props }) {
-  const { viewportHeight, offsetFactor } = useBlock();
+  const { offsetFactor } = useBlock();
   const material = useRef();
-
   const scroll = useScroll();
   let last = scroll.scroll.current;
 
   useFrame(() => {
     const { pages } = state;
 
+    //scale on scroll
     material.current.scale = THREE.MathUtils.lerp(
       material.current.scale,
-      offsetFactor - (scroll.scroll.current / (pages - 1)) * 3.4,
+      offsetFactor - (scroll.scroll.current / (pages - 1.2)) * 3.4,
       0.1
     );
 
+    //distortion on scroll
     material.current.shift = THREE.MathUtils.lerp(
       material.current.shift,
-      (scroll.scroll.current - last) * 10,
+      (scroll.scroll.current - last) * 14,
       0.1
     );
 
@@ -71,9 +72,13 @@ function Plane({ color = "white", map, ...props }) {
   );
 }
 function Content({ left, children, map, offset, half }) {
-  const { contentMaxWidth, canvasWidth, margin } = useBlock();
+  const { contentMaxWidth, canvasWidth, margin, mobile } = useBlock();
   const aspect = 1.75;
   const alignRight = (canvasWidth - contentMaxWidth - margin) / 2;
+
+  const halfContent = mobile
+    ? [contentMaxWidth / offset, contentMaxWidth / aspect, 1]
+    : [contentMaxWidth / offset, contentMaxWidth / offset, 1];
 
   return (
     <group
@@ -83,11 +88,8 @@ function Content({ left, children, map, offset, half }) {
     >
       <Plane
         scale={
-          offset
-            ? [contentMaxWidth / offset, contentMaxWidth / offset, 1]
-            : [contentMaxWidth, contentMaxWidth / aspect, 1]
+          offset ? halfContent : [contentMaxWidth, contentMaxWidth / aspect, 1]
         }
-        // color="#bfe2ca"
         color="#220F08"
         map={map}
       />
@@ -98,7 +100,7 @@ function Content({ left, children, map, offset, half }) {
 
 const Pages = () => {
   const textures = useLoader(TextureLoader, state.images);
-  const [img1, img2, img3, img4, img5, img6] = textures.map(
+  const [img1, img2, img3, img4, img5, img6, img3M, img4M] = textures.map(
     (texture) => ((texture.minFilter = LinearFilter), texture)
   );
   const { contentMaxWidth, mobile } = useBlock();
@@ -110,140 +112,216 @@ const Pages = () => {
   } = useThree();
 
   return (
-    <Scroll>
-      {/* First section */}
-      <Block offset={0}>
-        <Content map={img1}>
-          <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              color: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            position={[
-              -contentMaxWidth / 2 / aspect + 0.5,
-              -contentMaxWidth / 2 / aspect - 0.4,
-              1,
-            ]}
+    <ScrollControls
+      pages={mobile ? 6 : 5.2}
+      distance={1}
+      damping={4}
+      horizontal={false}
+      // infinite={true}
+    >
+      <Scroll>
+        {/* First section */}
+        <Block offset={0}>
+          <Content map={img1}>
+            <Html
+              style={{
+                width: pixelWidth / (mobile ? 1 : 2),
+                color: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              position={
+                mobile
+                  ? [
+                      -contentMaxWidth / 2,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+                  : [
+                      -contentMaxWidth / 2 / aspect + 0.5,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+              }
+            >
+              <h1>Good Cafeteria</h1>
+              <p style={{ color: "#aaa", marginTop: "10px" }}>
+                ART DIRECTION / WEB DEVELOPMENT
+              </p>
+            </Html>
+          </Content>
+        </Block>
+        {/* Second section */}
+        <Block offset={1}>
+          <Content left map={img2}>
+            <Html
+              style={{
+                width: pixelWidth / (mobile ? 1 : 2),
+                color: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              position={
+                mobile
+                  ? [
+                      -contentMaxWidth / 2,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+                  : [
+                      -contentMaxWidth / 2 / aspect + 0.5,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+              }
+            >
+              <h1>Yellow Basket</h1>
+              <p style={{ color: "#aaa", marginTop: "10px" }}>
+                WEB DEVELOPMENT
+              </p>
+            </Html>
+          </Content>
+        </Block>
+        {/* Third section */}
+        <Block offset={mobile ? 2 : 2.2}>
+          <Content
+            map={mobile ? img3M : img3}
+            offset={mobile ? 1 : 1.45}
+            half={mobile ? false : -1.7}
           >
-            <h1>Good Cafeteria</h1>
-            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
-          </Html>
-        </Content>
-      </Block>
-      {/* Second section */}
-      <Block offset={1}>
-        <Content left map={img2}>
-          <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              color: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            position={[
-              -contentMaxWidth / 2 / aspect + 0.5,
-              -contentMaxWidth / 2 / aspect - 0.4,
-              1,
-            ]}
+            <Html
+              style={{
+                width: pixelWidth / (mobile ? 1 : 2),
+                color: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              position={
+                mobile
+                  ? [
+                      -contentMaxWidth / 2,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+                  : [
+                      -contentMaxWidth / 2 / aspect + 0.5,
+                      -contentMaxWidth / 2 / 1.45 - 0.4,
+                      1,
+                    ]
+              }
+            >
+              <h1>Four Toon</h1>
+              <p style={{ color: "#aaa", marginTop: "10px" }}>
+                WEB DEVELOPMENT
+              </p>
+            </Html>
+          </Content>
+        </Block>
+        {/* Fourth section */}
+        <Block offset={mobile ? 3 : 2}>
+          <Content
+            map={mobile ? img4M : img4}
+            offset={mobile ? 1 : 1.45}
+            half={mobile ? false : 1.7}
           >
-            <h1>Yellow Basket</h1>
-            <p style={{ color: "#aaa" }}>WEB DEVELOPMENT</p>
-          </Html>
-        </Content>
-      </Block>
-      {/* Third section */}
-      <Block offset={2.2}>
-        <Content map={img3} offset={1.45} half={-1.7}>
-          <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              color: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            position={[
-              -contentMaxWidth / 2 / aspect + 0.5,
-              -contentMaxWidth / 2 / 1.45 - 0.4,
-              1,
-            ]}
-          >
-            <h1>Four Toon</h1>
-            <p style={{ color: "#aaa" }}>WEB DEVELOPMENT</p>
-          </Html>
-        </Content>
-      </Block>
-      {/* Fourth section */}
-      <Block offset={2}>
-        <Content map={img4} offset={1.45} half={1.7}>
-          <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              color: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            position={[
-              -contentMaxWidth / 2 / aspect + 0.5,
-              -contentMaxWidth / 2 / 1.45 - 0.4,
-              1,
-            ]}
-          >
-            <h1>Bin Works</h1>
-            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
-          </Html>
-        </Content>
-      </Block>
-      {/* Fifth section */}
-      <Block offset={3.2}>
-        <Content map={img5}>
-          <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              color: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            position={[
-              -contentMaxWidth / 2 / aspect + 0.5,
-              -contentMaxWidth / 2 / aspect - 0.4,
-              1,
-            ]}
-          >
-            <h1>JoolWang</h1>
-            <p style={{ color: "#aaa" }}>WEB DEVELOPMENT</p>
-          </Html>
-        </Content>
-      </Block>
-      {/* Last section */}
-      <Block offset={4.2}>
-        <Content left map={img6}>
-          <Html
-            style={{
-              width: pixelWidth / (mobile ? 1 : 2),
-              color: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            position={[
-              -contentMaxWidth / 2 / aspect + 0.5,
-              -contentMaxWidth / 2 / aspect - 0.4,
-              1,
-            ]}
-          >
-            <h1>Jeju Carrot RentCar</h1>
-            <p style={{ color: "#aaa" }}>ART DIRECTION / WEB DEVELOPMENT</p>
-          </Html>
-        </Content>
-      </Block>
-    </Scroll>
+            <Html
+              style={{
+                width: pixelWidth / (mobile ? 1 : 2),
+                color: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              position={
+                mobile
+                  ? [
+                      -contentMaxWidth / 2,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+                  : [
+                      -contentMaxWidth / 2 / aspect + 0.5,
+                      -contentMaxWidth / 2 / 1.45 - 0.4,
+                      1,
+                    ]
+              }
+            >
+              <h1>Bin Works</h1>
+              <p style={{ color: "#aaa", marginTop: "10px" }}>
+                ART DIRECTION / WEB DEVELOPMENT
+              </p>
+            </Html>
+          </Content>
+        </Block>
+        {/* Fifth section */}
+        <Block offset={mobile ? 4 : 3.2}>
+          <Content map={img5}>
+            <Html
+              style={{
+                width: pixelWidth / (mobile ? 1 : 2),
+                color: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              position={
+                mobile
+                  ? [
+                      -contentMaxWidth / 2,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+                  : [
+                      -contentMaxWidth / 2 / aspect + 0.5,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+              }
+            >
+              <h1>JoolWang</h1>
+              <p style={{ color: "#aaa", marginTop: "10px" }}>
+                WEB DEVELOPMENT
+              </p>
+            </Html>
+          </Content>
+        </Block>
+        {/* Last section */}
+        <Block offset={mobile ? 5 : 4.2}>
+          <Content left map={img6}>
+            <Html
+              style={{
+                width: pixelWidth / (mobile ? 1 : 2),
+                color: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              position={
+                mobile
+                  ? [
+                      -contentMaxWidth / 2,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+                  : [
+                      -contentMaxWidth / 2 / aspect + 0.5,
+                      -contentMaxWidth / 2 / aspect - 0.4,
+                      1,
+                    ]
+              }
+            >
+              <h1>Jeju Carrot RentCar</h1>
+              <p style={{ color: "#aaa", marginTop: "10px" }}>
+                ART DIRECTION / WEB DEVELOPMENT
+              </p>
+            </Html>
+          </Content>
+        </Block>
+      </Scroll>
+    </ScrollControls>
   );
 };
 
@@ -266,15 +344,7 @@ const Projects = () => {
         camera={{ zoom: state.zoom, position: [0, 0, 500] }}
       >
         <Suspense fallback={<Loader />}>
-          <ScrollControls
-            pages={5.2}
-            distance={1}
-            damping={4}
-            horizontal={false}
-            // infinite={true}
-          >
-            <Pages />
-          </ScrollControls>
+          <Pages />
         </Suspense>
       </Canvas>
     </div>
