@@ -1,37 +1,15 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useMemo,
-  Suspense,
-  useLayoutEffect,
-  createContext,
-  useContext,
-} from "react";
-import Image from "next/image";
+import React, { useRef, Suspense } from "react";
+
 import { Canvas, useFrame, useLoader, useThree, Dom } from "@react-three/fiber";
-import {
-  Point,
-  Points,
-  PointMaterial,
-  OrbitControls,
-  Text,
-  Sparkles,
-  Text3D,
-  Center,
-  useCursor,
-  ScrollControls,
-  useScroll,
-  Html,
-  useProgress,
-  Scroll,
-} from "@react-three/drei";
+import { ScrollControls, useScroll, Html, Scroll } from "@react-three/drei";
 import { TextureLoader, LinearFilter, Vector2 } from "three";
 import * as THREE from "three";
 import state from "../../components/project/scrollStore";
 import { Block, useBlock } from "../../components/project";
 import "../../components/project/projectsShader";
 import Loader from "../../components/loader";
+import { useRouter } from "next/router";
+import { A11yAnnouncer, A11y } from "@react-three/a11y";
 
 function Plane({ color = "white", map, ...props }) {
   const { offsetFactor } = useBlock();
@@ -98,7 +76,7 @@ function Content({ left, children, map, offset, half }) {
   );
 }
 
-const Pages = () => {
+const Pages = ({ router }) => {
   const textures = useLoader(TextureLoader, state.images);
   const [img1, img2, img3, img4, img5, img6, img3M, img4M] = textures.map(
     (texture) => ((texture.minFilter = LinearFilter), texture)
@@ -121,211 +99,293 @@ const Pages = () => {
     >
       <Scroll>
         {/* First section */}
-        <Block offset={0}>
-          <Content map={img1}>
-            <Html
-              style={{
-                width: pixelWidth / (mobile ? 1 : 2),
-                color: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              position={
-                mobile
-                  ? [
-                      -contentMaxWidth / 2,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-                  : [
-                      -contentMaxWidth / 2 / aspect + 0.5,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-              }
-            >
-              <h1>Good Cafeteria</h1>
-              <p style={{ color: "#aaa", marginTop: "10px" }}>
-                ART DIRECTION / WEB DEVELOPMENT
-              </p>
-            </Html>
-          </Content>
-        </Block>
+        <A11y
+          role="link"
+          href="/projects/goodcafeteria"
+          actionCall={() => {
+            router.push(`/projects/goodcafeteria`);
+          }}
+        >
+          <Block offset={0}>
+            <Content map={img1}>
+              <Html
+                style={{
+                  width: pixelWidth,
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                position={[
+                  -contentMaxWidth / 2,
+                  -contentMaxWidth / 2 / aspect,
+                  1,
+                ]}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    paddingTop: "30px",
+                  }}
+                  onClick={() => {
+                    router.push(`/projects/goodcafeteria`);
+                  }}
+                >
+                  <h1>Good Cafeteria</h1>
+                  <p style={{ color: "#aaa", marginTop: "10px" }}>
+                    ART DIRECTION / WEB DEVELOPMENT
+                  </p>
+                </div>
+              </Html>
+            </Content>
+          </Block>
+        </A11y>
         {/* Second section */}
-        <Block offset={1}>
-          <Content left map={img2}>
-            <Html
-              style={{
-                width: pixelWidth / (mobile ? 1 : 2),
-                color: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              position={
-                mobile
-                  ? [
-                      -contentMaxWidth / 2,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-                  : [
-                      -contentMaxWidth / 2 / aspect + 0.5,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-              }
-            >
-              <h1>Yellow Basket</h1>
-              <p style={{ color: "#aaa", marginTop: "10px" }}>
-                WEB DEVELOPMENT
-              </p>
-            </Html>
-          </Content>
-        </Block>
+        <A11y
+          role="link"
+          href="/projects/yellobasket"
+          actionCall={() => {
+            router.push(`/projects/yellobasket`);
+          }}
+        >
+          <Block offset={1}>
+            <Content left map={img2}>
+              <Html
+                style={{
+                  width: pixelWidth,
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                position={[
+                  -contentMaxWidth / 2,
+                  -contentMaxWidth / 2 / aspect,
+                  1,
+                ]}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    paddingTop: "30px",
+                  }}
+                  onClick={() => {
+                    router.push(`/projects/yellobasket`);
+                  }}
+                >
+                  <h1>Yellow Basket</h1>
+                  <p style={{ color: "#aaa", marginTop: "10px" }}>
+                    WEB DEVELOPMENT
+                  </p>
+                </div>
+              </Html>
+            </Content>
+          </Block>
+        </A11y>
         {/* Third section */}
-        <Block offset={mobile ? 2 : 2.2}>
-          <Content
-            map={mobile ? img3M : img3}
-            offset={mobile ? 1 : 1.45}
-            half={mobile ? false : -1.7}
-          >
-            <Html
-              style={{
-                width: pixelWidth / (mobile ? 1 : 2),
-                color: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              position={
-                mobile
-                  ? [
-                      -contentMaxWidth / 2,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-                  : [
-                      -contentMaxWidth / 2 / aspect + 0.5,
-                      -contentMaxWidth / 2 / 1.45 - 0.4,
-                      1,
-                    ]
-              }
+        <A11y
+          role="link"
+          href="/projects/coffeebak"
+          actionCall={() => {
+            router.push(`/projects/coffeebak`);
+          }}
+        >
+          <Block offset={mobile ? 2 : 2.2}>
+            <Content
+              map={mobile ? img3M : img3}
+              offset={mobile ? 1 : 1.45}
+              half={mobile ? false : -1.7}
             >
-              <h1>Four Toon</h1>
-              <p style={{ color: "#aaa", marginTop: "10px" }}>
-                WEB DEVELOPMENT
-              </p>
-            </Html>
-          </Content>
-        </Block>
+              <Html
+                style={{
+                  width: mobile ? pixelWidth : pixelWidth / 1.45,
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                position={
+                  mobile
+                    ? [-contentMaxWidth / 2, -contentMaxWidth / 2 / aspect, 1]
+                    : [
+                        -contentMaxWidth / 1.45 / 2,
+                        -contentMaxWidth / 2 / 1.45,
+                        1,
+                      ]
+                }
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    paddingTop: "30px",
+                  }}
+                  onClick={() => {
+                    router.push(`/projects/coffeebak`);
+                  }}
+                >
+                  <h1>Coffee Bak</h1>
+                  <p style={{ color: "#aaa", marginTop: "10px" }}>
+                    MOBILE APP DEVELOPMENT
+                  </p>
+                </div>
+              </Html>
+            </Content>
+          </Block>
+        </A11y>
         {/* Fourth section */}
-        <Block offset={mobile ? 3 : 2}>
-          <Content
-            map={mobile ? img4M : img4}
-            offset={mobile ? 1 : 1.45}
-            half={mobile ? false : 1.7}
-          >
-            <Html
-              style={{
-                width: pixelWidth / (mobile ? 1 : 2),
-                color: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              position={
-                mobile
-                  ? [
-                      -contentMaxWidth / 2,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-                  : [
-                      -contentMaxWidth / 2 / aspect + 0.5,
-                      -contentMaxWidth / 2 / 1.45 - 0.4,
-                      1,
-                    ]
-              }
+        <A11y
+          role="link"
+          href="/projects/binworks"
+          actionCall={() => {
+            router.push(`/projects/binworks`);
+          }}
+        >
+          <Block offset={mobile ? 3 : 2}>
+            <Content
+              map={mobile ? img4M : img4}
+              offset={mobile ? 1 : 1.45}
+              half={mobile ? false : 1.7}
             >
-              <h1>Bin Works</h1>
-              <p style={{ color: "#aaa", marginTop: "10px" }}>
-                ART DIRECTION / WEB DEVELOPMENT
-              </p>
-            </Html>
-          </Content>
-        </Block>
+              <Html
+                style={{
+                  width: mobile ? pixelWidth : pixelWidth / 1.45,
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                position={
+                  mobile
+                    ? [-contentMaxWidth / 2, -contentMaxWidth / 2 / aspect, 1]
+                    : [
+                        -contentMaxWidth / 1.45 / 2,
+                        -contentMaxWidth / 2 / 1.45,
+                        1,
+                      ]
+                }
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    paddingTop: "30px",
+                  }}
+                  onClick={() => {
+                    router.push(`/projects/binworks`);
+                  }}
+                >
+                  <h1>Bin Works</h1>
+                  <p style={{ color: "#aaa", marginTop: "10px" }}>
+                    ART DIRECTION / WEB DEVELOPMENT
+                  </p>
+                </div>
+              </Html>
+            </Content>
+          </Block>
+        </A11y>
         {/* Fifth section */}
-        <Block offset={mobile ? 4 : 3.2}>
-          <Content map={img5}>
-            <Html
-              style={{
-                width: pixelWidth / (mobile ? 1 : 2),
-                color: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              position={
-                mobile
-                  ? [
-                      -contentMaxWidth / 2,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-                  : [
-                      -contentMaxWidth / 2 / aspect + 0.5,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-              }
-            >
-              <h1>JoolWang</h1>
-              <p style={{ color: "#aaa", marginTop: "10px" }}>
-                WEB DEVELOPMENT
-              </p>
-            </Html>
-          </Content>
-        </Block>
+        <A11y
+          role="link"
+          href="/projects/fourtoon"
+          actionCall={() => {
+            router.push(`/projects/fourtoon`);
+          }}
+        >
+          <Block offset={mobile ? 4 : 3.2}>
+            <Content map={img5}>
+              <Html
+                style={{
+                  width: pixelWidth,
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                position={[
+                  -contentMaxWidth / 2,
+                  -contentMaxWidth / 2 / aspect,
+                  1,
+                ]}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    paddingTop: "30px",
+                  }}
+                  onClick={() => {
+                    router.push(`/projects/fourtoon`);
+                  }}
+                >
+                  <h1>Four Toon</h1>
+                  <p style={{ color: "#aaa", marginTop: "10px" }}>
+                    WEB DEVELOPMENT
+                  </p>
+                </div>
+              </Html>
+            </Content>
+          </Block>
+        </A11y>
         {/* Last section */}
-        <Block offset={mobile ? 5 : 4.2}>
-          <Content left map={img6}>
-            <Html
-              style={{
-                width: pixelWidth / (mobile ? 1 : 2),
-                color: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              position={
-                mobile
-                  ? [
-                      -contentMaxWidth / 2,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-                  : [
-                      -contentMaxWidth / 2 / aspect + 0.5,
-                      -contentMaxWidth / 2 / aspect - 0.4,
-                      1,
-                    ]
-              }
-            >
-              <h1>Jeju Carrot RentCar</h1>
-              <p style={{ color: "#aaa", marginTop: "10px" }}>
-                ART DIRECTION / WEB DEVELOPMENT
-              </p>
-            </Html>
-          </Content>
-        </Block>
+        <A11y
+          role="link"
+          href="/projects/carrotrentcar"
+          actionCall={() => {
+            router.push(`/projects/carrotrentcar`);
+          }}
+        >
+          <Block offset={mobile ? 5 : 4.2}>
+            <Content left map={img6}>
+              <Html
+                style={{
+                  width: pixelWidth,
+                  color: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                position={[
+                  -contentMaxWidth / 2,
+                  -contentMaxWidth / 2 / aspect,
+                  1,
+                ]}
+              >
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    paddingTop: "30px",
+                  }}
+                  onClick={() => {
+                    router.push(`/projects/carrotrentcar`);
+                  }}
+                >
+                  <h1>Jeju Carrot Rent Car</h1>
+                  <p style={{ color: "#aaa", marginTop: "10px" }}>
+                    ART DIRECTION / WEB DEVELOPMENT
+                  </p>
+                </div>
+              </Html>
+            </Content>
+          </Block>
+        </A11y>
       </Scroll>
     </ScrollControls>
   );
 };
 
 const Projects = () => {
+  const router = useRouter();
+
   return (
     <div
       style={{
@@ -344,9 +404,10 @@ const Projects = () => {
         camera={{ zoom: state.zoom, position: [0, 0, 500] }}
       >
         <Suspense fallback={<Loader />}>
-          <Pages />
+          <Pages router={router} />
         </Suspense>
       </Canvas>
+      <A11yAnnouncer />
     </div>
   );
 };
