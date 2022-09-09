@@ -17,17 +17,19 @@ const Goodcafeteria = () => {
     <main>
       <Header padding="54px 0 145px 0">
         {/* title section */}
-        <Wrap maxWidth="1024px" margin="0 auto">
-          <Block maxWidth="580px" margin="0 0 0 auto">
-            <Paragraph margin="0 0 75px 0">Good Cafeteria</Paragraph>
-            <HeaderTitle>
-              An interactive fairy tale for Amsterdam’s biggest fashion
-              department store.
-            </HeaderTitle>
-            <Block margin="100px 0 60px 0">
-              <FooterText>2022</FooterText>
-            </Block>
-          </Block>
+        <Wrap>
+          <div className="center">
+            <div className="headerWrap">
+              <p className="headerTitle">Good Cafeteria</p>
+              <HeaderTitle>
+                An interactive fairy tale for Amsterdam’s biggest fashion
+                department store.
+              </HeaderTitle>
+              <div className="headerDate">
+                <FooterText>2022</FooterText>
+              </div>
+            </div>
+          </div>
         </Wrap>
         {/* title image section */}
         <Wrap>
@@ -81,65 +83,30 @@ const Goodcafeteria = () => {
       </Header>
       <section>
         {/* first section */}
-        <div
-          style={{
-            paddingBottom: "105px",
-          }}
-        >
-          <div
-            style={{
-              maxWidth: "1200px",
-              margin: "0 auto",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                paddingBottom: "56.25%",
-              }}
-            >
+        <Wrap padding="0 0 105px 0">
+          <div className="center">
+            <Block width="100%" position="relative" padding="0 0 56.25% 0 ">
               <Image
                 alt="project_image"
                 src={url}
                 layout="fill"
                 objectFit="cover"
               />
-            </div>
+            </Block>
           </div>
-          <div
-            style={{
-              maxWidth: "1200px",
-              margin: "20px auto 0",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                paddingBottom: "56.25%",
-              }}
-            >
+          <Block className="center marginGap">
+            <Block width="100%" position="relative" padding="0 0 56.25% 0 ">
               <Image
                 alt="project_image"
                 src={url}
                 layout="fill"
                 objectFit="cover"
               />
-            </div>
-          </div>
-        </div>
-        <div
-          style={{
-            paddingBottom: "105px",
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "840px",
-            }}
-          >
-            {/* 840, 690, 400 */}
+            </Block>
+          </Block>
+        </Wrap>
+        <Wrap padding="0 0 105px 0">
+          <div className="imageWrap">
             <Image
               alt="project_image"
               src={url}
@@ -147,54 +114,30 @@ const Goodcafeteria = () => {
               objectFit="cover"
             />
           </div>
-        </div>
+        </Wrap>
         {/* second section */}
-        <div
-          style={{
-            paddingBottom: "105px",
-          }}
-        >
-          <div
-            style={{
-              maxWidth: "1200px",
-              margin: "0 auto",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                paddingBottom: "56.25%",
-              }}
-            >
+        <Wrap padding="0 0 105px 0">
+          <div className="center">
+            <Block width="100%" position="relative" padding="0 0 56.25% 0 ">
               <Image
                 alt="project_image"
                 src={url}
                 layout="fill"
                 objectFit="cover"
               />
-            </div>
+            </Block>
           </div>
-          <div
-            style={{
-              maxWidth: "1200px",
-              margin: "20px auto 0",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                paddingBottom: "56.25%",
-              }}
-            >
+          <Block className="center marginGap">
+            <Block width="100%" position="relative" padding="0 0 56.25% 0 ">
               <Image
                 alt="project_image"
                 src={url}
                 layout="fill"
                 objectFit="cover"
               />
-            </div>
-          </div>
-        </div>
+            </Block>
+          </Block>
+        </Wrap>
       </section>
     </main>
   );
