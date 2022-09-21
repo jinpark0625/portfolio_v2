@@ -1,5 +1,4 @@
 import React, { useRef, Suspense } from "react";
-
 import { Canvas, useFrame, useLoader, useThree, Dom } from "@react-three/fiber";
 import { ScrollControls, useScroll, Html, Scroll } from "@react-three/drei";
 import { TextureLoader, LinearFilter, Vector2 } from "three";
@@ -15,9 +14,15 @@ function Plane({ color = "white", map, ...props }) {
   const { offsetFactor } = useBlock();
   const material = useRef();
   const scroll = useScroll();
+
   let last = scroll.scroll.current;
 
   useFrame(() => {
+    // if (last !== scroll.scroll.current) {
+    //   document.querySelector("div").classList.add("home");
+    // }
+    // document.querySelector("body").classList.remove("home");
+
     const { pages } = state;
 
     //scale on scroll
@@ -95,6 +100,7 @@ const Pages = ({ router }) => {
       distance={1}
       damping={4}
       horizontal={false}
+
       // infinite={true}
     >
       <Scroll>
@@ -147,7 +153,7 @@ const Pages = ({ router }) => {
           role="link"
           href="/projects/yellobasket"
           actionCall={() => {
-            router.push(`/projects/yellobasket`);
+            router.push(`/projects/yellowbasket`);
           }}
         >
           <Block offset={1}>
