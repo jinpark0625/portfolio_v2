@@ -1,6 +1,6 @@
 import React from "react";
 import img1 from "/public/images/cafeteria/cafeteria_img_1.png";
-import img2 from "/public/images/cafeteria/cafeteria_img_2.jpg";
+import img2 from "/public/images/cafeteria/cafeteria_img_2.png";
 import img3 from "/public/images/cafeteria/cafeteria_img_3.png";
 import img4 from "/public/images/cafeteria/cafeteria_img_4.png";
 import img5 from "/public/images/cafeteria/cafeteria_img_5.png";
@@ -29,8 +29,11 @@ import Link from "next/link";
 const Goodcafeteria = () => {
   return (
     <>
-      <ScrollProgress color="#db6520" />
-      <ScrollSmooth mainColor="#e2e0d6" subColor="#ededed">
+      <ScrollProgress color="#000" />
+      <ScrollSmooth mainColor="#ff9030" subColor="#ededed">
+        {/* <ScrollSmooth mainColor="#ff9030" subColor="#363636"> */}
+        {/*mainColor="#e2e0d6" subColor="#ededed" d9d9d9  e8e6e4 dbdbdb f09649*/}
+
         <Wrap>
           <div className="startMargin">
             <Header padding="32px 0 145px 0" background="unset">
@@ -41,20 +44,20 @@ const Goodcafeteria = () => {
                 department store."
                 link="https://d3txk89kbw52f5.cloudfront.net/"
                 date="2022"
-                headColor="#17191c"
-                dateColor="#db6520"
+                headColor="#fff"
+                dateColor="#000"
               />
               {/* title image section */}
               <ProjectMainImage img={img1} />
               {/* explanation section*/}
               <ProjectExplanation
-                pointColor="#db6520"
+                pointColor="#000"
                 specOne="Development"
                 specTwo="Development"
                 specThr="Development"
                 specFou="Development"
               >
-                <Tagline margin="0 0 30px 0" fontColor="#17191c">
+                <Tagline margin="0 0 30px 0" fontColor="#fff">
                   The Amsterdam-based agency DEPT contacted us on behalf of
                   their partners Bijenkorf with the festive ask - “Please craft
                   us an innovative Christmas story”. So as we waved our last
@@ -62,7 +65,7 @@ const Goodcafeteria = () => {
                   challenge as a way to take the bite out of winter’s impending
                   arrival. Winter was coming.
                 </Tagline>
-                <Paragraph fontColor="#6b6b6b">
+                <Paragraph fontColor="#e8e6e4">
                   Sharpening our Apple pencils, and filling our heads with
                   magical imagery, we quickly aligned with DEPT’s team to sketch
                   the outline of the Bijenkorf’s online Christmas campaign.

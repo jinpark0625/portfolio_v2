@@ -59,7 +59,7 @@ const CoffeeBak = () => {
                 specThr="Development"
                 specFou="Development"
               >
-                <Tagline margin="0 0 30px 0" fontColor="#17191c">
+                <Tagline margin="0 0 30px 0" fontColor="#fff">
                   The Amsterdam-based agency DEPT contacted us on behalf of
                   their partners Bijenkorf with the festive ask - “Please craft
                   us an innovative Christmas story”. So as we waved our last
@@ -67,7 +67,7 @@ const CoffeeBak = () => {
                   challenge as a way to take the bite out of winter’s impending
                   arrival. Winter was coming.
                 </Tagline>
-                <Paragraph fontColor="#6b6b6b">
+                <Paragraph fontColor="#aaa">
                   Sharpening our Apple pencils, and filling our heads with
                   magical imagery, we quickly aligned with DEPT’s team to sketch
                   the outline of the Bijenkorf’s online Christmas campaign.
