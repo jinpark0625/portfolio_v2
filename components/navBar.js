@@ -1,38 +1,33 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Nav, MemoRizedArrow, HamburgerMenu } from "./styledComponents/nav";
 import Menu from "./styledComponents/menu";
-import React, { useLayoutEffect, useEffect, useRef } from "react";
+import React from "react";
 import Logo from "./styledComponents/logo";
-import { gsap } from "gsap";
+import { gsap, Power1 } from "gsap";
 
 const Navbar = () => {
   const router = useRouter();
 
+  //open menu
   const [menu, setMenu] = React.useState(false);
   const menuOpen = () => {
     setMenu((prev) => !prev);
   };
 
-  // const [reversed, setReversed] = React.useState(false);
-
   const el = React.useRef();
   const q = gsap.utils.selector(el);
-
   // store the timeline in a ref.
   const tl = React.useRef();
 
+  //navigation animation
   React.useLayoutEffect(() => {
-    // add a box and circle animation to our timeline and play on first render
-    // tl.current && tl.current.progress(0).kill();
-
     tl.current = gsap
       .timeline()
       .to(q(".menu"), {
-        duration: 1,
+        duration: 0.6,
         y: "0%",
-        // ease: Expo.easeInOut
+        ease: Power1.easeIn,
       })
       .fromTo(
         q(".li"),
@@ -41,7 +36,7 @@ const Navbar = () => {
           opacity: 0,
         },
         {
-          duration: 0.5,
+          duration: 0.4,
           opacity: 1,
           y: "0%",
         },
@@ -54,7 +49,7 @@ const Navbar = () => {
           opacity: 0,
         },
         {
-          duration: 0.5,
+          duration: 0.4,
           opacity: 1,
           scaleX: 1,
         },
@@ -67,7 +62,7 @@ const Navbar = () => {
           opacity: 0,
         },
         {
-          duration: 0.5,
+          duration: 0.4,
           opacity: 1,
           scaleY: 1,
         },
@@ -79,7 +74,7 @@ const Navbar = () => {
           opacity: 0,
         },
         {
-          duration: 0.5,
+          duration: 0.4,
           opacity: 1,
         },
         1
@@ -93,27 +88,34 @@ const Navbar = () => {
     tl.current.reversed(!menu);
   }, [menu]);
 
+  const handleClick = (e, name) => {
+    e.preventDefault();
+    router.push(name);
+    setMenu(false);
+  };
+
   return (
     <>
       <div ref={el}>
         <Nav>
           <div className="navWrap">
-            <MemoRizedArrow menu={menu} path={router.pathname} />
-            <Link href="/">
-              <a
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                className="logo"
-              >
-                <Logo menu={menu} />
-              </a>
-            </Link>
-
+            {router.pathname === "/work" ? null : (
+              <MemoRizedArrow
+                menu={menu}
+                path={router.pathname}
+                onClick={() => router.push("/work")}
+              />
+            )}
+            <a
+              onClick={(e) => handleClick(e, "/")}
+              style={{
+                pointerEvents:
+                  router.pathname === "/work" || menu ? "all" : "none",
+              }}
+              className={`${router.pathname !== "/work" && "logo"} logoWrap`}
+            >
+              <Logo menu={menu} router={router.pathname} />
+            </a>
             <HamburgerMenu
               menu={menu}
               menuOpen={menuOpen}
@@ -129,17 +131,24 @@ const Navbar = () => {
           <div className="wrap">
             <span className="top_line line" />
             <span className="bot_line line" />
-            <Link href="/projects">
-              <a className="section">
-                <span className="center_line" />
-                <div className="li">Projects</div>
-              </a>
-            </Link>
-            <Link href="/about">
-              <a className="section ">
-                <div className="li">About</div>
-              </a>
-            </Link>
+
+            <a
+              className="section"
+              onClick={(e) => handleClick(e, "/work")}
+              style={{ cursor: "pointer" }}
+            >
+              <span className="center_line" />
+              <div className="li">Work</div>
+            </a>
+
+            <a
+              className="section"
+              onClick={(e) => handleClick(e, "/about")}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="li">About</div>
+            </a>
+
             <div className="footer">
               <Link href="mailto:jinpark0625@gmail.com">
                 <a>
