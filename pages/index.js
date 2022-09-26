@@ -25,10 +25,15 @@ import {
   useScroll,
   Html,
   useProgress,
+  Scroll,
 } from "@react-three/drei";
 import * as random from "maath/random";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import Poppins from "../public/fonts/Poppins_Bold.json";
+import BLCereal from "../public/fonts/BLCereal.json";
+import Sometimes from "../public/fonts/Sometimes.json";
+import SometimesRegular from "../public/fonts/Sometimes_regular.json";
+import SometimesMedium from "../public/fonts/Sometimes_medium.json";
+import SometimesBold from "../public/fonts/Sometimes_bold.json";
 import Inter from "../public/fonts/Inter_Bold.json";
 import FounterSemi from "../public/fonts/FoundersGroteskSemibold.json";
 import FounterReg from "../public/fonts/FounderGroteskReugular.json";
@@ -48,6 +53,9 @@ import {
 } from "@react-spring/three";
 import { vertexShader, fragmentShader } from "./shader";
 import Loader from "../components/loader";
+import state from "../components/project/scrollStore";
+import { Block, useBlock } from "../components/project/blocks";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 const raycaster = new THREE.Raycaster();
 
@@ -56,9 +64,9 @@ const Texts = memo(function Texts({ body, index, currentBodyIndex }) {
   /**
    * body texts
    */
-  const content = useMemo(() => {
-    return (content = body);
-  }, []);
+  // const content = useMemo(() => {
+  //   return (content = body);
+  // }, []);
 
   /**
    * animation if statements
@@ -92,7 +100,7 @@ const Texts = memo(function Texts({ body, index, currentBodyIndex }) {
               scale={scale}
               fillOpacity={fillOpacity}
             >
-              {content}
+              {body}
             </AnimatedText>
           )
         );
@@ -122,7 +130,10 @@ const Star = ({}) => {
   const modelObj = useLoader(OBJLoader, [
     "/textures/model.obj",
     "/textures/Mesh_Whale.obj",
+    "/textures/guys.obj",
   ]);
+
+  const result = useLoader(GLTFLoader, "/textures/untitled.glb");
 
   // const modelObjTwo = useLoader(OBJLoader, "/textures/Chicken_01.obj");
   /**
@@ -354,9 +365,13 @@ const Star = ({}) => {
 
   const bodyCentents = useMemo(() => {
     return [
-      "Hello, I'm frontend developer.",
-      "Nice to meet you.",
-      "I'm very smart so hire me.",
+      "안녕하세요 프론트앤드 개발자 박진입니다.",
+      "오늘은 내 인생의 작은 점을 찍는 날입니다.",
+      "인생은 작은 점들의 연속입니다.",
+      "점들이 모여 현재가 되고 미래를 만듭니다.",
+      "나의 노력과 진정성을 더하면 좋은 결과가 있을 거라 믿습니다.",
+      "당신을 만나 인생의 빛나는 점을 찍고 싶습니다.",
+      "통찰력과 창의력으로 모두가 만족하는 솔루션을 제공하겠습니다",
     ];
   }, []);
 
@@ -365,32 +380,57 @@ const Star = ({}) => {
   //   setFontLoad(load);
   // }, []);
 
+  const { currentScale, canvasWidth, canvasHeight, mobile } = useBlock();
+
+  const x = canvasWidth * 0.6;
+  const y = x / canvasWidth;
+
+  const a = canvasWidth / 2 / canvasWidth;
+
+  const people = useRef();
+  useLayoutEffect(() => {
+    console.log(modelObj);
+  }, []);
+
   return (
     <>
       <mesh
         ref={planeRef}
         position={[0, 0, 0]}
-        visible={false}
+        scale={[canvasWidth * 0.8, canvasHeight * 0.4, 1]}
+        // visible={false}
         onPointerOver={(e) => (
           e.stopPropagation(), (hoveredRef.current = true)
         )}
         onPointerOut={(e) => (hoveredRef.current = false)}
       >
-        <planeGeometry args={[5, 3, 2, 2]} />
+        <planeGeometry args={[1, 1, 1, 1]} />
         <meshBasicMaterial wireframe={true} />
       </mesh>
 
       <Center>
-        <group>
+        <group
+          scale={[
+            currentScale > 1 ? 1 : currentScale,
+            currentScale > 1 ? 1 : currentScale,
+            1,
+          ]}
+        >
           <Text3D
-            size={1}
-            letterSpacing={2}
+            // letterSpacing={1000}
+            size={mobile ? 1.3 : 1}
             position={[0, 0, 0]}
-            font={Poppins}
+            font={SometimesMedium}
             ref={textRef}
             visible={false}
+            curveSegments={12}
+            height={50}
+            // bevelEnabled
+            // bevelSize={0}
+            // lineHeight={2}
+            // bevelThickness={0}
           >
-            Hello.
+            {`Hello, I'm Jin,\nFrontend Developer.`}
             <meshStandardMaterial color="white" />
           </Text3D>
           <points ref={ref}>
@@ -418,52 +458,22 @@ const Star = ({}) => {
 };
 
 export default function Home({ results }) {
-  const [windowSize, setWindowSize] = useState({
-    width: null,
-    height: null,
-  });
-
-  const canvasRef = useRef();
-
-  useEffect(() => {
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener("resize", () => {
-      handleResize();
-    });
-
-    return window.removeEventListener("resize", () => {
-      handleResize();
-    });
-  }, []);
-
   return (
-    <div
-      style={{
-        width: windowSize.width,
-        height: windowSize.height,
-        background: "#17191c",
-      }}
-    >
+    <div className="canvasWrap">
       <Seo title="Home" />
       <Canvas
-        ref={canvasRef}
-        camera={{
-          fov: 75,
-          near: 0.1,
-          far: 1000,
-          aspect: windowSize.width / windowSize.height,
-        }}
+        // camera={{
+        //   // fov: 75,
+        //   // near: 0.1,
+        //   // far: 1000,
+        //   // aspect: windowSize.width / windowSize.height,
+        //   zoom: state.zoom,
+        //   position: [0, 0, 500],
+        // }}
+        className="canvas"
+        linear
+        orthographic
+        camera={{ zoom: state.zoom, position: [0, 0, 500] }}
         gl={{ antialias: false }}
         dpr={[1, 2]}
       >
@@ -478,12 +488,10 @@ export default function Home({ results }) {
             <Star />
           </ScrollControls>
         </Suspense>
-        {/* <axesHelper
+        <axesHelper
           position={[0, 0, 0]}
           onUpdate={(self) => self.setColors("#ff2080", "#20ff80", "#2080ff")}
-          width={windowSize.width}
-          height={windowSize.height}
-        /> */}
+        />
       </Canvas>
     </div>
   );
