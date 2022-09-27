@@ -9,7 +9,6 @@ function Layout({ children }) {
   const variants = {
     in: {
       opacity: 1,
-      // scale: 1,
       y: 0,
       transition: {
         duration: 0.65,
@@ -17,9 +16,7 @@ function Layout({ children }) {
     },
     out: {
       opacity: 0,
-      // scale: 1,
       y: 40,
-      // y: "-100vh",
       transition: {
         duration: 0.65,
       },
@@ -37,6 +34,7 @@ function Layout({ children }) {
           animate="in"
           initial="out"
           exit="out"
+          className="container"
         >
           {children}
         </motion.div>

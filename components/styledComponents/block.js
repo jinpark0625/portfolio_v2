@@ -12,6 +12,7 @@ const StyledBlock = styled.div`
   flex-direction: ${({ flexDirection }) => flexDirection};
   flex-grow: ${({ flexGrow }) => flexGrow};
   justify-content: ${({ justifyContent }) => justifyContent};
+  align-items: ${({ alignItems }) => alignItems};
 `;
 
 const Block = ({ children, ...props }) => {

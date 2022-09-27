@@ -1,21 +1,30 @@
 import * as THREE from "three";
-import React, { createContext, useRef, useContext } from "react";
+import React, { createContext, useRef, useContext, useState } from "react";
 import { useThree } from "@react-three/fiber";
+import { useCursor } from "@react-three/drei";
 import state from "./scrollStore";
 
 const offsetContext = createContext(0);
 
 function Block({ children, offset, factor, ...props }) {
-  const { offset: parentOffset, canvasHeight } = useBlock();
+  const { offset: parentOffset } = useBlock();
   const ref = useRef();
   //offset is the section index,
   // Fetch parent offset and the height of a single section
   offset = offset !== undefined ? offset : parentOffset;
 
+  const [hovered, set] = useState();
+  useCursor(hovered /*'pointer', 'auto'*/);
+
   return (
     <offsetContext.Provider value={offset}>
       {/* 첫번째 그룹이 position을 설정 */}
-      <group {...props} position={[0, -canvasHeight * offset, 0]}>
+      <group
+        {...props}
+        position={[0, offset, 0]}
+        onPointerOver={() => set(true)}
+        onPointerOut={() => set(false)}
+      >
         <group ref={ref}>{children}</group>
       </group>
     </offsetContext.Provider>
@@ -30,12 +39,19 @@ function useBlock() {
   const viewportHeight = viewport.height;
   const canvasWidth = viewportWidth;
   const canvasHeight = viewportHeight;
-  const mobile = size.width < 700;
-  const margin = canvasWidth * (mobile ? 0.8 : 0.7);
-  // const margin = canvasWidth * (mobile ? 0.2 : 0.1);
-  const contentMaxWidth = canvasWidth * (mobile ? 0.8 : 0.54);
-  const sectionHeight = canvasHeight * ((pages - 1) / (sections - 1));
-  const offsetFactor = (offset + 1.0) / sections;
+  const mobile = size.width < 1025;
+  const margin = (canvasWidth * zoom - 138) / zoom;
+  const marginMobile = (canvasWidth * zoom - 70) / zoom;
+  const align = (canvasWidth * zoom - 100) / zoom;
+
+  // Project Contents
+  const contentMaxWidth = mobile ? marginMobile : margin * 0.5;
+  const offsetFactor = mobile
+    ? (((offset / 3) % 2.5) * 0.03) / sections
+    : ((offset % 2.5) * 0.01) / sections;
+
+  // main index
+  const currentScale = (canvasWidth * 75) / 1800;
 
   return {
     viewport,
@@ -46,9 +62,10 @@ function useBlock() {
     canvasHeight,
     mobile,
     margin,
+    align,
     contentMaxWidth,
-    sectionHeight,
     offsetFactor,
+    currentScale,
   };
 }
 

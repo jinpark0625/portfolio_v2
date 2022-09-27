@@ -56,6 +56,7 @@ import Loader from "../components/loader";
 import state from "../components/project/scrollStore";
 import { Block, useBlock } from "../components/project/blocks";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Contents } from "../components/main";
 
 const raycaster = new THREE.Raycaster();
 
@@ -365,7 +366,6 @@ const Star = ({}) => {
 
   const bodyCentents = useMemo(() => {
     return [
-      "안녕하세요 프론트앤드 개발자 박진입니다.",
       "오늘은 내 인생의 작은 점을 찍는 날입니다.",
       "인생은 작은 점들의 연속입니다.",
       "점들이 모여 현재가 되고 미래를 만듭니다.",
@@ -459,7 +459,7 @@ const Star = ({}) => {
 
 export default function Home({ results }) {
   return (
-    <div className="canvasWrap">
+    <div className="canvasWrap" style={{ cursor: "auto" }}>
       <Seo title="Home" />
       <Canvas
         // camera={{
@@ -485,7 +485,8 @@ export default function Home({ results }) {
             horizontal={false}
             infinite={false}
           >
-            <Star />
+            {/* <Star /> */}
+            <Contents />
           </ScrollControls>
         </Suspense>
         <axesHelper

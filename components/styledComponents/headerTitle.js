@@ -7,6 +7,8 @@ const StyledHeaderTitle = styled.p`
   line-height: ${({ theme: { lineHeight } }) => lineHeight.subTitle};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
+  font-weight: ${({ weight }) => weight};
+  font-family: ${({ fontFamily }) => fontFamily};
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.miniTablet}px) {

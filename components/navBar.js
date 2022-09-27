@@ -111,6 +111,7 @@ const Navbar = () => {
               style={{
                 pointerEvents:
                   router.pathname === "/work" || menu ? "all" : "none",
+                opacity: router.pathname === "/work" ? 1 : 0,
               }}
               className={`${router.pathname !== "/work" && "logo"} logoWrap`}
             >

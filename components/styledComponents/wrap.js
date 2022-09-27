@@ -5,6 +5,8 @@ const Styledwrap = styled.div`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   max-width: ${({ maxWidth }) => maxWidth};
+  position: relative;
+  background: ${({ background }) => background};
 
   .imageWrap {
     width: 100%;
@@ -16,7 +18,34 @@ const Styledwrap = styled.div`
     max-width: 1024px;
     margin: 0 auto;
     display: flex;
-    padding: 0 45px;
+  }
+  .flexColumn {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .startMargin {
+    margin-bottom: 300px;
+  }
+  .marginGap {
+    margin: 20px auto 0;
+  }
+
+  .headerWrap {
+    max-width: 580px;
+    margin: 0 0 0 auto;
+  }
+  .headerTitle {
+    margin: 0 0 75px 0;
+    font-size: ${({ theme: { fontSize } }) => fontSize.paragraph}rem;
+    color: ${({ theme: { color }, fontColor }) => fontColor || color.white};
+    line-height: ${({ theme: { lineHeight } }) => lineHeight.paragraph};
+    font-weight: 600;
+    font-family: SomeTimes;
+  }
+  .headerDate {
+    margin: 100px 0 60px 0;
+    display: flex;
   }
 
   .techStackWrap {
@@ -37,10 +66,23 @@ const Styledwrap = styled.div`
   .techStackTag {
     margin: 12px 0 0 0;
     font-size: ${({ theme: { fontSize } }) => fontSize.footerSize}rem;
+    font-family: SomeTimes;
+    font-weight: 600;
   }
 
   .projectAbout {
     width: 580px;
+  }
+
+  .block::before {
+    background: ${({ blockBg }) => blockBg};
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 125px;
+    width: 100%;
+    z-index: 0;
   }
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
@@ -54,6 +96,7 @@ const Styledwrap = styled.div`
       mediaQuery.tablet}px) {
     .center {
       flex-wrap: wrap;
+      padding: 0 45px;
     }
   }
 
@@ -65,18 +108,20 @@ const Styledwrap = styled.div`
     .center {
       padding: 0 35px;
     }
+    .headerWrap {
+      max-width: unset;
+    }
+    .headerTitle {
+      margin: 0 0 40px 0;
+    }
+    .headerDate {
+      margin: 65px 0 60px 0;
+      justify-content: space-between;
+    }
     .techStackWrap {
       flex-direction: row;
       flex-wrap: wrap;
     }
-    // .techStack {
-    //   display: flex;
-    //   flex-wrap: wrap;
-    //   margin: 0 -6px 25px;
-    // }
-    // .techStack > li {
-    //   margin: 0 6px;
-    // }
     .techStackTag {
       flex: 1 0 200px;
       margin: 0 0 25px 0;
@@ -98,6 +143,10 @@ const Styledwrap = styled.div`
     .imageWrap {
       height: 300px;
     }
+    .block::before {
+      height: 80px;
+    }
+    padding: ${({ paddingMobile }) => paddingMobile && "0 0 80px 0"};
   }
 `;
 

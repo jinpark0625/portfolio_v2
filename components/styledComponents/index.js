@@ -9,6 +9,10 @@ import FooterText from "./footerText";
 import Header from "./header";
 import Wrap from "./wrap";
 import Block from "./block";
+import Footer from "./footer";
+
+// media
+import VideoPlayer from "./video";
 
 export {
   HeaderTitle,
@@ -19,4 +23,6 @@ export {
   Wrap,
   Block,
   FooterText,
+  Footer,
+  VideoPlayer,
 };
