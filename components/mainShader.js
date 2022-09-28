@@ -227,13 +227,13 @@ class CustomMaterialMain extends ShaderMaterial {
             particlePosition.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
             particlePosition.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
         
-            // particlePosition.x += uRandom * sin(rotateAngle * 4.) * distortion;
-            // particlePosition.y += uRandom * cos(rotateAngle * 4.) * distortion;
+            // particlePosition.x += uRandom * sin(rotateAngle * 4.) * distortion * 4.;
+            // particlePosition.y += uRandom * cos(rotateAngle * 4.) * distortion * 4.;
 
-            particlePosition.x += uRandom * uSphere.x * distortion;
-            particlePosition.y += uRandom * uSphere.y * distortion;
+            particlePosition.x += uRandom * random(particlePosition.x) * distortion * 4. * sin(angle) ;
+            particlePosition.y += uRandom * random(particlePosition.y) * distortion * 4. * cos(angle) ;
 
-        
+
             //second model
             vec3 morphed = vec3(0.0);
             morphed += (modelPos - particlePosition) * uTrigger;
