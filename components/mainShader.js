@@ -32,6 +32,9 @@ class CustomMaterialMain extends ShaderMaterial {
         uniform vec3 uSphere;
             
         float PI = 3.1415926535389793238;
+
+        varying vec3 vColor;
+        attribute vec3 color;
             
         vec3 mod289(vec3 x) {
             return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -192,6 +195,53 @@ class CustomMaterialMain extends ShaderMaterial {
         
         }
 
+        // noise
+        vec3 curl(float	x,	float	y,	float	z)
+{
+
+    float	eps	= 1., eps2 = 2. * eps;
+    float	n1,	n2,	a,	b;
+
+    x += uTime * .05;
+    y += uTime * .05;
+    z += uTime * .05;
+
+    vec3	curl = vec3(0.);
+
+    n1	=	snoise(vec2( x,	y	+	eps ));
+    n2	=	snoise(vec2( x,	y	-	eps ));
+    a	=	(n1	-	n2)/eps2;
+
+    n1	=	snoise(vec2( x,	z	+	eps));
+    n2	=	snoise(vec2( x,	z	-	eps));
+    b	=	(n1	-	n2)/eps2;
+
+    curl.x	=	a	-	b;
+
+    n1	=	snoise(vec2( y,	z	+	eps));
+    n2	=	snoise(vec2( y,	z	-	eps));
+    a	=	(n1	-	n2)/eps2;
+
+    n1	=	snoise(vec2( x	+	eps,	z));
+    n2	=	snoise(vec2( x	+	eps,	z));
+    b	=	(n1	-	n2)/eps2;
+
+    curl.y	=	a	-	b;
+
+    n1	=	snoise(vec2( x	+	eps,	y));
+    n2	=	snoise(vec2( x	-	eps,	y));
+    a	=	(n1	-	n2)/eps2;
+
+    n1	=	snoise(vec2(  y	+	eps,	z));
+    n2	=	snoise(vec2(  y	-	eps,	z));
+    b	=	(n1	-	n2)/eps2;
+
+    curl.z	=	a	-	b;
+
+    return	curl;
+}
+
+
         void main()
         {
         
@@ -211,56 +261,65 @@ class CustomMaterialMain extends ShaderMaterial {
             float angleOffset = (1.0 / distanceToCenter) * uTime * 0.01;
             rotateAngle += angleOffset;
         
-        
-            // -.3이 작아지면 원이커짐
-            // 0. 이 커지면 반대로 화려하게 커지고 작아지면 퍼진다.
-            // 1. 이 커지면 화려한 이펙트로 퍼진다. & 낮아지면 흩어진다.
-            // 4.이 작아지면 원이커진다.
-            // float distanceToMouse = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.3, 0., 1.),4.);
-
-            float distanceToMouse = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.001, -4., 1.), 2.5);
+   
+            // 1, 원의크기영향 작을수록. 2,커지면 크게퍼진다. 3,커지면 크게퍼진다. 4,작아지면 원이커진다.
+            float distanceToMouse = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.001, -2., 1.), 1.);
 
             // radius 크기를 찾아서 수정필요
-            float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.01, -4., 1.), 7.);
-        
+            // float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.01, -4., 1.), 1.);
+
             //0.5가 커지면 원이커진다?
+
+            // scene1 mouse event
             particlePosition.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
             particlePosition.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
-        
-            // particlePosition.x += uRandom * sin(rotateAngle * 4.) * distortion * 4.;
-            // particlePosition.y += uRandom * cos(rotateAngle * 4.) * distortion * 4.;
 
-            particlePosition.x += uRandom * random(particlePosition.x) * distortion * 4. * sin(angle) ;
-            particlePosition.y += uRandom * random(particlePosition.y) * distortion * 4. * cos(angle) ;
+            // scene1 animation
+            particlePosition.x += uRandom * random(particlePosition.x) * distortion * 4. * sin(angle) * uTime;
+            particlePosition.y += uRandom * random(particlePosition.y) * distortion * 4. * cos(angle) * uTime;
 
 
-            //second model
-            vec3 morphed = vec3(0.0);
-            morphed += (modelPos - particlePosition) * uTrigger;
-            morphed += particlePosition;
+            // scene2 
+            // scene2 animation
+            vec3 firstMorphed = vec3(0.0);
+            float rndd = (random(pindex) + snoise(vec2(pindex * 1.2, uTime * 0.05)));
+            // firstMorphed += ((modelPos * ( step( 1. - ( 1. / 512. ), modelPos.z )) * rndd) - particlePosition) * uTrigger;
+            vec3 tar = modelPos + curl(modelPos.x * .07, modelPos.y * .3, modelPos.z) * 8.;
+            float d = length(modelPos - tar) / 12.;
+            vec3 mixed = mix( modelPos, tar * uTrigger, pow( d, 5. ) );
+            firstMorphed += (mixed - particlePosition) * uTrigger;
+            firstMorphed += particlePosition;
+
+            // vec3 mixed = mix(po * uTrigger, curl(modelPos.x * 0.1, modelPos.y * 0.1, modelPos.z * 0.1), uTime);
+
+
+            // vec3 po = particlePosition;
+   
+            // float d = length(po - tar) / 20.;
+
+
+
+            // scene2 mouse event
+            float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - firstMorphed.xy) -.001, -2., 1.), 1.);
+            firstMorphed.x += distanceToMouseSecond * 0.8 * rndz * cos(angle) * uMouseTrigger;
+            firstMorphed.y += distanceToMouseSecond * 0.8 * rndz * sin(angle) * uMouseTrigger;
         
-            //스크롤시 흩어지는 파티클
-            morphed.x += uRandomSecond * sin(rotateAngle * 4.) * distortion;
-            morphed.y += uRandomSecond * cos(rotateAngle * 4.) * distortion;
+
+            // scene3
+            // scene3 animation
+            vec3 secondMorphed = vec3(0.0);
+            secondMorphed += (secondMorphed - firstMorphed) * uTriggerTwo;
+            secondMorphed += firstMorphed;
         
-            morphed.x += distanceToMouseSecond * 0.8 * rndz * cos(angle) * uMouseTrigger;
-            morphed.y += distanceToMouseSecond * 0.8 * rndz * sin(angle) * uMouseTrigger;
-        
-            //third model
-            vec3 morphedTwo = vec3(0.0);
-            morphedTwo += (modelPosTwo - morphed) * uTriggerTwo;
-            morphedTwo += morphed;
-        
-        
-        
-            //camera
-            vec4 viewPosition = viewMatrix * vec4(morphedTwo, 1.);
+            // camera
+            vec4 viewPosition = viewMatrix * vec4(firstMorphed, 1.);
         
             gl_Position = projectionMatrix * viewPosition;
         
             //size
             gl_PointSize = uSize * aScale * uPixelRatio;
-        
+
+            vColor = color;
         }
                     `,
       fragmentShader: `
@@ -269,9 +328,14 @@ class CustomMaterialMain extends ShaderMaterial {
             uniform vec2 uResolution;
             uniform float uTrigger;
             uniform float uOpacity;
+            uniform float uTime;
 
-            vec3 colorA = vec3(0.148,.141,.912);
-            vec3 colorB = vec3(1.,.833,0.224);
+            vec3 colorA = vec3(1.,1.,1.);
+            vec3 colorB = vec3(.896,.925,0.865);
+
+            varying vec3 vColor; 
+
+            #define TWO_PI 6.28318530718
 
             float plot (vec2 st, float pct){
               return  smoothstep( pct-0.01, pct, st.y) -
@@ -284,7 +348,11 @@ class CustomMaterialMain extends ShaderMaterial {
                 return vec3(d);
             }
 
-
+            float rnd(float i) {
+              return mod(4000.*sin(23464.345*i+45.345),1.);
+            }
+            
+          
             void main()
             {
                 float opacity = (uRandom - 1.0) * -1.;
@@ -295,8 +363,16 @@ class CustomMaterialMain extends ShaderMaterial {
                 //0.5 와 노멀라이즈된 UV값의 중간점을 찾는다.
                 float distnaceToCenter = distance(gl_PointCoord, vec2(0.5));
                 float strength = try / distnaceToCenter - 0.05 * 2.0;
-            
-                gl_FragColor = vec4(1.0, 1.0, 1.0, strength);
+
+                vec3 color = vec3(0.0);
+                vec2 st = gl_FragCoord.xy/uResolution.xy;
+                float pct = abs(sin(uTime)) * uTrigger;
+                color = mix(colorA, colorB, pct);
+
+                // vec3 col = 0.5 - 0.5*cos(uTime+vUv.xyx+vec3(0,2,4))/rnd(uTIme * 7.)+0.05;
+
+
+                gl_FragColor = vec4(vColor, strength);
             }`,
 
       uniforms: {
