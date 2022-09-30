@@ -489,10 +489,10 @@ export default function Home({ results }) {
             <Contents />
           </ScrollControls>
         </Suspense>
-        <axesHelper
+        {/* <axesHelper
           position={[0, 0, 0]}
           onUpdate={(self) => self.setColors("#ff2080", "#20ff80", "#2080ff")}
-        />
+        /> */}
       </Canvas>
     </div>
   );

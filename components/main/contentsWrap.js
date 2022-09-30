@@ -1,10 +1,11 @@
 import React from "react";
-import { Scroll, useCursor, useScroll } from "@react-three/drei";
+import { Scroll, useCursor, useScroll,Center } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import state from "./mainStore";
 import { Vector2, Vector3, MathUtils } from "three";
 import * as random from "maath/random";
+import BodyText from "./bodyText";
 
 const ContentsWrap = ({ children, ...props }) => {
   const { currentScale, canvasWidth, canvasHeight, mobile } = useBlock();
@@ -17,7 +18,22 @@ const ContentsWrap = ({ children, ...props }) => {
 
   const mySphere = random.inSphere(new Float32Array(15000), { radius: 4 });
 
-  useFrame(({ mouse, camera, clock }) => {
+  /**
+  * text 
+  */
+  const [currentBodyIndex, setCurrentBodyIndex] = React.useState(null);
+  const bodyCentents = React.useMemo(() => {
+    return [
+      "First Sentence.",
+      "Second Sentence.",
+      "Third Sentence.",
+      "Fourth Sentence.",
+      "Fifth Sentence.",
+      "Sixth Sentence",
+    ];
+  }, []);
+
+  useFrame(({ mouse, camera, clock },delta) => {
     /**
      * mouse events
      */
@@ -32,18 +48,52 @@ const ContentsWrap = ({ children, ...props }) => {
     /**
      * scroll events
      */
-    const aScroll = scroll.range(0, 1 / 5);
+    // scene - 1
+    const aScroll = scroll.range(0, 1 / 7);
     state.point.current.material.uniforms.uRandom.value = aScroll;
-    if (aScroll > 0) {
-      state.point.current.material.uniforms.uSphere.value = mySphere;
+    const a = scroll.visible(0, 0.7 / 7);
+    const b = scroll.visible(0.7 / 7, 1 / 7);
+
+    a && setCurrentBodyIndex(null);
+    if(b){
+      setCurrentBodyIndex(0);
+      state.point.current.material.uniforms.uTrigger.value = 0;
     }
-    // const a = scroll.visible(0, 0.7 / 7);
-    // const b = scroll.visible(0.7 / 7, 1 / 7);
-    // const c = scroll.visible(1.7 / 7, 0.15 / 7);
-    // const d = scroll.visible(1.85 / 7, 0.7 / 7);
-    // const e = scroll.visible(2.55 / 7, 1 / 7);
-    // const eRange = scroll.range(2.55 / 7, 1 / 7);
-    // const eOpacity = scroll.range(3 / 7, 0.55 / 7);
+
+
+    //  scene - 2
+    const c = scroll.visible(1.7 / 7, 1 / 7);
+    const d = scroll.visible(2.7 / 7, .6 / 7);
+    const e = scroll.visible(3.2 / 7, 1.4 / 7);
+    const f = scroll.visible(3.6 / 7, 1 / 7);
+
+    const cRange = scroll.range(1.7  / 7, 1 / 7);
+    const cOpacity = scroll.range(1.7 / 7, 0.55 / 7);
+    const dOpacity = scroll.range(2.7 / 7, .8 / 7);
+
+    if(c){
+      setCurrentBodyIndex(null);
+      state.point.current.material.uniforms.uOpacity.value = cOpacity; 
+    }
+    state.point.current.material.uniforms.uTrigger.value = cRange;
+    if (e) {
+      // state.point.current.material.uniforms.uRandomSecond.value = dOpacity;
+      setCurrentBodyIndex(null);
+    }
+    if (f) {
+      setCurrentBodyIndex(1);
+    }
+
+    // scene - 3
+    const g = scroll.visible(4.6 / 7, 1 / 7);
+    const gRange = scroll.range(4.6  / 7, 1 / 7);
+    g && setCurrentBodyIndex(null);
+    state.point.current.material.uniforms.uTriggerTwo.value = gRange;
+
+    // scene - 4
+    const h = scroll.visible(5.6 / 7, 1 / 7);
+    const hRange = scroll.range(5.6 / 7, 1 / 7);
+    state.point.current.material.uniforms.uTriggerThree.value = hRange;
     // const f = scroll.visible(3.55 / 7, 1 / 7);
     // const fRange = scroll.range(3.55 / 7, 1 / 7);
     // const g = scroll.visible(4.55 / 7, 0.7 / 7);
@@ -51,15 +101,8 @@ const ContentsWrap = ({ children, ...props }) => {
     // const h = scroll.visible(5.25 / 7, 1 / 7);
     // const testNum = Number(eRange.toFixed(2));
     // const testNumTwo = Number(gRange.toFixed(2));
-    // if (a) {
-    //   setCurrentBodyIndex(null);
-    // }
-    // b && setCurrentBodyIndex(0);
-    // c && setCurrentBodyIndex(null);
-    // if (d) {
-    //   setCurrentBodyIndex(1);
-    //   ref.current.material.uniforms.uTrigger.value = 0;
-    // }
+
+  
     // if (e) {
     //   setCurrentBodyIndex(null);
     //   ref.current.material.uniforms.uTrigger.value = testNum;
@@ -80,22 +123,43 @@ const ContentsWrap = ({ children, ...props }) => {
     // }
   });
 
+
   return (
     <>
+  
       <mesh
         ref={planeRef}
         position={[0, 0, 0]}
-        scale={[canvasWidth * 0.8, canvasHeight * 0.4, 1]}
+        scale={[canvasWidth, canvasHeight, 1]}
         onPointerOver={(e) => (
           e.stopPropagation(), (hoveredRef.current = true)
         )}
         onPointerOut={(e) => (hoveredRef.current = false)}
-        // visible={false}
+        visible={false}
       >
         <planeGeometry args={[1, 1, 1, 1]} />
         <meshBasicMaterial wireframe={true} />
       </mesh>
+      <group>
       {children}
+      <Center>
+      {/* <BodyText         
+          body="let's make a dot today."
+          index="0"
+          currentBodyIndex="0"
+          /> */}
+
+      {bodyCentents.map((body, index) => (
+        <BodyText
+          key={index}
+          body={body}
+          index={index}
+          currentBodyIndex={currentBodyIndex}
+        />
+      ))}
+      </Center>
+      </group>
+
     </>
   );
 };
