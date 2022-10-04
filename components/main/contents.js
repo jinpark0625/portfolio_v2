@@ -11,52 +11,55 @@ import ContentsWrap from "./contentsWrap";
 import SometimesMedium from "../../public/fonts/Sometimes_medium.json";
 import * as random from "maath/random";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import planetData from "./planetData";
 
-const Planet = ({
-  planet: { color, xRadius, zRadius, size },
-  canvasWidth,
-  mobile,
-  index,
-}) => {
+function Spheres({ canvasHeight, canvasWidth }) {
+  const items = [
+    {
+      position: [canvasWidth / 3.5, canvasHeight / 4, 0],
+      size: [2, 32, 32],
+    },
+    {
+      position: [-canvasWidth / 2.2, -canvasHeight / 2, 0],
+      size: [1.2, 32, 32],
+    },
+    {
+      position: [canvasWidth / 2, -canvasHeight / 6, 0],
+      size: [3, 32, 32],
+    },
+    {
+      position: [canvasWidth / 3, canvasHeight / 12, 0],
+      size: [1, 32, 32],
+    },
+    {
+      position: [-canvasWidth / 2.5, 0, 0],
+      size: [2.4, 32, 32],
+    },
+    {
+      position: [canvasWidth / 3, -canvasHeight / 2, 0],
+      size: [2, 32, 32],
+    },
+    {
+      position: [-canvasWidth / 3, -canvasHeight / 3, 0],
+      size: [1, 32, 32],
+    },
+    {
+      position: [-canvasWidth / 6, -canvasHeight / 6, 0],
+      size: [0.6, 32, 32],
+    },
+  ];
+
   return (
-    <>
-      <mesh position={[(xRadius * canvasWidth) / 8, 0, 0]}>
-        <sphereGeometry
-          args={[mobile ? size * (canvasWidth / 20) : size, 32, 32]}
-        />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <Ecliptic
-        xRadius={((xRadius - 1) * canvasWidth) / 8}
-        zRadius={mobile ? zRadius / 2 : zRadius}
-        index={index}
-      />
-    </>
+    <group>
+      {items.map(({ position, size }, index) => {
+        return (
+          <mesh position={position} key={index}>
+            <sphereGeometry args={size} />
+          </mesh>
+        );
+      })}
+    </group>
   );
-};
-
-const Ecliptic = ({ xRadius = 1, zRadius = 1, index }) => {
-  const points = [];
-  for (let index = 0; index < 64; index++) {
-    const angle = (index / 64) * 2 * Math.PI;
-    const x = xRadius * Math.cos(angle);
-    const z = zRadius * Math.sin(angle);
-    points.push(new THREE.Vector3(x, 0, z));
-  }
-  points.push(points[0]);
-
-  const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-
-  if (index === 0) {
-    return null;
-  }
-  return (
-    <line geometry={lineGeometry}>
-      <lineBasicMaterial attach="material" color="#BFBBDA" linewidth={10} />
-    </line>
-  );
-};
+}
 
 const Contents = () => {
   // common
@@ -64,12 +67,10 @@ const Contents = () => {
   const modelObj = useLoader(GLTFLoader, [
     "/textures/test.glb",
     "/textures/threePeople.glb",
-    "/textures/people.glb",
   ]);
-  // const scene = useLoader(GLTFLoader, "/textures/hmm.glb");
-  // // const scene = useLoader(OBJLoader, "/textures/me.obj")
+  const scene = useLoader(OBJLoader, "/textures/untitled.obj");
   // const {nodes, materials} = useGraph(scene.scene)
-  const { scene } = useGLTF("/textures/people.glb");
+  // const { scene } = useGLTF("/textures/untitled2.glb");
 
   /**
    *  scene 1
@@ -79,21 +80,23 @@ const Contents = () => {
   const text3D = React.useRef();
   const point = React.useRef();
 
-  const line = React.useRef();
-  const sparkle = React.useRef();
-  const solarSystem = React.useRef();
-
-  // useFrame(({ clock }) => {
-  //   const t = clock.getElapsedTime() * 0.2 + 0.3;
-  //   const x = 1.5 * Math.sin(t);
-  //   const z = 1.5 * Math.cos(t);
-  //   // console.log(solarSystem.current.children[4]);
-  //   solarSystem.current.position.x = x;
-  //   point.current.position.z = z;
-  // });
+  const spheres = React.useRef();
 
   // position of model
-  const test = React.useRef();
+  const people = React.useRef();
+  const ring = React.useRef();
+
+  const sphereTranslate = [
+    [canvasWidth / 3.5, canvasHeight / 4, 0],
+    [-canvasWidth / 2.2, -canvasHeight / 2, 0],
+    [canvasWidth / 2, -canvasHeight / 6, 0],
+    [canvasWidth / 3, canvasHeight / 12, 0],
+    [-canvasWidth / 2.5, 0, 0],
+    [canvasWidth / 3, -canvasHeight / 2, 0],
+    [-canvasWidth / 3, -canvasHeight / 3, 0],
+    [-canvasWidth / 6, -canvasHeight / 6, 0],
+  ];
+
   React.useLayoutEffect(() => {
     state.point.current = point.current;
 
@@ -125,54 +128,53 @@ const Contents = () => {
     const manVertices = new Float32Array(state.count * 3);
     const manTempPosition = new Vector3();
 
-    // model 3 solar system
-    let solarSystemPosition = new Float32Array();
-    console.log(solarSystem.current.children.length);
-
-    for (let i = 0, j = 0; i < solarSystem.current.children.length; i++) {
-      const samples = new MeshSurfaceSampler(solarSystem.current.children[i]);
+    let spherePosition = new Float32Array();
+    const sphereLength = spheres.current.children[0].children.length;
+    for (let i = 0; i < sphereLength; i++) {
+      const samples = new MeshSurfaceSampler(
+        spheres.current.children[0].children[i]
+      );
       samples.build();
-      const vertices = new Float32Array(
-        (state.count / solarSystem.current.children.length) * 3
-      );
-      // planetData[j]
-      i % 2 !== 0 && j < 5 && j++;
-      console.log(j);
-
+      const vertices = new Float32Array((state.count / sphereLength) * 3);
       const positions = new Vector3();
-      samples.geometry.rotateX(0.4);
-      // samples.geometry.rotateZ(3);
-      // samples.geometry.translate(0, -1, 0);
       samples.geometry.translate(
-        i === 2 && (1.5 * canvasWidth) / 8,
-        i === 2 && 0,
+        sphereTranslate[i][0],
+        sphereTranslate[i][1],
         0
       );
-      samples.geometry.translate(
-        i === 4 && (2.5 * canvasWidth) / 8,
-        i === 4 && 0,
-        0
-      );
-      samples.geometry.translate(
-        i === 6 && (3.5 * canvasWidth) / 8,
-        i === 6 && 0,
-        0
-      );
-      for (
-        let j = 0;
-        j < state.count / solarSystem.current.children.length;
-        j++
-      ) {
+
+      for (let j = 0; j < state.count / sphereLength; j++) {
         const j3 = j * 3;
         samples.sample(positions);
         vertices[j3 + 0] = (Math.random() - 0.5) * 0.04 + positions.x;
         vertices[j3 + 1] = (Math.random() - 0.5) * 0.02 + positions.y;
         vertices[j3 + 2] = (Math.random() - 0.5) * 0.04 + positions.z;
       }
-      solarSystemPosition = Float32Concat(solarSystemPosition, vertices);
+      spherePosition = Float32Concat(spherePosition, vertices);
     }
 
-    console.log(solarSystem.current.children[0].children[0]);
+    let peoplePosition = new Float32Array();
+    const length = scene.children.length;
+
+    for (let i = 0; i < length; i++) {
+      const samples = new MeshSurfaceSampler(scene.children[i]);
+      samples.build();
+      const vertices = new Float32Array((state.count / length) * 3);
+
+      const positions = new Vector3();
+      samples.geometry.rotateX(0.4);
+      samples.geometry.scale(2.5, 2.5, 2.5);
+      samples.geometry.translate(30, 1, 0);
+
+      for (let j = 0; j < state.count / length; j++) {
+        const j3 = j * 3;
+        samples.sample(positions);
+        vertices[j3 + 0] = (Math.random() - 0.5) * 0.04 + positions.x;
+        vertices[j3 + 1] = (Math.random() - 0.5) * 0.02 + positions.y;
+        vertices[j3 + 2] = (Math.random() - 0.5) * 0.04 + positions.z;
+      }
+      peoplePosition = Float32Concat(peoplePosition, vertices);
+    }
     // to cancat float32Array
     function Float32Concat(first, second) {
       var firstLength = first.length,
@@ -188,12 +190,25 @@ const Contents = () => {
     const color = new THREE.Color();
     const aColor = new Float32Array(state.count * 3);
     let h, s, l;
+    const colors = [
+      [0.1, 0.32, 1],
+      [0.1, 0.2, 1],
+      [1, 1, 1],
+    ];
 
-    // const peopleSample = new MeshSurfaceSampler(test.current.children[0]);
-    console.log(test.current.children[0]);
+    const ringSample = new MeshSurfaceSampler(ring.current);
+    ringSample.build();
+    const ringVertices = new Float32Array(state.count * 3);
+    const ringTempPosition = new Vector3();
 
     for (let i = 0, j = 0; i < state.count; i++) {
       const i3 = i * 3;
+      ringSample.sample(ringTempPosition);
+      // vertex
+      ringVertices[i3 + 0] = (Math.random() - 0.5) * 0.04 + ringTempPosition.x;
+      ringVertices[i3 + 1] = (Math.random() - 0.5) * 0.02 + ringTempPosition.y;
+      ringVertices[i3 + 2] = 0;
+
       /**
        * model 1
        */
@@ -225,10 +240,14 @@ const Contents = () => {
       // aColor[i3 + 1] = color.g;
       // aColor[i3 + 2] = color.b;
 
-      aColor[i3 + 0] = Math.random() * 0.7;
-      aColor[i3 + 1] = Math.random() * 0.7;
-      aColor[i3 + 2] = Math.random() * 0.6;
+      // console.log(Math.floor(Math.random * 1));
+      // aColor[i3 + 0] = colors[Math.floor(Math.random() * 3)][0];
+      // aColor[i3 + 1] = colors[Math.floor(Math.random() * 3)][1];
+      // aColor[i3 + 2] = colors[Math.floor(Math.random() * 3)][2];
 
+      aColor[i3 + 0] = 1;
+      aColor[i3 + 1] = Math.random() * 0.3;
+      aColor[i3 + 2] = Math.random() * 0.3;
       /*
        * model 2
        */
@@ -268,12 +287,8 @@ const Contents = () => {
     );
     point.current.geometry.setAttribute(
       "modelPosThree",
-      new THREE.BufferAttribute(solarSystemPosition, 3)
+      new THREE.BufferAttribute(peoplePosition, 3)
     );
-
-    solarSystem.current.rotation.set(0.5, 0, 0.3);
-
-    console.log(solarSystem);
   }, []);
 
   // scene 1 - text
@@ -325,32 +340,19 @@ const Contents = () => {
           </points>
         </group>
       </Center>
-      {/* solar system */}
-      <group
-        position={[-canvasWidth / 2.2, -5, 0]}
-        ref={solarSystem}
-        visible={false}
-      >
-        {/* sun */}
-        <mesh>
-          <sphereGeometry args={[mobile ? canvasWidth / 12 : 1.2, 32, 32]} />
-          <meshStandardMaterial color="#e1dc59" />
+      <Suspense>
+        <group ref={spheres} visible={false}>
+          <Spheres canvasWidth={canvasWidth} canvasHeight={canvasHeight} />
+        </group>
+      </Suspense>
+      <Suspense>
+        <mesh ref={ring} visible={false}>
+          <ringGeometry args={[3.9, 4, 48]} />
         </mesh>
-        {/* planet */}
-        {planetData.map((planet, index) => (
-          <Planet
-            planet={planet}
-            key={planet.id}
-            canvasWidth={canvasWidth}
-            mobile={mobile}
-            index={index}
-          />
-        ))}
-      </group>
-
+      </Suspense>
       <Suspense>
         <group position={[0, 0, 0]} scale={[1, 1, 1]}>
-          <primitive object={scene} ref={test} />
+          {/* <primitive object={scene} ref={people} /> */}
         </group>
       </Suspense>
     </ContentsWrap>
