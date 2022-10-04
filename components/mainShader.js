@@ -20,6 +20,7 @@ class CustomMaterialMain extends ShaderMaterial {
         uniform float uTriggerTwo;    
         uniform float uTriggerThree;    
         uniform float uRandomSecond;
+        uniform float uRandomThird;
 
         attribute vec3 modelPos;
         attribute vec3 modelPosTwo;
@@ -304,7 +305,22 @@ class CustomMaterialMain extends ShaderMaterial {
             vec3 thirdMorphed = vec3(0.0);
             thirdMorphed += (modelPosThree - secondMorphed) * uTriggerThree;
             thirdMorphed += secondMorphed;
-        
+
+            float rotateAngleT = atan(thirdMorphed.x, thirdMorphed.y);
+            float distanceToCenterT = length(thirdMorphed.xy) * .01;
+            float angleOffsetT = (1.0 / distanceToCenter) * uTime * 0.2;
+            rotateAngleT += angleOffsetT;
+
+            thirdMorphed.x += (thirdMorphed.x - distanceToCenterT) * cos(uTime) * uTriggerThree - (thirdMorphed.z - distanceToCenterT)  * sin(uTime) * uTriggerThree;
+            // thirdMorphed.y += (thirdMorphed.x - distanceToCenterT) * cos(uTime * 0.7) * uTriggerThree - (thirdMorphed.z - distanceToCenterT) * sin(uTime * .07) * uTriggerThree;
+
+  
+
+
+            // if(uRandomThird > 0.){
+            //   thirdMorphed.x = thirdMorphed.x * cos(angleOffsetT) - thirdMorphed.y * sin(angleOffsetT);
+            //   thirdMorphed.y = thirdMorphed.y * cos(angleOffsetT) + thirdMorphed.x * sin(angleOffsetT);
+            // }      
             // camera
             vec4 viewPosition = viewMatrix * vec4(thirdMorphed, 1.);
         

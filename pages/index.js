@@ -493,6 +493,7 @@ export default function Home({ results }) {
           position={[0, 0, 0]}
           onUpdate={(self) => self.setColors("#ff2080", "#20ff80", "#2080ff")}
         /> */}
+        <OrbitControls />
       </Canvas>
     </div>
   );

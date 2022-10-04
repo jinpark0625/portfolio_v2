@@ -1,5 +1,5 @@
 import React from "react";
-import { Scroll, useCursor, useScroll,Center } from "@react-three/drei";
+import { Scroll, useCursor, useScroll, Center } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import state from "./mainStore";
@@ -19,8 +19,8 @@ const ContentsWrap = ({ children, ...props }) => {
   const mySphere = random.inSphere(new Float32Array(15000), { radius: 4 });
 
   /**
-  * text 
-  */
+   * text
+   */
   const [currentBodyIndex, setCurrentBodyIndex] = React.useState(null);
   const bodyCentents = React.useMemo(() => {
     return [
@@ -33,7 +33,7 @@ const ContentsWrap = ({ children, ...props }) => {
     ];
   }, []);
 
-  useFrame(({ mouse, camera, clock },delta) => {
+  useFrame(({ mouse, camera, clock }, delta) => {
     /**
      * mouse events
      */
@@ -55,25 +55,24 @@ const ContentsWrap = ({ children, ...props }) => {
     const b = scroll.visible(0.7 / 7, 1 / 7);
 
     a && setCurrentBodyIndex(null);
-    if(b){
+    if (b) {
       setCurrentBodyIndex(0);
       state.point.current.material.uniforms.uTrigger.value = 0;
     }
 
-
     //  scene - 2
     const c = scroll.visible(1.7 / 7, 1 / 7);
-    const d = scroll.visible(2.7 / 7, .6 / 7);
+    const d = scroll.visible(2.7 / 7, 0.6 / 7);
     const e = scroll.visible(3.2 / 7, 1.4 / 7);
     const f = scroll.visible(3.6 / 7, 1 / 7);
 
-    const cRange = scroll.range(1.7  / 7, 1 / 7);
+    const cRange = scroll.range(1.7 / 7, 1 / 7);
     const cOpacity = scroll.range(1.7 / 7, 0.55 / 7);
-    const dOpacity = scroll.range(2.7 / 7, .8 / 7);
+    const dOpacity = scroll.range(2.7 / 7, 0.8 / 7);
 
-    if(c){
+    if (c) {
       setCurrentBodyIndex(null);
-      state.point.current.material.uniforms.uOpacity.value = cOpacity; 
+      state.point.current.material.uniforms.uOpacity.value = cOpacity;
     }
     state.point.current.material.uniforms.uTrigger.value = cRange;
     if (e) {
@@ -86,7 +85,7 @@ const ContentsWrap = ({ children, ...props }) => {
 
     // scene - 3
     const g = scroll.visible(4.6 / 7, 1 / 7);
-    const gRange = scroll.range(4.6  / 7, 1 / 7);
+    const gRange = scroll.range(4.6 / 7, 1 / 7);
     g && setCurrentBodyIndex(null);
     state.point.current.material.uniforms.uTriggerTwo.value = gRange;
 
@@ -94,6 +93,7 @@ const ContentsWrap = ({ children, ...props }) => {
     const h = scroll.visible(5.6 / 7, 1 / 7);
     const hRange = scroll.range(5.6 / 7, 1 / 7);
     state.point.current.material.uniforms.uTriggerThree.value = hRange;
+    state.point.current.material.uniforms.uRandomThird.value = hRange;
     // const f = scroll.visible(3.55 / 7, 1 / 7);
     // const fRange = scroll.range(3.55 / 7, 1 / 7);
     // const g = scroll.visible(4.55 / 7, 0.7 / 7);
@@ -102,7 +102,6 @@ const ContentsWrap = ({ children, ...props }) => {
     // const testNum = Number(eRange.toFixed(2));
     // const testNumTwo = Number(gRange.toFixed(2));
 
-  
     // if (e) {
     //   setCurrentBodyIndex(null);
     //   ref.current.material.uniforms.uTrigger.value = testNum;
@@ -123,10 +122,8 @@ const ContentsWrap = ({ children, ...props }) => {
     // }
   });
 
-
   return (
     <>
-  
       <mesh
         ref={planeRef}
         position={[0, 0, 0]}
@@ -141,25 +138,24 @@ const ContentsWrap = ({ children, ...props }) => {
         <meshBasicMaterial wireframe={true} />
       </mesh>
       <group>
-      {children}
-      <Center>
-      {/* <BodyText         
+        {children}
+        <Center>
+          {/* <BodyText         
           body="let's make a dot today."
           index="0"
           currentBodyIndex="0"
           /> */}
 
-      {bodyCentents.map((body, index) => (
-        <BodyText
-          key={index}
-          body={body}
-          index={index}
-          currentBodyIndex={currentBodyIndex}
-        />
-      ))}
-      </Center>
+          {bodyCentents.map((body, index) => (
+            <BodyText
+              key={index}
+              body={body}
+              index={index}
+              currentBodyIndex={currentBodyIndex}
+            />
+          ))}
+        </Center>
       </group>
-
     </>
   );
 };
