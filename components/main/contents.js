@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
-import { Text3D, Center, Sparkles, useGLTF } from "@react-three/drei";
-import { useFrame, useGraph, useLoader } from "@react-three/fiber";
+import { Text3D, Center, Sparkles, useGLTF, Text } from "@react-three/drei";
+import { useFrame, useGraph, useLoader, useThree } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import { MeshSurfaceSampler, OBJLoader } from "three-stdlib";
 import { Vector2, Vector3, MathUtils } from "three";
@@ -12,54 +12,11 @@ import SometimesMedium from "../../public/fonts/Sometimes_medium.json";
 import * as random from "maath/random";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-function Spheres({ canvasHeight, canvasWidth }) {
-  const items = [
-    {
-      position: [canvasWidth / 3.5, canvasHeight / 4, 0],
-      size: [2, 32, 32],
-    },
-    {
-      position: [-canvasWidth / 2.2, -canvasHeight / 2, 0],
-      size: [1.2, 32, 32],
-    },
-    {
-      position: [canvasWidth / 2, -canvasHeight / 6, 0],
-      size: [3, 32, 32],
-    },
-    {
-      position: [canvasWidth / 3, canvasHeight / 12, 0],
-      size: [1, 32, 32],
-    },
-    {
-      position: [-canvasWidth / 2.5, 0, 0],
-      size: [2.4, 32, 32],
-    },
-    {
-      position: [canvasWidth / 3, -canvasHeight / 2, 0],
-      size: [2, 32, 32],
-    },
-    {
-      position: [-canvasWidth / 3, -canvasHeight / 3, 0],
-      size: [1, 32, 32],
-    },
-    {
-      position: [-canvasWidth / 6, -canvasHeight / 6, 0],
-      size: [0.6, 32, 32],
-    },
-  ];
+import { Effects as EffectsComposer } from "@react-three/drei";
+import { extend } from "@react-three/fiber";
+import { UnrealBloomPass } from "three-stdlib";
 
-  return (
-    <group>
-      {items.map(({ position, size }, index) => {
-        return (
-          <mesh position={position} key={index}>
-            <sphereGeometry args={size} />
-          </mesh>
-        );
-      })}
-    </group>
-  );
-}
+extend({ UnrealBloomPass });
 
 const Contents = () => {
   // common
@@ -68,7 +25,7 @@ const Contents = () => {
     "/textures/test.glb",
     "/textures/threePeople.glb",
   ]);
-  const scene = useLoader(OBJLoader, "/textures/untitled.obj");
+  const scenes = useLoader(OBJLoader, "/textures/untitled.obj");
   // const {nodes, materials} = useGraph(scene.scene)
   // const { scene } = useGLTF("/textures/untitled2.glb");
 
@@ -86,17 +43,6 @@ const Contents = () => {
   const people = React.useRef();
   const ring = React.useRef();
 
-  const sphereTranslate = [
-    [canvasWidth / 3.5, canvasHeight / 4, 0],
-    [-canvasWidth / 2.2, -canvasHeight / 2, 0],
-    [canvasWidth / 2, -canvasHeight / 6, 0],
-    [canvasWidth / 3, canvasHeight / 12, 0],
-    [-canvasWidth / 2.5, 0, 0],
-    [canvasWidth / 3, -canvasHeight / 2, 0],
-    [-canvasWidth / 3, -canvasHeight / 3, 0],
-    [-canvasWidth / 6, -canvasHeight / 6, 0],
-  ];
-
   React.useLayoutEffect(() => {
     state.point.current = point.current;
 
@@ -105,17 +51,26 @@ const Contents = () => {
       canvasHeight
     );
 
+    /**
+     * First Scene
+     */
     // find position of text
     const textSample = new MeshSurfaceSampler(text3D.current);
     textSample.build();
+    console.log(textSample, text3D);
 
     const tempPosition = new Vector3();
     const vertices = new Float32Array(state.count * 3);
-    const verticesCircle = new Float32Array(state.count * 3);
     const indices = new Uint16Array(state.count);
     const angle = new Float32Array(state.count);
     const scale = new Float32Array(state.count);
 
+    // text animation
+    const rand = new Float32Array(state.count * 3);
+
+    /**
+     * Second Scene
+     */
     const manSample = new MeshSurfaceSampler(
       modelObj[0].scene.children[0].children[0].children[0].children[0].children[0]
     );
@@ -128,36 +83,11 @@ const Contents = () => {
     const manVertices = new Float32Array(state.count * 3);
     const manTempPosition = new Vector3();
 
-    let spherePosition = new Float32Array();
-    const sphereLength = spheres.current.children[0].children.length;
-    for (let i = 0; i < sphereLength; i++) {
-      const samples = new MeshSurfaceSampler(
-        spheres.current.children[0].children[i]
-      );
-      samples.build();
-      const vertices = new Float32Array((state.count / sphereLength) * 3);
-      const positions = new Vector3();
-      samples.geometry.translate(
-        sphereTranslate[i][0],
-        sphereTranslate[i][1],
-        0
-      );
-
-      for (let j = 0; j < state.count / sphereLength; j++) {
-        const j3 = j * 3;
-        samples.sample(positions);
-        vertices[j3 + 0] = (Math.random() - 0.5) * 0.04 + positions.x;
-        vertices[j3 + 1] = (Math.random() - 0.5) * 0.02 + positions.y;
-        vertices[j3 + 2] = (Math.random() - 0.5) * 0.04 + positions.z;
-      }
-      spherePosition = Float32Concat(spherePosition, vertices);
-    }
-
     let peoplePosition = new Float32Array();
-    const length = scene.children.length;
+    const length = scenes.children.length;
 
     for (let i = 0; i < length; i++) {
-      const samples = new MeshSurfaceSampler(scene.children[i]);
+      const samples = new MeshSurfaceSampler(scenes.children[i]);
       samples.build();
       const vertices = new Float32Array((state.count / length) * 3);
 
@@ -210,44 +140,47 @@ const Contents = () => {
       ringVertices[i3 + 2] = 0;
 
       /**
-       * model 1
+       * First Scene Text
        */
       textSample.sample(tempPosition);
       // vertex
       vertices[i3 + 0] = (Math.random() - 0.5) * 0.04 + tempPosition.x;
       vertices[i3 + 1] = (Math.random() - 0.5) * 0.02 + tempPosition.y;
       vertices[i3 + 2] = 0;
-
-      verticesCircle[i3 + 0] = (Math.random() - 0.5) * 0.04;
-      verticesCircle[i3 + 1] = (Math.random() - 0.5) * 0.02;
-      verticesCircle[i3 + 2] = 0;
-
       // scale
-      scale[i] = Math.random() * 1.2;
+      // scale[i] = Math.random() * 3;
+      scale[i] = Math.random() * 40;
       // angle
       angle[j] = Math.random() * Math.PI;
-      // index
       indices[j] = Math.random() * Math.PI;
       j++;
+      rand[i3 + 0] = (Math.random() - 1.0) * 2;
+      rand[i3 + 1] = (Math.random() - 1.0) * 2;
+      rand[i3 + 2] = 0;
 
-      h = i / state.count;
-      s = MathUtils.randFloat(0.1, 0.8);
-      l = MathUtils.randFloat(0.4, 1);
+      // h = (i / state.count);
+      h = MathUtils.randFloat(0.6, 0.8);
+      s = MathUtils.randFloat(0.5, 0.8);
+      l = MathUtils.randFloat(0.6, 1);
 
       color.setHSL(h, s, l);
 
-      // aColor[i3 + 0] = color.r;
-      // aColor[i3 + 1] = color.g;
-      // aColor[i3 + 2] = color.b;
+      aColor[i3 + 0] = color.r;
+      aColor[i3 + 1] = color.g;
+      aColor[i3 + 2] = color.b;
+
+      // aColor[i3 + 0] = MathUtils.randFloat(0.7, 1);
+      // aColor[i3 + 1] = MathUtils.randFloat(0.8, 1);
+      // aColor[i3 + 2] = 1;
 
       // console.log(Math.floor(Math.random * 1));
       // aColor[i3 + 0] = colors[Math.floor(Math.random() * 3)][0];
       // aColor[i3 + 1] = colors[Math.floor(Math.random() * 3)][1];
       // aColor[i3 + 2] = colors[Math.floor(Math.random() * 3)][2];
 
-      aColor[i3 + 0] = 1;
-      aColor[i3 + 1] = Math.random() * 0.3;
-      aColor[i3 + 2] = Math.random() * 0.3;
+      // aColor[i3 + 0] = colors[Math.floor(Math.random() * 3)][0];
+      // aColor[i3 + 1] = colors[Math.floor(Math.random() * 3)][1];
+      // aColor[i3 + 2] = colors[Math.floor(Math.random() * 3)][2];
       /*
        * model 2
        */
@@ -257,6 +190,10 @@ const Contents = () => {
       manVertices[i3 + 2] = (Math.random() - 0.5) * 0.04 + manTempPosition.z;
     }
 
+    point.current.geometry.setAttribute(
+      "rand",
+      new THREE.BufferAttribute(rand, 3)
+    );
     point.current.geometry.setAttribute(
       "position",
       new THREE.BufferAttribute(vertices, 3)
@@ -300,14 +237,30 @@ const Contents = () => {
 
   // scene 2
   // scene 2 - sphere
-  const mySphere = random.onSphere(new Float32Array(15400 * 3), { radius: 4 });
+  const mySphere = random.onSphere(new Float32Array(15400 * 3), { radius: 2 });
   // const lines = random.onSphere(new Float32Array(1000 * 3), { radius: 4 });
 
   //  scene 3
   // scene 3 - model
 
+  const { size, scene, camera } = useThree();
+  const aspect = React.useMemo(
+    () => new THREE.Vector2(size.width, size.height),
+    [size]
+  );
+
   return (
     <ContentsWrap>
+      {/* <Text
+        font="fonts/BLCereal-Regular.woff"
+        fontSize={1}
+        lineHeight={1}
+        ref={text3D}
+      >
+        {mobile
+          ? `Hello,\nI'm Jin,\nFrontend Developer.`
+          : `Hello, I'm Jin,\nFrontend Developer.`}
+      </Text> */}
       <Center>
         <group
           scale={[
@@ -315,6 +268,7 @@ const Contents = () => {
             currentScale > 1 ? 1 : currentScale,
             1,
           ]}
+          position={[0, 0, 300]}
         >
           <Text3D
             size={mobile ? 1.3 : 1}
@@ -323,9 +277,11 @@ const Contents = () => {
             ref={text3D}
             visible={false}
             curveSegments={12}
-            height={50}
+            height={1}
           >
-            {`Hello, I'm Jin,\nFrontend Developer.`}
+            {mobile
+              ? `Hello,\nI'm Jin,\nFrontend Developer.`
+              : `Hello, I'm Jin,\nFrontend Developer.`}
             <meshStandardMaterial color="white" />
           </Text3D>
           <points ref={point}>
@@ -341,11 +297,6 @@ const Contents = () => {
         </group>
       </Center>
       <Suspense>
-        <group ref={spheres} visible={false}>
-          <Spheres canvasWidth={canvasWidth} canvasHeight={canvasHeight} />
-        </group>
-      </Suspense>
-      <Suspense>
         <mesh ref={ring} visible={false}>
           <ringGeometry args={[3.9, 4, 48]} />
         </mesh>
@@ -355,6 +306,16 @@ const Contents = () => {
           {/* <primitive object={scene} ref={people} /> */}
         </group>
       </Suspense>
+
+      {/* <EffectsComposer
+        multisamping={8}
+        renderIndex={1}
+        disableGamma
+        disableRenderPass
+      >
+        <renderPass attachArray="passes" scene={scene} camera={camera} />
+        <unrealBloomPass attachArray="passes" args={[aspect, 0.4, 1, 0]} />
+      </EffectsComposer> */}
     </ContentsWrap>
   );
 };

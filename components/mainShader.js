@@ -7,16 +7,21 @@ class CustomMaterialMain extends ShaderMaterial {
   constructor() {
     super({
       vertexShader: `
-        uniform vec3 uMouse;
+        // default set for position & animation
         uniform float uSize;
         uniform float uPixelRatio;
         uniform float uTime;
-        uniform float uRandom;
-        uniform float uMouseTrigger;
         uniform float uFrequency;
-        uniform float uAmplitude;
         uniform vec2 uResolution;
-        uniform float uTrigger;
+
+        // mouse event
+        uniform vec3 uMouse;
+        uniform float uMouseTrigger;
+
+        // morphing trigger
+        uniform float uFirstTrigger;
+        uniform float uSecondTrigger;
+
         uniform float uTriggerTwo;    
         uniform float uTriggerThree;    
         uniform float uRandomSecond;
@@ -29,6 +34,7 @@ class CustomMaterialMain extends ShaderMaterial {
         attribute float pindex;
         attribute float angle;
         attribute vec3 color;
+        attribute vec3 rand;
 
         varying vec3 vColor;
             
@@ -239,95 +245,109 @@ class CustomMaterialMain extends ShaderMaterial {
     return	curl;
 }
 
-
         void main()
         {
-        
             /**
              * Position
              */
-            //local
+            // random noise
             float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.1)));
-            float distortion = snoise4(vec4(position * uFrequency, uTime * .005)) * uAmplitude;
+            // float distortion = snoise4(vec4(position * uFrequency, uTime * .005)) ;
+            float distortion = snoise4(vec4(position * uFrequency, sin(
+              (2. * PI * uTime * .0003) 
+            )));
         
-        
+            // first particle position
             vec3 particlePosition = (modelMatrix * vec4(position, 1.0)).xyz;
-        
+
+            // text animation 
+            float moveRange = 0.01;
+            float moveRandX = moveRange * sin(uTime * rand.x * rand.y * .4);
+            float moveRandY = moveRange * cos(uTime * rand.x * rand.y * .4);
+            vec3 animatedText = particlePosition + (vec3(moveRandX, moveRandY, 0) *0.0);
+ 
             //rotate particles
-            float rotateAngle = atan(particlePosition.x, particlePosition.y);
-            float distanceToCenter = length(particlePosition.xy);
+            float rotateAngle = atan(animatedText.x, animatedText.y);
+            float distanceToCenter = length(animatedText.xy);
             float angleOffset = (1.0 / distanceToCenter) * uTime * 0.01;
             rotateAngle += angleOffset;
         
-   
             // 1, 원의크기영향 작을수록. 2,커지면 크게퍼진다. 3,커지면 크게퍼진다. 4,작아지면 원이커진다.
-            float distanceToMouse = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.001, -2., 1.), 1.);
+            float distanceToMouse = pow(1. - clamp(length(uMouse.xy - animatedText.xy) -.001, -2., 1.), 2.5);
 
-            // radius 크기를 찾아서 수정필요
-            // float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - particlePosition.xy) -.01, -4., 1.), 1.);
-
-            //0.5가 커지면 원이커진다?
+            /**
+             * Scene 1
+             */
+            // scene1 animation
+            // spread particles in circle shape
+            animatedText.x += uFirstTrigger * distortion * 10. * sin(angle);
+            animatedText.y += uFirstTrigger * distortion * 10. * cos(angle);
+            animatedText.z += uFirstTrigger * distortion * 20.;
 
             // scene1 mouse event
-            particlePosition.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
-            particlePosition.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
+            animatedText.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
+            animatedText.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
 
-            // scene1 animation
-            particlePosition.x += uRandom * random(particlePosition.x) * distortion * 4. * sin(angle) * uTime;
-            particlePosition.y += uRandom * random(particlePosition.y) * distortion * 4. * cos(angle) * uTime;
+            /**
+             * Scene 2
+             */
+            // morph into sphere
+            vec3 toSphere = mix(animatedText, modelPos, uSecondTrigger);
 
-
-            // scene2 
-            // scene2 animation
-            vec3 firstMorphed = vec3(0.0);
+            // animation
             float rndd = (random(pindex) + snoise(vec2(pindex * 1.2, uTime * 0.05)));
-            // firstMorphed += ((modelPos * ( step( 1. - ( 1. / 512. ), modelPos.z )) * rndd) - particlePosition) * uTrigger;
-            vec3 tar = modelPos + curl(modelPos.x * .07, modelPos.y * .3, modelPos.z) * 8.;
-            float d = length(modelPos - tar) / 12.;
-            vec3 mixed = mix(modelPos, tar * uTrigger, pow( d, 5. ) );
-            firstMorphed += (mixed - particlePosition) * uTrigger;
-            firstMorphed += particlePosition;
+
+
+            // vec3 firstMorphed = vec3(0.0);
+            // float rndd = (random(pindex) + snoise(vec2(pindex * 1.2, uTime * 0.05)));
+            // // firstMorphed += ((modelPos * ( step( 1. - ( 1. / 512. ), modelPos.z )) * rndd) - particlePosition) * uTrigger;
+            // vec3 tar = modelPos + curl(modelPos.x * .07, modelPos.y * .3, modelPos.z) * 8.;
+            // // float d = length(modelPos - tar) / 12.;
+            // float d = length(modelPos - tar) / 16.;
+            // vec3 mixed = mix(modelPos, tar * uSecondTrigger, pow( d, 5. ) );
+            // firstMorphed += (mixed - particlePosition) * uSecondTrigger;
+            // firstMorphed += particlePosition;
 
             // scene2 mouse event
-            float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - firstMorphed.xy) -.001, -2., 1.), 1.);
-            firstMorphed.x += distanceToMouseSecond * 0.8 * rndz * cos(angle) * uMouseTrigger;
-            firstMorphed.y += distanceToMouseSecond * 0.8 * rndz * sin(angle) * uMouseTrigger;
+            // float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - firstMorphed.xy) -.001, -2., 1.), 1.);
+            // firstMorphed.x += distanceToMouseSecond * 0.8 * rndz * cos(angle) * uMouseTrigger;
+            // firstMorphed.y += distanceToMouseSecond * 0.8 * rndz * sin(angle) * uMouseTrigger;
         
 
             // scene3
             // scene3 animation
-            vec3 secondMorphed = vec3(0.0);
-            secondMorphed += (modelPosTwo - firstMorphed) * uTriggerTwo;
-            secondMorphed += firstMorphed;
 
+            // float rotateAngleT = atan(modelPosTwo.x, modelPosTwo.y);
+            // float distanceToCenterT = length(modelPosTwo.xy);
+            // float angleOffsetT = (1.0 / distanceToCenter) * uTime * 0.01;
+            // rotateAngleT += angleOffsetT;
+
+            // vec3 secondMorphed = vec3(0.0);
+            // vec3 tarTwo = modelPosTwo + curl(modelPosTwo.x * .5, modelPosTwo.y * .3, modelPosTwo.z) * 4.;
+            // vec3 mixedTwo = mix(modelPosTwo, tarTwo * uFirstTrigger, pow( d, 5. ) );
+            // secondMorphed += (mixedTwo - firstMorphed) * uTriggerTwo;
+            // secondMorphed += firstMorphed;
+     
             // scene4
             // scene4 animation
-            vec3 thirdMorphed = vec3(0.0);
-            thirdMorphed += (modelPosThree - secondMorphed) * uTriggerThree;
-            thirdMorphed += secondMorphed;
+            // vec3 thirdMorphed = vec3(0.0);
+            // thirdMorphed += (modelPosThree - secondMorphed) * uTriggerThree;
+            // thirdMorphed += secondMorphed;
 
-            float rotateAngleT = atan(thirdMorphed.x, thirdMorphed.y);
-            float distanceToCenterT = length(thirdMorphed.xy) * .01;
-            float angleOffsetT = (1.0 / distanceToCenter) * uTime * 0.2;
-            rotateAngleT += angleOffsetT;
-
-            thirdMorphed.x += (thirdMorphed.x - distanceToCenterT) * cos(uTime) * uTriggerThree - (thirdMorphed.z - distanceToCenterT)  * sin(uTime) * uTriggerThree;
-            // thirdMorphed.y += (thirdMorphed.x - distanceToCenterT) * cos(uTime * 0.7) * uTriggerThree - (thirdMorphed.z - distanceToCenterT) * sin(uTime * .07) * uTriggerThree;
-
-  
-
-
-            // if(uRandomThird > 0.){
-            //   thirdMorphed.x = thirdMorphed.x * cos(angleOffsetT) - thirdMorphed.y * sin(angleOffsetT);
-            //   thirdMorphed.y = thirdMorphed.y * cos(angleOffsetT) + thirdMorphed.x * sin(angleOffsetT);
-            // }      
             // camera
-            vec4 viewPosition = viewMatrix * vec4(thirdMorphed, 1.);
+            vec4 viewPosition = viewMatrix * vec4(toSphere, 1.);
         
-            gl_Position = projectionMatrix * viewPosition;
-        
-            //size
-            gl_PointSize = uSize * aScale * uPixelRatio;
+            gl_Position = projectionMatrix * viewPosition;  
+      
+
+            float radiusRange = .4;
+            float radiusRandX = radiusRange * sin(uTime * rand.x + rand.y * .2);
+            float radiusRandY = radiusRange * cos(uTime * rand.x + rand.y * .2);
+            float radiusRandAll = radiusRandX + radiusRandY;
+            float finalRadius = .2 + radiusRandAll;
+
+            gl_PointSize = finalRadius * uPixelRatio * aScale;
+            gl_PointSize *= (1.0 / - viewPosition.z);
 
             vColor = color;
         }
@@ -341,8 +361,11 @@ class CustomMaterialMain extends ShaderMaterial {
             uniform float uTime;
             uniform float uRandomSecond;
 
+            uniform float uIncreaseOpacity;
+            uniform float uLowerOpacity;
+
             vec3 colorA = vec3(1.,1.,1.);
-            vec3 colorB = vec3(.896,.925,0.865);
+            vec3 colorB = vec3(.1,.21,1.);
 
             varying vec3 vColor; 
 
@@ -366,27 +389,34 @@ class CustomMaterialMain extends ShaderMaterial {
           
             void main()
             {
-                float opacity = (uRandom - 1.0) * -1.;
-                opacity += uOpacity;
-                opacity = (uRandomSecond - 1.0) * -1.;
+                // float opacity = (uRandom - 1.0) * -1.;
+                // opacity += uOpacity;
+                // opacity = (uRandomSecond - 1.0) * -1.;
             
-                float opacityStr = clamp(opacity, 0.04, 0.18);
+                // float opacityStr = clamp(opacity, 0.04, 0.18);
             
                 //0.5 와 노멀라이즈된 UV값의 중간점을 찾는다.
-                float distnaceToCenter = distance(gl_PointCoord, vec2(0.5));
-                float strength = opacityStr / distnaceToCenter - 0.05 * 2.0;
+                // float distnaceToCenter = distance(gl_PointCoord, vec2(0.5));
+                // float strength = opacityStr / distnaceToCenter - 0.05 * 2.0;
 
                 // vec3 color = vec3(0.0);
                 // vec2 st = gl_FragCoord.xy/uResolution.xy;
                 // float pct = abs(sin(uTime)) * uTrigger;
                 // color = mix(colorA, colorB, pct);
-                // vec3 col = 0.5 - 0.5*cos(uTime+vUv.xyx+vec3(0,2,4))/rnd(uTIme * 7.)+0.05;
+                // // vec3 col = 0.5 - 0.5*cos(uTime+vUv.xyx+vec3(0,2,4))/rnd(uTime * 7.)+0.05;
 
-                vec3 color = vec3(1.);
-                vec3 finalColor = color + (vColor * uTrigger);
+                // vec3 color = vec3(1.);
+                // vec3 finalColor = color + (vColor * uTrigger);
               
-                finalColor += (vColor - color) * uTrigger;
-                finalColor += vColor;
+                // finalColor += (vColor - color) * uTrigger;
+                // finalColor += vColor;
+
+                float strength = distance(gl_PointCoord, vec2(0.5));
+                strength = 1. - strength;
+                strength = pow(strength, 5.0);
+
+                strength -= uLowerOpacity;
+                strength += uIncreaseOpacity;
 
                 gl_FragColor = vec4(vec3(1.), strength);
             }`,
@@ -410,9 +440,6 @@ class CustomMaterialMain extends ShaderMaterial {
         uColor: {
           value: new THREE.Color(0x0f85d6),
         },
-        uRandom: {
-          value: 0,
-        },
         uFrequency: {
           value: 8,
         },
@@ -423,8 +450,11 @@ class CustomMaterialMain extends ShaderMaterial {
           //   value: new Vector2(width, height),
           value: new Vector2(0, 0),
         },
-        //추가
-        uTrigger: {
+        // morphing trigger
+        uFirstTrigger: {
+          value: 0,
+        },
+        uSecondTrigger: {
           value: 0,
         },
         uTriggerTwo: {
@@ -440,6 +470,13 @@ class CustomMaterialMain extends ShaderMaterial {
           value: 0,
         },
         uRandomThird: {
+          value: 0,
+        },
+        // opacity trigger
+        uIncreaseOpacity: {
+          value: 0,
+        },
+        uLowerOpacity: {
           value: 0,
         },
       },
@@ -493,14 +530,6 @@ class CustomMaterialMain extends ShaderMaterial {
     return this.uniforms.uColor.value;
   }
 
-  set uRandom(value) {
-    this.uniforms.uRandom.value = value;
-  }
-
-  get uRandom() {
-    return this.uniforms.uRandom.value;
-  }
-
   set uFrequency(value) {
     this.uniforms.uFrequency.value = value;
   }
@@ -525,12 +554,22 @@ class CustomMaterialMain extends ShaderMaterial {
     return this.uniforms.uResolution.value;
   }
 
-  set uTrigger(value) {
-    this.uniforms.uTrigger.value = value;
+  // morphing trigger
+
+  set uFirstTrigger(value) {
+    this.uniforms.uFirstTrigger.value = value;
   }
 
-  get uTrigger() {
-    return this.uniforms.uTrigger.value;
+  get uFirstTrigger() {
+    return this.uniforms.uFirstTrigger.value;
+  }
+
+  set uSecondTrigger(value) {
+    this.uniforms.uSecondTrigger.value = value;
+  }
+
+  get uSecondTrigger() {
+    return this.uniforms.uSecondTrigger.value;
   }
 
   set uTriggerTwo(value) {
@@ -571,6 +610,19 @@ class CustomMaterialMain extends ShaderMaterial {
 
   get uRandomThird() {
     return this.uniforms.uRandomThird.value;
+  }
+
+  set uIncreaseOpacity(value) {
+    this.uniforms.uIncreaseOpacity.value = value;
+  }
+  get uIncreaseOpacity() {
+    return this.uniforms.uIncreaseOpacity.value;
+  }
+  set uLowerOpacity(value) {
+    this.uniforms.uLowerOpacity.value = value;
+  }
+  get uLowerOpacity() {
+    return this.uniforms.uLowerOpacity.value;
   }
 }
 
