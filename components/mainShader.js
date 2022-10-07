@@ -292,16 +292,17 @@ class CustomMaterialMain extends ShaderMaterial {
              * Scene 2
              */
             // morph into sphere & rotate sphere on y axis
-            // vec3 tar = modelPos + curl(modelPos.x * .07, modelPos.y * .3, modelPos.z) * 8.;
-            // float d = length(modelPos - tar) / 16.;
-            // vec3 mixed = mix(modelPos, tar, pow( d, 5. ));
+            // vec3 tar = modelPos + curl(modelPos.x * .03, modelPos.y * .1, modelPos.z * 2.) * 8.;
+            vec3 tar = modelPos + curl(modelPos.x, modelPos.y, modelPos.z * 2.) * 8.;
+            float d = length(modelPos - tar) / 16.;
+            vec3 mixed = mix(modelPos, tar, pow( d, 5. ));
 
-            vec3 rotatingS = modelPos;
+            vec3 rotatingS = mixed;
 
             // rotating animation
             float angleS = atan(rotatingS.x, rotatingS.z);
             float distanceToCenterS = length(rotatingS.xz);
-            float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.2;
+            float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.1;
             angleS += angleOffsetS;
 
             rotatingS.x = cos(angleS) * distanceToCenterS;
