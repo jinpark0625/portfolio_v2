@@ -291,12 +291,26 @@ class CustomMaterialMain extends ShaderMaterial {
             /**
              * Scene 2
              */
-            // morph into sphere
-            vec3 toSphere = mix(animatedText, modelPos, uSecondTrigger);
+            // morph into sphere & rotate sphere on y axis
+            // vec3 tar = modelPos + curl(modelPos.x * .07, modelPos.y * .3, modelPos.z) * 8.;
+            // float d = length(modelPos - tar) / 16.;
+            // vec3 mixed = mix(modelPos, tar, pow( d, 5. ));
+
+            vec3 rotatingS = modelPos;
+
+            // rotating animation
+            float angleS = atan(rotatingS.x, rotatingS.z);
+            float distanceToCenterS = length(rotatingS.xz);
+            float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.2;
+            angleS += angleOffsetS;
+
+            rotatingS.x = cos(angleS) * distanceToCenterS;
+            rotatingS.z = sin(angleS) * distanceToCenterS;
+          
+            vec3 toSphere = mix(animatedText, rotatingS, uSecondTrigger);
 
             // animation
             float rndd = (random(pindex) + snoise(vec2(pindex * 1.2, uTime * 0.05)));
-
 
             // vec3 firstMorphed = vec3(0.0);
             // float rndd = (random(pindex) + snoise(vec2(pindex * 1.2, uTime * 0.05)));
@@ -304,7 +318,7 @@ class CustomMaterialMain extends ShaderMaterial {
             // vec3 tar = modelPos + curl(modelPos.x * .07, modelPos.y * .3, modelPos.z) * 8.;
             // // float d = length(modelPos - tar) / 12.;
             // float d = length(modelPos - tar) / 16.;
-            // vec3 mixed = mix(modelPos, tar * uSecondTrigger, pow( d, 5. ) );
+            // vec3 mixed = mix(modelPos, tar * uSecondTrigger, pow( d, 5. ));
             // firstMorphed += (mixed - particlePosition) * uSecondTrigger;
             // firstMorphed += particlePosition;
 
