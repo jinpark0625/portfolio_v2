@@ -21,6 +21,9 @@ class CustomMaterialMain extends ShaderMaterial {
         // morphing trigger
         uniform float uFirstTrigger;
         uniform float uSecondTrigger;
+        uniform float uThirdTrigger;
+        uniform float uFourthTrigger;
+        
 
         uniform float uTriggerTwo;    
         uniform float uTriggerThree;    
@@ -201,49 +204,52 @@ class CustomMaterialMain extends ShaderMaterial {
 
         // noise
         vec3 curl(float	x,	float	y,	float	z)
-{
+          {
 
-    float	eps	= 1., eps2 = 2. * eps;
-    float	n1,	n2,	a,	b;
+            float	eps	= 1., eps2 = 2. * eps;
+            float	n1,	n2,	a,	b;
 
-    x += uTime * .05;
-    y += uTime * .05;
-    z += uTime * .05;
+            // x += uTime * .05;
+            // y += uTime * .05;
+            // z += uTime * .05;
+            x += sin(uTime) * .02;
+            y += cos(uTime) * .02;
+            z += sin(uTime) * .02;
 
-    vec3	curl = vec3(0.);
+            vec3	curl = vec3(0.);
 
-    n1	=	snoise(vec2( x,	y	+	eps ));
-    n2	=	snoise(vec2( x,	y	-	eps ));
-    a	=	(n1	-	n2)/eps2;
+            n1	=	snoise(vec2( x,	y	+	eps ));
+            n2	=	snoise(vec2( x,	y	-	eps ));
+            a	=	(n1	-	n2)/eps2;
 
-    n1	=	snoise(vec2( x,	z	+	eps));
-    n2	=	snoise(vec2( x,	z	-	eps));
-    b	=	(n1	-	n2)/eps2;
+            n1	=	snoise(vec2( x,	z	+	eps));
+            n2	=	snoise(vec2( x,	z	-	eps));
+            b	=	(n1	-	n2)/eps2;
 
-    curl.x	=	a	-	b;
+            curl.x	=	a	-	b;
 
-    n1	=	snoise(vec2( y,	z	+	eps));
-    n2	=	snoise(vec2( y,	z	-	eps));
-    a	=	(n1	-	n2)/eps2;
+            n1	=	snoise(vec2( y,	z	+	eps));
+            n2	=	snoise(vec2( y,	z	-	eps));
+            a	=	(n1	-	n2)/eps2;
 
-    n1	=	snoise(vec2( x	+	eps,	z));
-    n2	=	snoise(vec2( x	+	eps,	z));
-    b	=	(n1	-	n2)/eps2;
+            n1	=	snoise(vec2( x	+	eps,	z));
+            n2	=	snoise(vec2( x	+	eps,	z));
+            b	=	(n1	-	n2)/eps2;
 
-    curl.y	=	a	-	b;
+            curl.y	=	a	-	b;
 
-    n1	=	snoise(vec2( x	+	eps,	y));
-    n2	=	snoise(vec2( x	-	eps,	y));
-    a	=	(n1	-	n2)/eps2;
+            n1	=	snoise(vec2( x	+	eps,	y));
+            n2	=	snoise(vec2( x	-	eps,	y));
+            a	=	(n1	-	n2)/eps2;
 
-    n1	=	snoise(vec2(  y	+	eps,	z));
-    n2	=	snoise(vec2(  y	-	eps,	z));
-    b	=	(n1	-	n2)/eps2;
+            n1	=	snoise(vec2(  y	+	eps,	z));
+            n2	=	snoise(vec2(  y	-	eps,	z));
+            b	=	(n1	-	n2)/eps2;
 
-    curl.z	=	a	-	b;
+            curl.z	=	a	-	b;
 
-    return	curl;
-}
+            return	curl;
+          }
 
         void main()
         {
@@ -292,8 +298,9 @@ class CustomMaterialMain extends ShaderMaterial {
              * Scene 2
              */
             // morph into sphere & rotate sphere on y axis
-            // vec3 tar = modelPos + curl(modelPos.x * .03, modelPos.y * .1, modelPos.z * 2.) * 8.;
-            vec3 tar = modelPos + curl(modelPos.x, modelPos.y, modelPos.z * 2.) * 8.;
+
+            // noise & curl
+            vec3 tar = modelPos + curl(modelPos.x * 2., modelPos.y * 2., modelPos.z * 2.) * 8.;
             float d = length(modelPos - tar) / 16.;
             vec3 mixed = mix(modelPos, tar, pow( d, 5. ));
 
@@ -302,7 +309,7 @@ class CustomMaterialMain extends ShaderMaterial {
             // rotating animation
             float angleS = atan(rotatingS.x, rotatingS.z);
             float distanceToCenterS = length(rotatingS.xz);
-            float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.1;
+            float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.13;
             angleS += angleOffsetS;
 
             rotatingS.x = cos(angleS) * distanceToCenterS;
@@ -310,47 +317,30 @@ class CustomMaterialMain extends ShaderMaterial {
           
             vec3 toSphere = mix(animatedText, rotatingS, uSecondTrigger);
 
-            // animation
-            float rndd = (random(pindex) + snoise(vec2(pindex * 1.2, uTime * 0.05)));
-
-            // vec3 firstMorphed = vec3(0.0);
-            // float rndd = (random(pindex) + snoise(vec2(pindex * 1.2, uTime * 0.05)));
-            // // firstMorphed += ((modelPos * ( step( 1. - ( 1. / 512. ), modelPos.z )) * rndd) - particlePosition) * uTrigger;
-            // vec3 tar = modelPos + curl(modelPos.x * .07, modelPos.y * .3, modelPos.z) * 8.;
-            // // float d = length(modelPos - tar) / 12.;
-            // float d = length(modelPos - tar) / 16.;
-            // vec3 mixed = mix(modelPos, tar * uSecondTrigger, pow( d, 5. ));
-            // firstMorphed += (mixed - particlePosition) * uSecondTrigger;
-            // firstMorphed += particlePosition;
-
             // scene2 mouse event
-            // float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - firstMorphed.xy) -.001, -2., 1.), 1.);
-            // firstMorphed.x += distanceToMouseSecond * 0.8 * rndz * cos(angle) * uMouseTrigger;
-            // firstMorphed.y += distanceToMouseSecond * 0.8 * rndz * sin(angle) * uMouseTrigger;
-        
+            float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - toSphere.xy) -.001, -2., 1.), 3.);
+            toSphere.x -= distanceToMouseSecond * 0.5 * rndz * cos(angle) * uMouseTrigger;
+            toSphere.y -= distanceToMouseSecond * 0.5 * rndz * sin(angle) * uMouseTrigger;
+      
+            /**
+             * Scene 3
+             */
+            // morph into man
+            vec3 toMan = mix(toSphere, modelPosTwo, uThirdTrigger);
 
-            // scene3
-            // scene3 animation
 
-            // float rotateAngleT = atan(modelPosTwo.x, modelPosTwo.y);
-            // float distanceToCenterT = length(modelPosTwo.xy);
-            // float angleOffsetT = (1.0 / distanceToCenter) * uTime * 0.01;
-            // rotateAngleT += angleOffsetT;
+            /**
+             * Scene 4
+             */
+             // morph into people
+            vec3 toPeople = mix(toMan, modelPosThree,uFourthTrigger);
 
-            // vec3 secondMorphed = vec3(0.0);
-            // vec3 tarTwo = modelPosTwo + curl(modelPosTwo.x * .5, modelPosTwo.y * .3, modelPosTwo.z) * 4.;
-            // vec3 mixedTwo = mix(modelPosTwo, tarTwo * uFirstTrigger, pow( d, 5. ) );
-            // secondMorphed += (mixedTwo - firstMorphed) * uTriggerTwo;
-            // secondMorphed += firstMorphed;
-     
-            // scene4
-            // scene4 animation
             // vec3 thirdMorphed = vec3(0.0);
             // thirdMorphed += (modelPosThree - secondMorphed) * uTriggerThree;
             // thirdMorphed += secondMorphed;
 
             // camera
-            vec4 viewPosition = viewMatrix * vec4(toSphere, 1.);
+            vec4 viewPosition = viewMatrix * vec4(toPeople, 1.);
         
             gl_Position = projectionMatrix * viewPosition;  
       
@@ -472,6 +462,12 @@ class CustomMaterialMain extends ShaderMaterial {
         uSecondTrigger: {
           value: 0,
         },
+        uThirdTrigger: {
+          value: 0,
+        },
+        uFourthTrigger: {
+          value: 0,
+        },
         uTriggerTwo: {
           value: 0,
         },
@@ -585,6 +581,22 @@ class CustomMaterialMain extends ShaderMaterial {
 
   get uSecondTrigger() {
     return this.uniforms.uSecondTrigger.value;
+  }
+
+  set uThirdTrigger(value) {
+    this.uniforms.uThirdTrigger.value = value;
+  }
+
+  get uThirdTrigger() {
+    return this.uniforms.uThirdTrigger.value;
+  }
+
+  set uFourthTrigger(value) {
+    this.uniforms.uFourthTrigger.value = value;
+  }
+
+  get uFourthTrigger() {
+    return this.uniforms.uFourthTrigger.value;
   }
 
   set uTriggerTwo(value) {
