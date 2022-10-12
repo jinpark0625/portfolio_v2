@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Image from "next/image";
-import url from "/public/images/proejct_3_m.webp";
+import url from "/public/images/proejct_3.webp";
 import img1 from "/public/images/coffeebak/coffee_img_1.png";
 import img2 from "/public/images/coffeebak/coffee_img_2.png";
 import img3 from "/public/images/coffeebak/coffee_img_3.png";

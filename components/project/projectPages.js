@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import React, { useRef, useMemo } from "react";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { ScrollControls, useScroll, Html, Scroll } from "@react-three/drei";
 import { TextureLoader, LinearFilter } from "three";
 import * as THREE from "three";
@@ -47,11 +47,9 @@ function Plane({ color = "white", map, ...props }) {
   );
 }
 function Content({ left, children, map }) {
-  const { contentMaxWidth, align, mobile } = useBlock();
-  const aspect = 1.618;
+  const { contentMaxWidth, align, mobile, aspect } = useBlock();
 
   const alignRight = (align - contentMaxWidth) / 2;
-
   const ref = useRef();
 
   //calculation of textHeight
@@ -82,11 +80,13 @@ function Content({ left, children, map }) {
 
 const ProjectPages = ({ router }) => {
   const textures = useLoader(TextureLoader, state.images);
-  const [img1, img2, img3, img4, img5, img6] = textures.map(
-    (texture) => ((texture.minFilter = LinearFilter), texture)
-  );
-  const { contentMaxWidth, mobile, canvasHeight } = useBlock();
-  const aspect = 1.618;
+  const [img1, img2, img3, img4, img5, img6] = useMemo(() => {
+    return textures.map(
+      (texture) => ((texture.minFilter = LinearFilter), texture)
+    );
+  }, []);
+  const { contentMaxWidth, mobile, canvasHeight, aspect } = useBlock();
+
   const pixelWidth = contentMaxWidth * state.zoom;
 
   const contentHeight = contentMaxWidth / aspect;
@@ -106,7 +106,6 @@ const ProjectPages = ({ router }) => {
       distance={1}
       damping={4}
       horizontal={false}
-      // infinite={true}
     >
       <Scroll>
         {/* First section */}

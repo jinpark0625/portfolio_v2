@@ -1,2 +1,4 @@
 import Contents from "./contents";
-export { Contents };
+import ContentsWrap from "./contentsWrap";
+
+export { Contents, ContentsWrap };

@@ -6,7 +6,6 @@ import Loader from "../../components/loader";
 import { useRouter } from "next/router";
 import { A11yAnnouncer } from "@react-three/a11y";
 import { ProjectPages } from "../../components/project";
-// import { Preload } from "@react-three/drei";
 
 const Work = () => {
   const router = useRouter();

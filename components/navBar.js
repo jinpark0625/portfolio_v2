@@ -99,7 +99,7 @@ const Navbar = () => {
       <div ref={el}>
         <Nav>
           <div className="navWrap">
-            {router.pathname === "/work" ? null : (
+            {router.pathname === "/" || router.pathname === "/work" ? null : (
               <MemoRizedArrow
                 menu={menu}
                 path={router.pathname}

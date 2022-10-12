@@ -1,15 +1,14 @@
-import React from 'react'
-import {Text} from "@react-three/drei";
-import {
-    useSpring,
-    animated,
-    config,
-    useTransition,
-  } from "@react-spring/three";
+import React from "react";
+import { Text } from "@react-three/drei";
+import { animated, useTransition } from "@react-spring/three";
 
 const AnimatedText = animated(Text);
 
-const BodyText = React.memo(function BodyText({ body, index, currentBodyIndex }) {
+const BodyText = React.memo(function BodyText({
+  body,
+  index,
+  currentBodyIndex,
+}) {
   /**
    * body texts
    */
@@ -33,12 +32,10 @@ const BodyText = React.memo(function BodyText({ body, index, currentBodyIndex })
    * font config
    */
   const fontProps = {
-    font:
-    process.env.NEXT_PUBLIC_API_URL + "/fonts/BLCereal-Regular.woff",
-    fontSize: 0.28,
+    font: process.env.NEXT_PUBLIC_API_URL + "/fonts/BLCereal-Regular.woff",
+    fontSize: 0.18,
     characters: "abcdefghijklmnopqrstuvwxyz0123456789!",
   };
-
 
   return (
     <>
@@ -59,4 +56,4 @@ const BodyText = React.memo(function BodyText({ body, index, currentBodyIndex })
   );
 });
 
-export default BodyText
+export default BodyText;

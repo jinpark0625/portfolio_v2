@@ -43,6 +43,7 @@ function useBlock() {
   const margin = (canvasWidth * zoom - 138) / zoom;
   const marginMobile = (canvasWidth * zoom - 70) / zoom;
   const align = (canvasWidth * zoom - 100) / zoom;
+  const aspect = 1.618;
 
   // Project Contents
   const contentMaxWidth = mobile ? marginMobile : margin * 0.5;
@@ -66,6 +67,7 @@ function useBlock() {
     contentMaxWidth,
     offsetFactor,
     currentScale,
+    aspect,
   };
 }
 
