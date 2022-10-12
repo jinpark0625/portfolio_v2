@@ -1,5 +1,5 @@
-import React from "react";
-import { useCursor, useScroll, Center } from "@react-three/drei";
+import React, { forwardRef } from "react";
+import { useCursor, useScroll, Center, Html } from "@react-three/drei";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import state from "./mainStore";
@@ -7,8 +7,10 @@ import { PlaneGeometry, Vector2 } from "three";
 import BodyText from "./bodyText";
 import Contents from "./contents";
 import { OBJLoader } from "three-stdlib";
+import useRefs from "react-use-refs";
 
 const ContentsWrap = ({ children, ...props }) => {
+  console.log("contentsWrap");
   const { canvasWidth, canvasHeight } = useBlock();
   const hoveredRef = React.useRef(false);
 
@@ -25,6 +27,8 @@ const ContentsWrap = ({ children, ...props }) => {
    * text
    */
   const [currentBodyIndex, setCurrentBodyIndex] = React.useState(null);
+  // const currentBodyIndex = React.useRef();
+
   const bodyCentents = React.useMemo(() => {
     return [
       "First Sentence.",
@@ -35,13 +39,12 @@ const ContentsWrap = ({ children, ...props }) => {
       "Sixth Sentence",
     ];
   }, []);
-  const ref = React.useRef();
+
+  const [firstText, secondText, thirdText, fourthText, fifthText] = useRefs();
 
   // scroll attrs
-  useFrame(({ mouse, camera, clock }, delta) => {
-    // console.log(hoveredRef);
+  useFrame(({ mouse, clock }) => {
     // Elapsed Time
-    // console.log(ref);
     state.point.current.material.uniforms.uTime.value = clock.elapsedTime;
 
     /**
@@ -60,12 +63,12 @@ const ContentsWrap = ({ children, ...props }) => {
     // scene - 1
     const aScroll = scroll.range(0, 1 / 12);
     const a = scroll.visible(0, 0.7 / 12);
-    const b = scroll.visible(0.7 / 12, 1 / 12);
+    const b = scroll.visible(0.7 / 12, 1.4 / 12);
     const bRange = scroll.range(0.7 / 12, 1 / 12);
 
     state.point.current.material.uniforms.uFirstTrigger.value = aScroll;
-    a && setCurrentBodyIndex(null);
-    b && setCurrentBodyIndex(0);
+    firstText.current?.classList.toggle("show", b);
+
     state.point.current.material.uniforms.uLowerOpacity.value = bRange;
 
     //  scene - 2
@@ -77,49 +80,41 @@ const ContentsWrap = ({ children, ...props }) => {
     const cRange = scroll.range(1.7 / 12, 1 / 12);
     const fRange = scroll.range(3.6 / 12, 1 / 12);
 
-    c && setCurrentBodyIndex(null);
     state.point.current.material.uniforms.uSecondTrigger.value = cRange;
     state.point.current.material.uniforms.uIncreaseOpacity.value = cRange;
 
-    e && setCurrentBodyIndex(null);
-
-    if (f) {
-      setCurrentBodyIndex(1);
-      state.point.current.material.uniforms.uLowerOpacity.value = fRange + 0.97;
-    }
+    f &&
+      (state.point.current.material.uniforms.uLowerOpacity.value =
+        fRange + 0.97);
+    secondText.current?.classList.toggle("show", f);
 
     // scene - 3
     const g = scroll.visible(4.6 / 12, 1 / 12);
     const h = scroll.visible(5.6 / 12, 1 / 12);
     const gRange = scroll.range(4.6 / 12, 1 / 12);
 
-    if (g) {
-      setCurrentBodyIndex(null);
-      state.point.current.material.uniforms.uIncreaseOpacity.value = gRange;
-    }
+    g &&
+      (state.point.current.material.uniforms.uIncreaseOpacity.value = gRange);
     state.point.current.material.uniforms.uThirdTrigger.value = gRange;
-    h && setCurrentBodyIndex(2);
+    thirdText.current?.classList.toggle("show", h);
 
     // scene - 4
     const i = scroll.visible(6.6 / 12, 1 / 12);
     const iRange = scroll.range(6.6 / 12, 1 / 12);
     const jRange = scroll.range(7.6 / 12, 1 / 12);
     state.point.current.material.uniforms.uFourthTrigger.value = iRange;
-    i && setCurrentBodyIndex(null);
     state.point.current.material.uniforms.uFifthTrigger.value = jRange;
 
     // scene - 5
     const k = scroll.visible(8.6 / 12, 1 / 12);
     const l = scroll.visible(9.6 / 12, 1 / 12);
     const lRange = scroll.range(9.6 / 12, 1 / 12);
-    k && setCurrentBodyIndex(3);
-    l && setCurrentBodyIndex(null);
     state.point.current.material.uniforms.uSixthTrigger.value = lRange;
+    fourthText.current?.classList.toggle("show", k);
 
     // scene - 6
-    const m = scroll.visible(10.6 / 12, 1 / 12);
-    m && setCurrentBodyIndex(4);
-
+    const m = scroll.visible(10.6 / 12, 1.4 / 12);
+    fifthText.current?.classList.toggle("show", m);
     state.point.current.geometry.verticesNeedUpdate = true;
   });
 
@@ -142,17 +137,25 @@ const ContentsWrap = ({ children, ...props }) => {
       <group>
         <Contents models={modelObj} />
       </group>
+
       <group>
-        <Center>
-          {bodyCentents.map((body, index) => (
-            <BodyText
-              key={index}
-              body={body}
-              index={index}
-              currentBodyIndex={currentBodyIndex}
-            />
-          ))}
-        </Center>
+        <Html className="text_wrap">
+          <div className="text" ref={firstText}>
+            오늘은 내 인생의 작은 점을 찍는 날입니다.
+          </div>
+          <div className="text" ref={secondText}>
+            인생은 작은 점들이 모여 현재가 되고 미래를 만듭니다.
+          </div>
+          <div className="text" ref={thirdText}>
+            나의 노력과 진정성을 더하면 좋은 결과가 있을 거라 믿습니다.
+          </div>
+          <div className="text" ref={fourthText}>
+            당신을 만나 인생의 빛나는 점을 찍고 싶습니다.
+          </div>
+          <div className="text" ref={fifthText}>
+            통찰력과 창의력으로 모두가 만족하는 솔루션을 제공하겠습니다
+          </div>
+        </Html>
       </group>
     </>
   );
