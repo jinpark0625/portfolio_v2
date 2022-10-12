@@ -1,22 +1,25 @@
 import React from "react";
-import { Scroll, useCursor, useScroll, Center } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useCursor, useScroll, Center } from "@react-three/drei";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import state from "./mainStore";
-import { Vector2, Vector3, MathUtils } from "three";
-import * as random from "maath/random";
+import { PlaneGeometry, Vector2 } from "three";
 import BodyText from "./bodyText";
+import Contents from "./contents";
+import { OBJLoader } from "three-stdlib";
 
 const ContentsWrap = ({ children, ...props }) => {
-  const { currentScale, canvasWidth, canvasHeight, mobile } = useBlock();
-  const planeRef = React.useRef();
+  const { canvasWidth, canvasHeight } = useBlock();
   const hoveredRef = React.useRef(false);
 
   // scroll variables
   const scroll = useScroll();
   useCursor(hoveredRef);
 
-  const mySphere = random.inSphere(new Float32Array(15000), { radius: 4 });
+  const modelObj = useLoader(OBJLoader, [
+    "/textures/man.obj",
+    "/textures/people.obj",
+  ]);
 
   /**
    * text
@@ -32,10 +35,14 @@ const ContentsWrap = ({ children, ...props }) => {
       "Sixth Sentence",
     ];
   }, []);
+  const ref = React.useRef();
 
+  // scroll attrs
   useFrame(({ mouse, camera, clock }, delta) => {
+    // console.log(hoveredRef);
     // Elapsed Time
-    state.point.current.material.uniforms.uTime.value = clock.getElapsedTime();
+    // console.log(ref);
+    state.point.current.material.uniforms.uTime.value = clock.elapsedTime;
 
     /**
      * mouse events
@@ -51,10 +58,10 @@ const ContentsWrap = ({ children, ...props }) => {
      * Scroll events
      */
     // scene - 1
-    const aScroll = scroll.range(0, 1 / 10);
-    const a = scroll.visible(0, 0.7 / 10);
-    const b = scroll.visible(0.7 / 10, 1 / 10);
-    const bRange = scroll.range(0.7 / 10, 1 / 10);
+    const aScroll = scroll.range(0, 1 / 12);
+    const a = scroll.visible(0, 0.7 / 12);
+    const b = scroll.visible(0.7 / 12, 1 / 12);
+    const bRange = scroll.range(0.7 / 12, 1 / 12);
 
     state.point.current.material.uniforms.uFirstTrigger.value = aScroll;
     a && setCurrentBodyIndex(null);
@@ -62,13 +69,13 @@ const ContentsWrap = ({ children, ...props }) => {
     state.point.current.material.uniforms.uLowerOpacity.value = bRange;
 
     //  scene - 2
-    const c = scroll.visible(1.7 / 10, 1 / 10);
-    const d = scroll.visible(2.7 / 10, 0.6 / 10);
-    const e = scroll.visible(3.2 / 10, 1.4 / 10);
-    const f = scroll.visible(3.6 / 10, 1 / 10);
+    const c = scroll.visible(1.7 / 12, 1 / 12);
+    const d = scroll.visible(2.7 / 12, 0.6 / 12);
+    const e = scroll.visible(3.2 / 12, 1.4 / 12);
+    const f = scroll.visible(3.6 / 12, 1 / 12);
 
-    const cRange = scroll.range(1.7 / 10, 1 / 10);
-    const fRange = scroll.range(3.6 / 10, 1 / 10);
+    const cRange = scroll.range(1.7 / 12, 1 / 12);
+    const fRange = scroll.range(3.6 / 12, 1 / 12);
 
     c && setCurrentBodyIndex(null);
     state.point.current.material.uniforms.uSecondTrigger.value = cRange;
@@ -82,9 +89,9 @@ const ContentsWrap = ({ children, ...props }) => {
     }
 
     // scene - 3
-    const g = scroll.visible(4.6 / 10, 1 / 10);
-    const h = scroll.visible(5.6 / 10, 1 / 10);
-    const gRange = scroll.range(4.6 / 10, 1 / 10);
+    const g = scroll.visible(4.6 / 12, 1 / 12);
+    const h = scroll.visible(5.6 / 12, 1 / 12);
+    const gRange = scroll.range(4.6 / 12, 1 / 12);
 
     if (g) {
       setCurrentBodyIndex(null);
@@ -94,22 +101,35 @@ const ContentsWrap = ({ children, ...props }) => {
     h && setCurrentBodyIndex(2);
 
     // scene - 4
-    const i = scroll.visible(6.6 / 10, 1 / 10);
-    const j = scroll.visible(7.6 / 10, 1 / 10);
-    const iRange = scroll.range(6.6 / 10, 1 / 10);
-    const jRange = scroll.range(7.6 / 10, 1 / 10);
+    const i = scroll.visible(6.6 / 12, 1 / 12);
+    const iRange = scroll.range(6.6 / 12, 1 / 12);
+    const jRange = scroll.range(7.6 / 12, 1 / 12);
     state.point.current.material.uniforms.uFourthTrigger.value = iRange;
     i && setCurrentBodyIndex(null);
+    state.point.current.material.uniforms.uFifthTrigger.value = jRange;
 
-    // const hRange = scroll.range(5.6 / 7, 1 / 7);
-    // state.point.current.material.uniforms.uTriggerThree.value = hRange;
+    // scene - 5
+    const k = scroll.visible(8.6 / 12, 1 / 12);
+    const l = scroll.visible(9.6 / 12, 1 / 12);
+    const lRange = scroll.range(9.6 / 12, 1 / 12);
+    k && setCurrentBodyIndex(3);
+    l && setCurrentBodyIndex(null);
+    state.point.current.material.uniforms.uSixthTrigger.value = lRange;
+
+    // scene - 6
+    const m = scroll.visible(10.6 / 12, 1 / 12);
+    m && setCurrentBodyIndex(4);
+
     state.point.current.geometry.verticesNeedUpdate = true;
   });
+
+  const planeGeo = React.useMemo(() => {
+    return new PlaneGeometry(1, 1, 1, 1);
+  }, []);
 
   return (
     <>
       <mesh
-        ref={planeRef}
         position={[0, 0, 0]}
         scale={[canvasWidth, canvasHeight, 1]}
         onPointerOver={(e) => (
@@ -117,12 +137,12 @@ const ContentsWrap = ({ children, ...props }) => {
         )}
         onPointerOut={(e) => (hoveredRef.current = false)}
         visible={false}
-      >
-        <planeGeometry args={[1, 1, 1, 1]} />
-        <meshBasicMaterial wireframe={true} />
-      </mesh>
+        geometry={planeGeo}
+      />
       <group>
-        {children}
+        <Contents models={modelObj} />
+      </group>
+      <group>
         <Center>
           {bodyCentents.map((body, index) => (
             <BodyText

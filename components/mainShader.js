@@ -1,18 +1,15 @@
-import { ShaderMaterial, Color, Vector2, Vector3 } from "three";
+import { ShaderMaterial, Vector2 } from "three";
 import { extend } from "@react-three/fiber";
 import * as THREE from "three";
-import { useBlock } from "./project/blocks";
 
 class CustomMaterialMain extends ShaderMaterial {
   constructor() {
     super({
       vertexShader: `
         // default set for position & animation
-        uniform float uSize;
         uniform float uPixelRatio;
         uniform float uTime;
         uniform float uFrequency;
-        uniform vec2 uResolution;
 
         // mouse event
         uniform vec3 uMouse;
@@ -23,16 +20,16 @@ class CustomMaterialMain extends ShaderMaterial {
         uniform float uSecondTrigger;
         uniform float uThirdTrigger;
         uniform float uFourthTrigger;
-        
+        uniform float uFifthTrigger;
+        uniform float uSixthTrigger;
 
-        uniform float uTriggerTwo;    
-        uniform float uTriggerThree;    
-        uniform float uRandomSecond;
-        uniform float uRandomThird;
-
+        // position
         attribute vec3 modelPos;
         attribute vec3 modelPosTwo;
         attribute vec3 modelPosThree;
+        attribute vec3 modelPosFour;
+
+        // options
         attribute float aScale;
         attribute float pindex;
         attribute float angle;
@@ -40,6 +37,7 @@ class CustomMaterialMain extends ShaderMaterial {
         attribute vec3 rand;
 
         varying vec3 vColor;
+        varying vec2 vUv;
             
         float PI = 3.1415926535389793238;
             
@@ -253,6 +251,8 @@ class CustomMaterialMain extends ShaderMaterial {
 
         void main()
         {
+     
+            vUv = uv;
             /**
              * Position
              */
@@ -277,9 +277,6 @@ class CustomMaterialMain extends ShaderMaterial {
             float distanceToCenter = length(animatedText.xy);
             float angleOffset = (1.0 / distanceToCenter) * uTime * 0.01;
             rotateAngle += angleOffset;
-        
-            // 1, 원의크기영향 작을수록. 2,커지면 크게퍼진다. 3,커지면 크게퍼진다. 4,작아지면 원이커진다.
-            float distanceToMouse = pow(1. - clamp(length(uMouse.xy - animatedText.xy) -.001, -2., 1.), 2.5);
 
             /**
              * Scene 1
@@ -289,10 +286,6 @@ class CustomMaterialMain extends ShaderMaterial {
             animatedText.x += uFirstTrigger * distortion * 10. * sin(angle);
             animatedText.y += uFirstTrigger * distortion * 10. * cos(angle);
             animatedText.z += uFirstTrigger * distortion * 20.;
-
-            // scene1 mouse event
-            animatedText.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
-            animatedText.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
 
             /**
              * Scene 2
@@ -309,7 +302,8 @@ class CustomMaterialMain extends ShaderMaterial {
             // rotating animation
             float angleS = atan(rotatingS.x, rotatingS.z);
             float distanceToCenterS = length(rotatingS.xz);
-            float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.13;
+            // float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.13;
+            float angleOffsetS = (1.0 / distanceToCenterS) + uTime * 0.13;
             angleS += angleOffsetS;
 
             rotatingS.x = cos(angleS) * distanceToCenterS;
@@ -317,30 +311,37 @@ class CustomMaterialMain extends ShaderMaterial {
           
             vec3 toSphere = mix(animatedText, rotatingS, uSecondTrigger);
 
-            // scene2 mouse event
-            float distanceToMouseSecond = pow(1. - clamp(length(uMouse.xy - toSphere.xy) -.001, -2., 1.), 3.);
-            toSphere.x -= distanceToMouseSecond * 0.5 * rndz * cos(angle) * uMouseTrigger;
-            toSphere.y -= distanceToMouseSecond * 0.5 * rndz * sin(angle) * uMouseTrigger;
-      
             /**
              * Scene 3
              */
             // morph into man
             vec3 toMan = mix(toSphere, modelPosTwo, uThirdTrigger);
 
-
             /**
              * Scene 4
              */
              // morph into people
             vec3 toPeople = mix(toMan, modelPosThree,uFourthTrigger);
+            
+            // animation
+            toPeople.z += uFifthTrigger * 7.;
 
-            // vec3 thirdMorphed = vec3(0.0);
-            // thirdMorphed += (modelPosThree - secondMorphed) * uTriggerThree;
-            // thirdMorphed += secondMorphed;
+            /**
+             * Scene 5
+             */
+             // morph into circle
+             vec3 tarC = modelPosFour + curl(modelPosFour.x * 2., modelPosFour.y * 2., modelPosFour.z * 2.) * 8.;
+             float dc = length(modelPosFour - tar) / 16.;
+             vec3 mixedC = mix(modelPosFour, tar, pow( d, 5. ));
+
+            vec3 toCircle = mix(toPeople, mixedC, uSixthTrigger);
+
+            float distanceToMouse = pow(1. - clamp(length(uMouse.xy - toCircle.xy) -.001, -2., 1.), 2.5);
+            toCircle.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
+            toCircle.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
 
             // camera
-            vec4 viewPosition = viewMatrix * vec4(toPeople, 1.);
+            vec4 viewPosition = viewMatrix * vec4(toCircle, 1.);
         
             gl_Position = projectionMatrix * viewPosition;  
       
@@ -356,74 +357,25 @@ class CustomMaterialMain extends ShaderMaterial {
 
             vColor = color;
         }
-                    `,
+      `,
       fragmentShader: `
-            uniform vec3 uColor;
-            uniform float uRandom;
-            uniform vec2 uResolution;
-            uniform float uTrigger;
-            uniform float uOpacity;
-            uniform float uTime;
-            uniform float uRandomSecond;
-
+            uniform float uSixthTrigger;
             uniform float uIncreaseOpacity;
             uniform float uLowerOpacity;
-
-            vec3 colorA = vec3(1.,1.,1.);
-            vec3 colorB = vec3(.1,.21,1.);
-
             varying vec3 vColor; 
 
-            #define TWO_PI 6.28318530718
-
-            float plot (vec2 st, float pct){
-              return  smoothstep( pct-0.01, pct, st.y) -
-                      smoothstep( pct, pct+0.01, st.y);
-            }
-
-            vec3 circle(vec2 coord, vec2 loc, float r){
-                float d;
-                d = length(coord - loc);
-                return vec3(d);
-            }
-
-            float rnd(float i) {
-              return mod(4000.*sin(23464.345*i+45.345),1.);
-            }
-            
-          
             void main()
             {
-                // float opacity = (uRandom - 1.0) * -1.;
-                // opacity += uOpacity;
-                // opacity = (uRandomSecond - 1.0) * -1.;
-            
-                // float opacityStr = clamp(opacity, 0.04, 0.18);
-            
-                //0.5 와 노멀라이즈된 UV값의 중간점을 찾는다.
-                // float distnaceToCenter = distance(gl_PointCoord, vec2(0.5));
-                // float strength = opacityStr / distnaceToCenter - 0.05 * 2.0;
+                vec3 color = vec3(1.);
+                vec3 finalColor = mix(color, vColor, uSixthTrigger);
+  
+                float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
+                float strength = 0.05 / distanceToCenter - 0.1;
 
-                // vec3 color = vec3(0.0);
-                // vec2 st = gl_FragCoord.xy/uResolution.xy;
-                // float pct = abs(sin(uTime)) * uTrigger;
-                // color = mix(colorA, colorB, pct);
-                // // vec3 col = 0.5 - 0.5*cos(uTime+vUv.xyx+vec3(0,2,4))/rnd(uTime * 7.)+0.05;
+                float mixedLow = mix(strength, 0., uLowerOpacity);
+                float mixedInc = mix(mixedLow, 0.05 / distanceToCenter - 0.1, uIncreaseOpacity);
 
-                // vec3 color = vec3(1.);
-                // vec3 finalColor = color + (vColor * uTrigger);
-              
-                // finalColor += (vColor - color) * uTrigger;
-                // finalColor += vColor;
-
-                float strength = distance(gl_PointCoord, vec2(0.5));
-                strength = 1. - strength;
-                strength = pow(strength, 5.0);
-
-                strength -= uLowerOpacity;
-                strength += uIncreaseOpacity;
-
-                gl_FragColor = vec4(vec3(1.), strength);
+                gl_FragColor = vec4(finalColor, mixedInc);
             }`,
 
       uniforms: {
@@ -436,9 +388,6 @@ class CustomMaterialMain extends ShaderMaterial {
         uPixelRatio: {
           value: Math.min(window.devicePixelRatio, 2),
         },
-        uSize: {
-          value: 1.5,
-        },
         uTime: {
           value: 0,
         },
@@ -450,10 +399,6 @@ class CustomMaterialMain extends ShaderMaterial {
         },
         uAmplitude: {
           value: 4,
-        },
-        uResolution: {
-          //   value: new Vector2(width, height),
-          value: new Vector2(0, 0),
         },
         // morphing trigger
         uFirstTrigger: {
@@ -468,19 +413,10 @@ class CustomMaterialMain extends ShaderMaterial {
         uFourthTrigger: {
           value: 0,
         },
-        uTriggerTwo: {
+        uFifthTrigger: {
           value: 0,
         },
-        uTriggerThree: {
-          value: 0,
-        },
-        uRandomSecond: {
-          value: 0,
-        },
-        uOpacity: {
-          value: 0,
-        },
-        uRandomThird: {
+        uSixthTrigger: {
           value: 0,
         },
         // opacity trigger
@@ -516,15 +452,6 @@ class CustomMaterialMain extends ShaderMaterial {
   get uPixelRatio() {
     return this.uniforms.uPixelRatio.value;
   }
-
-  set uSize(value) {
-    this.uniforms.uSize.value = value;
-  }
-
-  get uSize() {
-    return this.uniforms.uSize.value;
-  }
-
   set uTime(value) {
     this.uniforms.uTime.value = value;
   }
@@ -555,14 +482,6 @@ class CustomMaterialMain extends ShaderMaterial {
 
   get uAmplitude() {
     return this.uniforms.uAmplitude.value;
-  }
-
-  set uResolution(value) {
-    this.uniforms.uResolution.value = value;
-  }
-
-  get uResolution() {
-    return this.uniforms.uResolution.value;
   }
 
   // morphing trigger
@@ -599,44 +518,20 @@ class CustomMaterialMain extends ShaderMaterial {
     return this.uniforms.uFourthTrigger.value;
   }
 
-  set uTriggerTwo(value) {
-    this.uniforms.uTriggerTwo.value = value;
+  set uFifthTrigger(value) {
+    this.uniforms.uFifthTrigger.value = value;
   }
 
-  get uTriggerTwo() {
-    return this.uniforms.uTriggerTwo.value;
+  get uFifthTrigger() {
+    return this.uniforms.uFifthTrigger.value;
   }
 
-  set uTriggerThree(value) {
-    this.uniforms.uTriggerThree.value = value;
+  set uSixthTrigger(value) {
+    this.uniforms.uSixthTrigger.value = value;
   }
 
-  get uTriggerThree() {
-    return this.uniforms.uTriggerThree.value;
-  }
-
-  set uRandomSecond(value) {
-    this.uniforms.uRandomSecond.value = value;
-  }
-
-  get uRandomSecond() {
-    return this.uniforms.uRandomSecond.value;
-  }
-
-  set uOpacity(value) {
-    this.uniforms.uOpacity.value = value;
-  }
-
-  get uOpacity() {
-    return this.uniforms.uOpacity.value;
-  }
-
-  set uRandomThird(value) {
-    this.uniforms.uRandomThird.value = value;
-  }
-
-  get uRandomThird() {
-    return this.uniforms.uRandomThird.value;
+  get uSixthTrigger() {
+    return this.uniforms.uSixthTrigger.value;
   }
 
   set uIncreaseOpacity(value) {
