@@ -27,12 +27,11 @@ import {
   ScrollFooter,
 } from "../../components/project";
 import Link from "next/link";
-
+import Seo from "../../components/seo";
 const YellowBasket = () => {
-  // F4F2E9
-  // f9f6f1
   return (
     <>
+      <Seo title="YellowBasket" />
       <ScrollProgress color="#ffcc00" />
       <ScrollSmooth mainColor="#121212" subColor="#f9f6f1">
         <Wrap>

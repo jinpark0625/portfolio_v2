@@ -26,10 +26,12 @@ import {
   ScrollFooter,
 } from "../../components/project";
 import Link from "next/link";
+import Seo from "../../components/seo";
 
 const CarrotRentCar = () => {
   return (
     <>
+      <Seo title="CarrotRentCar" />
       <ScrollProgress color="#14473c" />
       <ScrollSmooth mainColor="#fff" subColor="#dae4e1">
         <Wrap>

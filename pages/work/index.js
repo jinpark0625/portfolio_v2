@@ -5,12 +5,14 @@ import "../../components/project/projectsShader";
 import Loader from "../../components/loader";
 import { useRouter } from "next/router";
 import { ProjectPages } from "../../components/project";
+import Seo from "../../components/seo";
 
 const Work = () => {
   const router = useRouter();
 
   return (
     <div className="canvasWrap" style={{ position: "relative", zIndex: 1 }}>
+      <Seo title="Work" />
       <Canvas
         className="canvas"
         linear

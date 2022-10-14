@@ -28,10 +28,12 @@ import {
   ScrollFooter,
 } from "../../components/project";
 import Link from "next/link";
+import Seo from "../../components/seo";
 
 const BinWorks = () => {
   return (
     <>
+      <Seo title="BinWorks" />
       <ScrollProgress color="#feae2e" />
       <ScrollSmooth mainColor="#090909" subColor="#fff">
         <Wrap>

@@ -25,10 +25,12 @@ import {
   ScrollFooter,
 } from "../../components/project";
 import Link from "next/link";
+import Seo from "../../components/seo";
 
 const Goodcafeteria = () => {
   return (
     <>
+      <Seo title="GoodCafeteria" />
       <ScrollProgress color="#000" />
       <ScrollSmooth mainColor="#ff9030" subColor="#ededed">
         {/* <ScrollSmooth mainColor="#ff9030" subColor="#363636"> */}
