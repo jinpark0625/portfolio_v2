@@ -1,16 +1,14 @@
-import React, { forwardRef } from "react";
-import { useCursor, useScroll, Center, Html } from "@react-three/drei";
+import React from "react";
+import { useCursor, useScroll, Html } from "@react-three/drei";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import state from "./mainStore";
 import { PlaneGeometry, Vector2 } from "three";
-import BodyText from "./bodyText";
 import Contents from "./contents";
 import { OBJLoader } from "three-stdlib";
 import useRefs from "react-use-refs";
 
-const ContentsWrap = ({ children, ...props }) => {
-  console.log("contentsWrap");
+const ContentsWrap = ({ children, router, ...props }) => {
   const { canvasWidth, canvasHeight } = useBlock();
   const hoveredRef = React.useRef(false);
 
@@ -26,21 +24,16 @@ const ContentsWrap = ({ children, ...props }) => {
   /**
    * text
    */
-  const [currentBodyIndex, setCurrentBodyIndex] = React.useState(null);
-  // const currentBodyIndex = React.useRef();
-
-  const bodyCentents = React.useMemo(() => {
-    return [
-      "First Sentence.",
-      "Second Sentence.",
-      "Third Sentence.",
-      "Fourth Sentence.",
-      "Fifth Sentence.",
-      "Sixth Sentence",
-    ];
-  }, []);
-
-  const [firstText, secondText, thirdText, fourthText, fifthText] = useRefs();
+  const [
+    scrollNotice,
+    firstText,
+    secondText,
+    thirdText,
+    fourthText,
+    fifthText,
+    percent,
+    routerCheck,
+  ] = useRefs();
 
   // scroll attrs
   useFrame(({ mouse, clock }) => {
@@ -62,11 +55,14 @@ const ContentsWrap = ({ children, ...props }) => {
      */
     // scene - 1
     const aScroll = scroll.range(0, 1 / 12);
+    const start = scroll.visible(0.1 / 12, 11.9 / 12);
     const a = scroll.visible(0, 0.7 / 12);
     const b = scroll.visible(0.7 / 12, 1.4 / 12);
     const bRange = scroll.range(0.7 / 12, 1 / 12);
 
     state.point.current.material.uniforms.uFirstTrigger.value = aScroll;
+
+    scrollNotice.current?.classList.toggle("out", start);
     firstText.current?.classList.toggle("show", b);
 
     state.point.current.material.uniforms.uLowerOpacity.value = bRange;
@@ -116,6 +112,19 @@ const ContentsWrap = ({ children, ...props }) => {
     const m = scroll.visible(10.6 / 12, 1.4 / 12);
     fifthText.current?.classList.toggle("show", m);
     state.point.current.geometry.verticesNeedUpdate = true;
+
+    const mRange = scroll.range(10.6 / 12, 1.3 / 12);
+
+    if (mRange === 1) {
+      if (routerCheck.current === 1) return;
+      router.push("/work");
+      routerCheck.current = 1;
+      if (routerCheck.current === 1) return;
+    }
+
+    percent.current?.classList.toggle("percent", m);
+    const floor = Math.floor(mRange * 100);
+    m && percent.current && (percent.current.textContent = `to next ${floor}`);
   });
 
   const planeGeo = React.useMemo(() => {
@@ -140,6 +149,9 @@ const ContentsWrap = ({ children, ...props }) => {
 
       <group>
         <Html className="text_wrap">
+          <div className="scroll_noti" ref={scrollNotice}>
+            Scroll down slowly
+          </div>
           <div className="text" ref={firstText}>
             오늘은 내 인생의 작은 점을 찍는 날입니다.
           </div>
@@ -155,6 +167,7 @@ const ContentsWrap = ({ children, ...props }) => {
           <div className="text" ref={fifthText}>
             통찰력과 창의력으로 모두가 만족하는 솔루션을 제공하겠습니다
           </div>
+          <div className="hide percent" ref={percent}></div>
         </Html>
       </group>
     </>

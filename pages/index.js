@@ -4,10 +4,15 @@ import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 import Loader from "../components/loader";
 import { ContentsWrap } from "../components/main";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
   return (
-    <div className="canvasWrap" style={{ cursor: "auto" }}>
+    <div
+      className="canvasWrap"
+      style={{ cursor: "auto", position: "relative", zIndex: 1 }}
+    >
       <Seo title="Home" />
       <Canvas
         camera={{
@@ -27,13 +32,9 @@ export default function Home() {
             horizontal={false}
             infinite={false}
           >
-            <ContentsWrap />
+            <ContentsWrap router={router} />
           </ScrollControls>
         </Suspense>
-        {/* <axesHelper
-          position={[0, 0, 0]}
-          onUpdate={(self) => self.setColors("#ff2080", "#20ff80", "#2080ff")}
-        /> */}
       </Canvas>
     </div>
   );

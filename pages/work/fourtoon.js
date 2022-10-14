@@ -1,13 +1,11 @@
-import React, { useRef } from "react";
-import Image from "next/image";
-import url from "/public/images/fourtoon/url.png";
-import img1 from "/public/images/fourtoon/fourtoon_img_1.png";
-import img2 from "/public/images/fourtoon/fourtoon_img_2.png";
-import img3 from "/public/images/fourtoon/fourtoon_img_3.png";
-import img4 from "/public/images/fourtoon/fourtoon_img_4.png";
-import img5 from "/public/images/fourtoon/fourtoon_img_5.png";
-import img6 from "/public/images/fourtoon/fourtoon_img_6.png";
-import img7 from "/public/images/fourtoon/fourtoon_img_7.png";
+import React from "react";
+import url from "/public/images/fourtoon/url.webp";
+import img2 from "/public/images/fourtoon/fourtoon_img_2.webp";
+import img3 from "/public/images/fourtoon/fourtoon_img_3.webp";
+import img4 from "/public/images/fourtoon/fourtoon_img_4.webp";
+import img5 from "/public/images/fourtoon/fourtoon_img_5.webp";
+import img6 from "/public/images/fourtoon/fourtoon_img_6.webp";
+import img7 from "/public/images/fourtoon/fourtoon_img_7.webp";
 import {
   Header,
   HeaderTitle,

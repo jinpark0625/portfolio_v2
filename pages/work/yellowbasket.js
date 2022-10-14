@@ -1,12 +1,12 @@
 import React from "react";
 import url from "/public/images/proejct_2.webp";
-import img1 from "/public/images/yellowbasket/yellow_img_1.png";
-import img2 from "/public/images/yellowbasket/yellow_img_2.jpeg";
-import img3 from "/public/images/yellowbasket/yellow_img_3.png";
-import img4 from "/public/images/yellowbasket/yellow_img_4.png";
-import img5 from "/public/images/yellowbasket/yellow_img_5.png";
-import img6 from "/public/images/yellowbasket/yellow_img_6.png";
-import img7 from "/public/images/yellowbasket/yellow_img_7.png";
+import img1 from "/public/images/yellowbasket/yellow_img_1.webp";
+import img2 from "/public/images/yellowbasket/yellow_img_2.webp";
+import img3 from "/public/images/yellowbasket/yellow_img_3.webp";
+import img4 from "/public/images/yellowbasket/yellow_img_4.webp";
+import img5 from "/public/images/yellowbasket/yellow_img_5.webp";
+import img6 from "/public/images/yellowbasket/yellow_img_6.webp";
+import img7 from "/public/images/yellowbasket/yellow_img_7.webp";
 import {
   Header,
   HeaderTitle,
@@ -99,7 +99,7 @@ const YellowBasket = () => {
                   classStyle="block"
                   source="/images/yellowbasket/yellow_video_2.mp4"
                   scale="1.015"
-                  poster="/images/cafeteria/video_poster.webp"
+                  poster="/images/yellowbasket/video_poster.webp"
                 />
                 <ProjectImage img={img3} classStyle="marginGap" />
                 <ProjectImage img={img4} classStyle="marginGap" />

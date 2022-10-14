@@ -18,6 +18,7 @@ const StyledMenu = styled.div`
     height: 100%;
     padding-top: 80px;
     position: relative;
+    cursor: auto;
   }
   .section {
     width: 50%;
@@ -30,7 +31,7 @@ const StyledMenu = styled.div`
     transition: color 300ms;
   }
   .section:hover {
-    color: #aaa;
+    color: rgb(78, 78, 78);
   }
   .footer {
     width: 100%;

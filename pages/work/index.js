@@ -4,14 +4,13 @@ import state from "../../components/project/scrollStore";
 import "../../components/project/projectsShader";
 import Loader from "../../components/loader";
 import { useRouter } from "next/router";
-import { A11yAnnouncer } from "@react-three/a11y";
 import { ProjectPages } from "../../components/project";
 
 const Work = () => {
   const router = useRouter();
 
   return (
-    <div className="canvasWrap">
+    <div className="canvasWrap" style={{ position: "relative", zIndex: 1 }}>
       <Canvas
         className="canvas"
         linear
@@ -22,7 +21,6 @@ const Work = () => {
           <ProjectPages router={router} />
         </Suspense>
       </Canvas>
-      <A11yAnnouncer />
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import React from "react";
-import url from "/public/images/proejct_6.jpg";
-import img1 from "/public/images/rentcar/rent_img_1.png";
-import img2 from "/public/images/rentcar/rent_img_2.png";
-import img3 from "/public/images/rentcar/rent_img_3.png";
+import url from "/public/images/proejct_6.webp";
+import img1 from "/public/images/rentcar/rent_img_1.webp";
+import img2 from "/public/images/rentcar/rent_img_2.webp";
+import img3 from "/public/images/rentcar/rent_img_3.webp";
 import img4 from "/public/images/rentcar/rent_img_4.webp";
-import img5 from "/public/images/rentcar/rent_img_5.png";
-import img6 from "/public/images/rentcar/rent_img_6.png";
+import img5 from "/public/images/rentcar/rent_img_5.webp";
+import img6 from "/public/images/rentcar/rent_img_6.webp";
 import {
   Header,
   HeaderTitle,

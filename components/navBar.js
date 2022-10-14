@@ -5,6 +5,7 @@ import Menu from "./styledComponents/menu";
 import React from "react";
 import Logo from "./styledComponents/logo";
 import { gsap, Power1 } from "gsap";
+import useRefs from "react-use-refs";
 
 const Navbar = () => {
   const router = useRouter();
@@ -15,10 +16,9 @@ const Navbar = () => {
     setMenu((prev) => !prev);
   };
 
-  const el = React.useRef();
-  const q = gsap.utils.selector(el);
   // store the timeline in a ref.
-  const tl = React.useRef();
+  const [el, tl] = useRefs();
+  const q = gsap.utils.selector(el);
 
   //navigation animation
   React.useLayoutEffect(() => {
@@ -95,7 +95,7 @@ const Navbar = () => {
   };
 
   return (
-    <>
+    <div style={{ position: "relative", zIndex: 2 }}>
       <div ref={el}>
         <Nav>
           <div className="navWrap">
@@ -160,7 +160,7 @@ const Navbar = () => {
           </div>
         </Menu>
       </div>
-    </>
+    </div>
   );
 };
 

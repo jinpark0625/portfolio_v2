@@ -11,7 +11,8 @@ const fontSize = {
 };
 const space = [12, 20, 25, 30, 35, 54, 60, 75, 100, 105, 145];
 const color = {
-  background: "#17191c",
+  // background: "#17191c",
+  background: "#000",
   white: "#fff",
   gray: "#aaa",
 };

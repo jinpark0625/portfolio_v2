@@ -8,8 +8,9 @@ import "../mainShader";
 import * as THREE from "three";
 import SometimesMedium from "../../public/fonts/Sometimes_medium.json";
 import * as random from "maath/random";
+import useRefs from "react-use-refs";
 
-const Contents = ({ models }) => {
+const Contents = React.memo(function Contents({ models }) {
   // common
   const { currentScale, canvasWidth, canvasHeight, mobile } = useBlock();
 
@@ -17,16 +18,16 @@ const Contents = ({ models }) => {
    *  scene 1 text
    */
   // scene 1 - material
-  const material = React.useRef();
-  const text3D = React.useRef();
-  const point = React.useRef();
+  const [material, text3D, point] = useRefs();
 
   /**
    *  scene 2 sphere
    */
-  const mySphere = random.onSphere(new Float32Array(15400 * 3), {
-    radius: mobile ? canvasWidth / 3.4 : canvasWidth / 6,
-  });
+  const mySphere = React.useMemo(() => {
+    return random.onSphere(new Float32Array(15400 * 3), {
+      radius: mobile ? canvasWidth / 3.4 : canvasWidth / 6,
+    });
+  }, []);
 
   React.useLayoutEffect(() => {
     state.point.current = point.current;
@@ -238,6 +239,6 @@ const Contents = ({ models }) => {
       </Center>
     </>
   );
-};
+});
 
 export default Contents;

@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import React, { createContext, useRef, useContext, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { useCursor } from "@react-three/drei";
@@ -9,6 +8,7 @@ const offsetContext = createContext(0);
 function Block({ children, offset, factor, ...props }) {
   const { offset: parentOffset } = useBlock();
   const ref = useRef();
+
   //offset is the section index,
   // Fetch parent offset and the height of a single section
   offset = offset !== undefined ? offset : parentOffset;

@@ -1,10 +1,10 @@
 import React from "react";
-import img1 from "/public/images/cafeteria/cafeteria_img_1.png";
-import img2 from "/public/images/cafeteria/cafeteria_img_2.png";
-import img3 from "/public/images/cafeteria/cafeteria_img_3.png";
-import img4 from "/public/images/cafeteria/cafeteria_img_4.png";
-import img5 from "/public/images/cafeteria/cafeteria_img_5.png";
-import img6 from "/public/images/cafeteria/cafeteria_img_6.png";
+import img1 from "/public/images/cafeteria/cafeteria_img_1.webp";
+import img2 from "/public/images/cafeteria/cafeteria_img_2.webp";
+import img3 from "/public/images/cafeteria/cafeteria_img_3.webp";
+import img4 from "/public/images/cafeteria/cafeteria_img_4.webp";
+import img5 from "/public/images/cafeteria/cafeteria_img_5.webp";
+import img6 from "/public/images/cafeteria/cafeteria_img_6.webp";
 import {
   Header,
   HeaderTitle,
