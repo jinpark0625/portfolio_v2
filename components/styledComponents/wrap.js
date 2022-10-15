@@ -85,6 +85,75 @@ const Styledwrap = styled.div`
     z-index: 0;
   }
 
+  .about_margin {
+    margin: 148px 0 192px;
+    padding: 0 45px;
+  }
+  .about_container {
+    display: flex;
+    flex-direction: column;
+  }
+  .about_item_margin {
+    margin: 80px auto 0;
+  }
+  .about_wrap {
+    padding-top: 48px;
+    border-top: 1px solid #c4c4c4;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .aboutTag {
+    margin-bottom: 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+  .skill_item,
+  .edu_item {
+    display: flex;
+    flex-direction: column;
+    width: 33.3333%;
+  }
+  .edu_item > p:last-child {
+    margin-top: 16px;
+  }
+  .edu_item_m {
+    width: 100%;
+    flex-wrap: wrap;
+    display: none;
+  }
+  .edu_item_m > p {
+    width: 100%;
+  }
+  .about_wrap > .edu_item_m:last-child {
+    margin-top: 16px;
+  }
+  .skill_title {
+    font-size: ${({ theme: { fontSize } }) => fontSize.paragraph}rem;
+    color: ${({ theme: { color }, fontColor }) => fontColor || color.white};
+    line-height: ${({ theme: { lineHeight } }) => lineHeight.paragraph};
+    font-weight: 600;
+    line-height: 2;
+  }
+  .skill_list {
+    color: #fff;
+    line-height: 2;
+    font-weight: 300;
+  }
+  .about_work {
+    padding: 48px 0;
+    border-top: 1px solid #c4c4c4;
+    display: flex;
+    color: #fff;
+    flex-wrap: wrap;
+  }
+  .about_work_item {
+    width: 33.3333%;
+  }
+  .about_work_item_des {
+    width: 66.6666%;
+    font-weight: 300;
+  }
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.desktop}px) {
     .imageWrap {
@@ -97,6 +166,29 @@ const Styledwrap = styled.div`
     .center {
       flex-wrap: wrap;
       padding: 0 45px;
+    }
+    .about_margin {
+      margin: 108px 0 84px;
+      padding: 0;
+    }
+    .about_header {
+      padding: 0 45px;
+    }
+    .about_wrap {
+      padding-top: 24px;
+    }
+    .skill_item,
+    .about_work_item,
+    .about_work_item_des,
+    .edu_item {
+      width: 50%;
+    }
+
+    .skill_item:last-child {
+      margin-top: 24px;
+    }
+    .about_work {
+      padding: 24px 0;
     }
   }
 
@@ -135,6 +227,30 @@ const Styledwrap = styled.div`
     }
     .projectAbout {
       width: 100%;
+    }
+    .about_header {
+      padding: 0 35px;
+    }
+    .skill_item,
+    .about_work_item,
+    .about_work_item_des,
+    .edu_item {
+      width: 100%;
+    }
+    .about_work_item_des {
+      margin-top: 16px;
+    }
+    .skill_item {
+      margin-top: 24px;
+    }
+    .skill_item:first-child {
+      margin-top: 0;
+    }
+    .edu_item {
+      display: none;
+    }
+    .edu_item_m {
+      display: flex;
     }
   }
 
