@@ -88,9 +88,13 @@ const Navbar = () => {
     tl.current.reversed(!menu);
   }, [menu]);
 
-  const handleClick = (e, name) => {
-    e.preventDefault();
-    router.push(name);
+  React.useEffect(() => {
+    if (menu) {
+      document.body.style.overflow = "hidden";
+    } else document.body.style.overflow = "auto";
+  }, [menu]);
+
+  const handleClick = () => {
     setMenu(false);
   };
 
@@ -99,24 +103,25 @@ const Navbar = () => {
       <div ref={el}>
         <Nav>
           <div className="navWrap">
-            {router.pathname === "/" || router.pathname === "/work" ? null : (
+            {router.pathname === "/" ||
+            router.pathname === "/work" ||
+            router.pathname === "/about" ? null : (
               <MemoRizedArrow
                 menu={menu}
                 path={router.pathname}
                 onClick={() => router.push("/work")}
               />
             )}
-            <a
-              onClick={(e) => handleClick(e, "/")}
-              style={{
-                pointerEvents:
-                  router.pathname === "/work" || menu ? "all" : "none",
-                opacity: router.pathname === "/work" ? 1 : 0,
-              }}
-              className={`${router.pathname !== "/work" && "logo"} logoWrap`}
-            >
-              <Logo menu={menu} router={router.pathname} />
-            </a>
+            {router.pathname === "/work" || router.pathname === "/about" ? (
+              <Link href="/">
+                <a className="logoWrap">
+                  <Logo menu={menu} router={router.pathname} />
+                </a>
+              </Link>
+            ) : (
+              <div></div>
+            )}
+
             <HamburgerMenu
               menu={menu}
               menuOpen={menuOpen}
@@ -132,23 +137,25 @@ const Navbar = () => {
           <div className="wrap">
             <span className="top_line line" />
             <span className="bot_line line" />
-
-            <a
-              className="section"
-              onClick={(e) => handleClick(e, "/work")}
-              style={{ cursor: "pointer" }}
-            >
-              <span className="center_line" />
-              <div className="li">Work</div>
-            </a>
-
-            <a
-              className="section"
-              onClick={(e) => handleClick(e, "/about")}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="li">About</div>
-            </a>
+            <Link href="/work">
+              <a
+                className="section"
+                style={{ cursor: "pointer" }}
+                onClick={handleClick}
+              >
+                <span className="center_line" />
+                <div className="li">Work</div>
+              </a>
+            </Link>
+            <Link href="/about">
+              <a
+                className="section"
+                style={{ cursor: "pointer" }}
+                onClick={handleClick}
+              >
+                <div className="li">About</div>
+              </a>
+            </Link>
 
             <div className="footer">
               <Link href="mailto:jinpark0625@gmail.com">
