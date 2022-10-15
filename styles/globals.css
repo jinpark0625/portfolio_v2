@@ -30,6 +30,7 @@ a {
   align-items: center;
   cursor: pointer;
   position: relative;
+  pointer-events: all;
 }
 .false {
   left: -11px;
@@ -57,6 +58,7 @@ a {
 }
 ::-webkit-scrollbar {
   width: 0;
+  display: none;
 }
 
 .canvasWrap {
@@ -68,6 +70,7 @@ a {
   z-index: 1 !important;
 } */
 .canvasWrap > div > div > div:last-child::-webkit-scrollbar {
+  display: block;
   width: 0.3rem;
   overscroll-behavior: none;
 }
@@ -229,11 +232,11 @@ a {
 .hide {
   opacity: 0;
   transition: opacity 0.4s;
-}
-.percent {
-  opacity: 1;
   color: rgb(78, 78, 78);
   position: absolute;
   right: -40vw;
   bottom: -40vh;
+}
+.percent {
+  opacity: 1;
 }
