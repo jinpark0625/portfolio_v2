@@ -139,7 +139,7 @@ const ProjectPages = ({ router }) => {
         {/* First section */}
 
         <Block
-          offset={5}
+          offset={mobile ? canvasHeight / 2 - 1.142 : 5}
           onClick={() => {
             router.push(`/work/goodcafeteria`);
           }}
@@ -163,7 +163,7 @@ const ProjectPages = ({ router }) => {
         {/* Second section */}
 
         <Block
-          offset={mobile ? -contentHeight + 3.6 : 5}
+          offset={mobile ? canvasHeight / 2 - 1.142 - contentHeight - 1.38 : 5}
           onClick={() => {
             router.push(`/work/yellowbasket`);
           }}
@@ -186,7 +186,11 @@ const ProjectPages = ({ router }) => {
 
         {/* Third section */}
         <Block
-          offset={mobile ? -contentHeight * 2 + 2.2 : -contentHeight + 3.6}
+          offset={
+            mobile
+              ? canvasHeight / 2 - 1.142 - contentHeight * 2 - 1.38 * 2
+              : -contentHeight + 3.6
+          }
           onClick={() => {
             router.push(`/work/coffeebak`);
           }}
@@ -210,7 +214,11 @@ const ProjectPages = ({ router }) => {
         {/* Fourth section */}
 
         <Block
-          offset={mobile ? -contentHeight * 3 + 0.8 : -contentHeight + 3.6}
+          offset={
+            mobile
+              ? canvasHeight / 2 - 1.142 - contentHeight * 3 - 1.38 * 3
+              : -contentHeight + 3.6
+          }
           onClick={() => {
             router.push(`/work/binworks`);
           }}
@@ -233,7 +241,11 @@ const ProjectPages = ({ router }) => {
         {/* Fifth section */}
 
         <Block
-          offset={mobile ? -contentHeight * 4 - 0.6 : -contentHeight * 2 + 2.2}
+          offset={
+            mobile
+              ? canvasHeight / 2 - 1.142 - contentHeight * 4 - 1.38 * 4
+              : -contentHeight * 2 + 2.2
+          }
           onClick={() => {
             router.push(`/work/fourtoon`);
           }}
@@ -256,7 +268,11 @@ const ProjectPages = ({ router }) => {
 
         {/* Last section */}
         <Block
-          offset={mobile ? -contentHeight * 5 - 2 : -contentHeight * 2 + 2.2}
+          offset={
+            mobile
+              ? canvasHeight / 2 - 1.142 - contentHeight * 5 - 1.38 * 5
+              : -contentHeight * 2 + 2.2
+          }
           onClick={() => {
             router.push(`/work/carrotrentcar`);
           }}
