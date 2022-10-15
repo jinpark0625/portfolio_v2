@@ -11,7 +11,6 @@
   "dependencies": {
     "@babel/core": "^7.18.13",
     "@react-spring/three": "^9.5.2",
-    "@react-three/cannon": "^6.4.0",
     "@react-three/drei": "^9.22.7",
     "@react-three/fiber": "^8.3.1",
     "babel-preset-next": "^1.4.0",
@@ -20,10 +19,8 @@
     "lerp": "^1.0.3",
     "maath": "^0.0.2",
     "next": "12.2.5",
-    "nice-color-palettes": "^3.0.0",
     "nprogress": "^0.2.0",
     "react": "18.2.0",
-    "react-dat-gui": "^4.1.1",
     "react-dom": "18.2.0",
     "react-spring": "^9.5.2",
     "react-use-refs": "^1.0.1",

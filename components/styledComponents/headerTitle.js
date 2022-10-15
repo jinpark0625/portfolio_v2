@@ -9,6 +9,7 @@ const StyledHeaderTitle = styled.p`
   padding: ${({ padding }) => padding};
   font-weight: ${({ weight }) => weight};
   font-family: ${({ fontFamily }) => fontFamily};
+  width: ${({ width }) => width};
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.miniTablet}px) {
