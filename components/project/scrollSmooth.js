@@ -1,11 +1,5 @@
 import React, { useState, useRef, useLayoutEffect, useCallback } from "react";
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  Variants,
-} from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import ResizeObserver from "resize-observer-polyfill";
 
 const ScrollSmooth = ({ mainColor, subColor, children }) => {
@@ -33,20 +27,6 @@ const ScrollSmooth = ({ mainColor, subColor, children }) => {
   const transform = useTransform(scrollY, [0, pageHeight], [0, -pageHeight]);
   const physics = { damping: 15, mass: 0.27, stiffness: 55 }; // easing of smooth scroll
   const spring = useSpring(transform, physics); // apply easing to the negative scroll value
-
-  const Variants = {
-    start: {
-      background: mainColor,
-    },
-    end: {
-      background: subColor,
-      transition: {
-        type: "spring",
-        bounce: 0.4,
-        duration: 0.8,
-      },
-    },
-  };
 
   const backgroundFramer = useTransform(
     scrollYProgress,

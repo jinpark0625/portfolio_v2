@@ -9,7 +9,7 @@ import { OBJLoader } from "three-stdlib";
 import useRefs from "react-use-refs";
 
 const ContentsWrap = ({ children, router, ...props }) => {
-  const { canvasWidth, canvasHeight } = useBlock();
+  const { canvasWidth, canvasHeight, mobile } = useBlock();
   const hoveredRef = React.useRef(false);
 
   // scroll variables
@@ -45,10 +45,12 @@ const ContentsWrap = ({ children, router, ...props }) => {
      */
     const x = (mouse.x * canvasWidth) / 2;
     const y = (mouse.y * canvasHeight) / 2;
-    if (hoveredRef.current) {
-      state.point.current.material.uniforms.uMouse.value = new Vector2(x, y);
-      state.point.current.material.uniforms.uMouseTrigger.value = 1;
-    } else state.point.current.material.uniforms.uMouseTrigger.value = 0;
+    if (!mobile) {
+      if (hoveredRef.current) {
+        state.point.current.material.uniforms.uMouse.value = new Vector2(x, y);
+        state.point.current.material.uniforms.uMouseTrigger.value = 1;
+      } else state.point.current.material.uniforms.uMouseTrigger.value = 0;
+    }
 
     /**
      * Scroll events

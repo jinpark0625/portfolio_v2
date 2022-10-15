@@ -11,7 +11,9 @@ const Logo = ({ menu, router }) => {
       xmlSpace="preserve"
       fill="#fff"
       width="20px"
-      display={router === "/work" || menu ? "block" : "none"}
+      // display={
+      //   router === "/work" || router === "/about" || menu ? "block" : "none"
+      // }
     >
       <g>
         <path

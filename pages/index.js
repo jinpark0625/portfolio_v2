@@ -18,7 +18,8 @@ export default function Home() {
         camera={{
           fov: 75,
           near: 0.1,
-          far: 100,
+          // far: 100,
+          far: 1000,
         }}
         className="canvas"
         gl={{ antialias: false }}
