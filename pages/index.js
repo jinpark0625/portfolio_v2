@@ -5,9 +5,14 @@ import { ScrollControls } from "@react-three/drei";
 import Loader from "../components/loader";
 import { ContentsWrap } from "../components/main";
 import { useRouter } from "next/router";
+import { NextRequest, NextResponse, userAgent } from "next/server";
+import { isMobile } from "react-device-detect";
 
 export default function Home() {
   const router = useRouter();
+
+  const _isMobile = isMobile;
+
   return (
     <div
       className="canvasWrap"
@@ -18,7 +23,6 @@ export default function Home() {
         camera={{
           fov: 75,
           near: 0.1,
-          // far: 100,
           far: 1000,
         }}
         className="canvas"
@@ -33,7 +37,7 @@ export default function Home() {
             horizontal={false}
             infinite={false}
           >
-            <ContentsWrap router={router} />
+            <ContentsWrap router={router} isMobile={_isMobile} />
           </ScrollControls>
         </Suspense>
       </Canvas>
