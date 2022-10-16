@@ -109,12 +109,20 @@ const Navbar = () => {
               <MemoRizedArrow
                 menu={menu}
                 path={router.pathname}
-                onClick={() => router.push("/work")}
+                onClick={() => {
+                  router.push("/work");
+                  handleClick();
+                }}
               />
             )}
             {router.pathname === "/work" || router.pathname === "/about" ? (
               <Link href="/">
-                <a className="logoWrap">
+                <a
+                  className="logoWrap"
+                  onClick={() => {
+                    handleClick();
+                  }}
+                >
                   <Logo menu={menu} router={router.pathname} />
                 </a>
               </Link>

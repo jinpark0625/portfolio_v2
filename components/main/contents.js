@@ -10,7 +10,7 @@ import SometimesMedium from "../../public/fonts/Sometimes_medium.json";
 import * as random from "maath/random";
 import useRefs from "react-use-refs";
 
-const Contents = React.memo(function Contents({ models }) {
+const Contents = React.memo(function Contents({ models, isMobile }) {
   // common
   const { currentScale, canvasWidth, canvasHeight, mobile } = useBlock();
 
@@ -30,6 +30,8 @@ const Contents = React.memo(function Contents({ models }) {
   }, []);
 
   React.useLayoutEffect(() => {
+    isMobile && (point.current.material.uniforms.uMobile.value = 0.3);
+
     state.point.current = point.current;
 
     /**

@@ -59,6 +59,7 @@ a {
 ::-webkit-scrollbar {
   width: 0;
   display: none;
+  -webkit-appearance: none;
 }
 
 .canvasWrap {

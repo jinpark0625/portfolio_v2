@@ -5,7 +5,6 @@ import { ScrollControls } from "@react-three/drei";
 import Loader from "../components/loader";
 import { ContentsWrap } from "../components/main";
 import { useRouter } from "next/router";
-import { NextRequest, NextResponse, userAgent } from "next/server";
 import { isMobile } from "react-device-detect";
 
 export default function Home() {

@@ -8,7 +8,7 @@ import Contents from "./contents";
 import { OBJLoader } from "three-stdlib";
 import useRefs from "react-use-refs";
 
-const ContentsWrap = ({ children, router, ...props }) => {
+const ContentsWrap = ({ children, router, isMobile, ...props }) => {
   const { canvasWidth, canvasHeight, mobile } = useBlock();
   const hoveredRef = React.useRef(false);
 
@@ -146,7 +146,7 @@ const ContentsWrap = ({ children, router, ...props }) => {
         geometry={planeGeo}
       />
       <group>
-        <Contents models={modelObj} />
+        <Contents models={modelObj} isMobile={isMobile} />
       </group>
 
       <group>
