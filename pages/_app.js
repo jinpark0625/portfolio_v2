@@ -1,6 +1,6 @@
 import Layout from "../components/layout";
 import { useEffect } from "react";
-import "../styles/globals.css";
+import "../styles/globals.min.css";
 import "../styles/nprogress.css";
 import "../public/fonts/font.css";
 import Router from "next/router";
