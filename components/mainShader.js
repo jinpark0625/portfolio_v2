@@ -10,6 +10,8 @@ class CustomMaterialMain extends ShaderMaterial {
         uniform float uPixelRatio;
         uniform float uTime;
         uniform float uFrequency;
+        uniform float uMobile;
+        
 
         // mouse event
         uniform vec3 uMouse;
@@ -345,8 +347,7 @@ class CustomMaterialMain extends ShaderMaterial {
         
             gl_Position = projectionMatrix * viewPosition;  
       
-
-            float radiusRange = .4;
+            float radiusRange = .4 * uMobile;
             float radiusRandX = radiusRange * sin(uTime * rand.x + rand.y * .2);
             float radiusRandY = radiusRange * cos(uTime * rand.x + rand.y * .2);
             float radiusRandAll = radiusRandX + radiusRandY;
@@ -354,6 +355,9 @@ class CustomMaterialMain extends ShaderMaterial {
 
             gl_PointSize = finalRadius * uPixelRatio * aScale;
             gl_PointSize *= (1.0 / - viewPosition.z);
+
+
+            // gl_PointSize =  uPixelRatio * aScale * .1;
 
             vColor = color;
         }
@@ -425,6 +429,9 @@ class CustomMaterialMain extends ShaderMaterial {
         },
         uLowerOpacity: {
           value: 0,
+        },
+        uMobile: {
+          value: 1,
         },
       },
     });
@@ -545,6 +552,13 @@ class CustomMaterialMain extends ShaderMaterial {
   }
   get uLowerOpacity() {
     return this.uniforms.uLowerOpacity.value;
+  }
+  // mobile
+  set uMobile(value) {
+    this.uniforms.uMobile.value = value;
+  }
+  get uMobile() {
+    return this.uniforms.uMobile.value;
   }
 }
 
