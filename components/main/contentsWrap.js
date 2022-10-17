@@ -1,11 +1,10 @@
 import React from "react";
-import { useCursor, useScroll, Html } from "@react-three/drei";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useCursor, useScroll, Html, useFBX } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import state from "./mainStore";
 import { PlaneGeometry, Vector2 } from "three";
 import Contents from "./contents";
-import { OBJLoader } from "three-stdlib";
 import useRefs from "react-use-refs";
 
 const ContentsWrap = ({ children, router, isMobile, ...props }) => {
@@ -16,10 +15,7 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
   const scroll = useScroll();
   useCursor(hoveredRef);
 
-  const modelObj = useLoader(OBJLoader, [
-    "/textures/man.obj",
-    "/textures/people.obj",
-  ]);
+  const modelObj = useFBX(["man.fbx", "people.fbx"]);
 
   /**
    * text
