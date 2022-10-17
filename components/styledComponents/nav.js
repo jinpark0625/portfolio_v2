@@ -10,6 +10,7 @@ const StyledNav = styled.nav`
   width: 100%;
   height: 80px;
   pointer-events: none;
+  overflow: hidden;
 
   .navWrap {
     margin: 0 auto;

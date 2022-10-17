@@ -1,7 +1,7 @@
 import Layout from "../components/layout";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import "../styles/globals.min.css";
-import "../styles/nprogress.css";
+import "../styles/nprogress.min.css";
 import "../public/fonts/font.css";
 import Router from "next/router";
 import nProgress from "nprogress";
@@ -21,6 +21,18 @@ export default function App({ Component, pageProps }) {
       Router.events.off("routeChangeComplete", handleRouteDone);
       Router.events.off("routeChangeError", handleRouteDone);
     };
+  }, []);
+
+  const handleResize = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  };
+
+  useLayoutEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (

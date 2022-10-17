@@ -8,6 +8,7 @@ const StyledMenu = styled.div`
   z-index: 9999999;
   width: 100%;
   height: 100vh;
+  height: -webkit-fill-available;
   background: ${({ theme: { color } }) => color.background};
   transform: translateY(-100%);
 

@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useLayoutEffect } from "react";
 import Seo from "../components/seo";
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
