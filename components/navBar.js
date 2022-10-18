@@ -1,11 +1,20 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Nav, MemoRizedArrow, HamburgerMenu } from "./styledComponents/nav";
+import { Nav, HamburgerMenu } from "./styledComponents/nav";
 import Menu from "./styledComponents/menu";
 import React from "react";
-import Logo from "./styledComponents/logo";
+
 import { gsap, Power1 } from "gsap";
 import useRefs from "react-use-refs";
+import dynamic from "next/dynamic";
+
+const ArrowLink = dynamic(() => import("./arrowLink"), {
+  ssr: false,
+});
+
+const LogoLink = dynamic(() => import("./logoLink"), {
+  loading: () => <div></div>,
+});
 
 const Navbar = () => {
   const router = useRouter();
@@ -106,26 +115,10 @@ const Navbar = () => {
             {router.pathname === "/" ||
             router.pathname === "/work" ||
             router.pathname === "/about" ? null : (
-              <MemoRizedArrow
-                menu={menu}
-                path={router.pathname}
-                onClick={() => {
-                  router.push("/work");
-                  handleClick();
-                }}
-              />
+              <ArrowLink handleClick={handleClick} router={router} />
             )}
             {router.pathname === "/work" || router.pathname === "/about" ? (
-              <Link href="/">
-                <a
-                  className="logoWrap"
-                  onClick={() => {
-                    handleClick();
-                  }}
-                >
-                  <Logo menu={menu} router={router.pathname} />
-                </a>
-              </Link>
+              <LogoLink handleClick={handleClick} />
             ) : (
               <div></div>
             )}
