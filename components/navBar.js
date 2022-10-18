@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { Nav, HamburgerMenu } from "./styledComponents/nav";
 import Menu from "./styledComponents/menu";
 import React from "react";
-
 import { gsap, Power1 } from "gsap";
 import useRefs from "react-use-refs";
 import dynamic from "next/dynamic";
@@ -29,7 +28,7 @@ const Navbar = () => {
   const [el, tl] = useRefs();
   const q = gsap.utils.selector(el);
 
-  //navigation animation
+  // navigation animation
   React.useLayoutEffect(() => {
     tl.current = gsap
       .timeline()
@@ -110,6 +109,7 @@ const Navbar = () => {
   return (
     <div style={{ position: "relative", zIndex: 2 }}>
       <div ref={el}>
+        {/* <div> */}
         <Nav>
           <div className="navWrap">
             {router.pathname === "/" ||
@@ -133,8 +133,7 @@ const Navbar = () => {
             </HamburgerMenu>
           </div>
         </Nav>
-
-        <Menu menu={menu} className="menu">
+        <Menu className="menu">
           <div className="wrap">
             <span className="top_line line" />
             <span className="bot_line line" />
@@ -157,7 +156,6 @@ const Navbar = () => {
                 <div className="li">About</div>
               </a>
             </Link>
-
             <div className="footer">
               <Link href="mailto:jinpark0625@gmail.com">
                 <a>

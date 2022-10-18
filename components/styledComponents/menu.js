@@ -89,12 +89,8 @@ const StyledMenu = styled.div`
   }
 `;
 
-const Menu = ({ children, menu, ...props }) => {
-  return (
-    <StyledMenu {...props} menu={menu}>
-      {children}
-    </StyledMenu>
-  );
+const Menu = ({ children, ...props }) => {
+  return <StyledMenu {...props}>{children}</StyledMenu>;
 };
 
 export default React.memo(Menu);

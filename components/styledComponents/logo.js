@@ -1,6 +1,6 @@
 import React from "react";
 
-const Logo = ({ menu, router }) => {
+const Logo = () => {
   return (
     <svg
       version="1.1"
@@ -11,9 +11,6 @@ const Logo = ({ menu, router }) => {
       xmlSpace="preserve"
       fill="#fff"
       width="20px"
-      // display={
-      //   router === "/work" || router === "/about" || menu ? "block" : "none"
-      // }
     >
       <g>
         <path

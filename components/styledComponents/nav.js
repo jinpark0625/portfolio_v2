@@ -73,7 +73,7 @@ const StyledArrow = styled.div`
   }
 `;
 
-const Arrow = ({ children, path, menu, ...props }) => {
+const Arrow = ({ children, path, ...props }) => {
   const [color, set] = React.useState("#fff");
 
   const checkColor = (route) => {
@@ -100,7 +100,7 @@ const Arrow = ({ children, path, menu, ...props }) => {
   }, [path]);
 
   return (
-    <StyledArrow {...props} color={color} menu={menu}>
+    <StyledArrow {...props} color={color}>
       <div className="arrow" />
     </StyledArrow>
   );
