@@ -32,7 +32,7 @@ function Block({ children, offset, factor, ...props }) {
 }
 
 function useBlock() {
-  const { sections, pages, zoom } = state;
+  const { sections, zoom } = state;
   const { size, viewport } = useThree();
   const offset = useContext(offsetContext);
   const viewportWidth = viewport.width;

@@ -193,14 +193,8 @@ const Contents = React.memo(function Contents({ models, isMobile }) {
       new THREE.BufferAttribute(ringVertices, 3)
     );
     point.current.geometry.attributes.position.needsUpdate = true;
+    point.current.geometry.attributes.color.needsUpdate = true;
   }, []);
-
-  // scene 1 - text
-  // "오늘은 내 인생의 작은 점을 찍는 날입니다.",
-  // "인생은 작은 점들이 모여 현재가 되고 미래를 만듭니다.",
-  // "나의 노력과 진정성을 더하면 좋은 결과가 있을 거라 믿습니다.",
-  // "당신을 만나 인생의 빛나는 점을 찍고 싶습니다.",
-  // "통찰력과 창의력으로 모두가 만족하는 솔루션을 제공하겠습니다",
 
   return (
     <>

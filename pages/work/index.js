@@ -17,6 +17,7 @@ const Work = () => {
         className="canvas"
         linear
         orthographic
+        frameloop="demand"
         camera={{ zoom: state.zoom, position: [0, 0, 500] }}
       >
         <Suspense fallback={<Loader />}>

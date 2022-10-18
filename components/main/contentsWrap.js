@@ -35,7 +35,7 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
   useFrame(({ mouse, clock }) => {
     // Elapsed Time
     state.point.current.material.uniforms.uTime.value = clock.elapsedTime;
-
+    state.point.current.geometry.attributes.position.needsUpdate = true;
     /**
      * mouse events
      */
@@ -54,7 +54,6 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
     // scene - 1
     const aScroll = scroll.range(0, 1 / 12);
     const start = scroll.visible(0.1 / 12, 11.9 / 12);
-    const a = scroll.visible(0, 0.7 / 12);
     const b = scroll.visible(0.7 / 12, 1.4 / 12);
     const bRange = scroll.range(0.7 / 12, 1 / 12);
 
@@ -66,9 +65,6 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
     state.point.current.material.uniforms.uLowerOpacity.value = bRange;
 
     //  scene - 2
-    const c = scroll.visible(1.7 / 12, 1 / 12);
-    const d = scroll.visible(2.7 / 12, 0.6 / 12);
-    const e = scroll.visible(3.2 / 12, 1.4 / 12);
     const f = scroll.visible(3.6 / 12, 1 / 12);
 
     const cRange = scroll.range(1.7 / 12, 1 / 12);
@@ -93,7 +89,6 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
     thirdText.current?.classList.toggle("show", h);
 
     // scene - 4
-    const i = scroll.visible(6.6 / 12, 1 / 12);
     const iRange = scroll.range(6.6 / 12, 1 / 12);
     const jRange = scroll.range(7.6 / 12, 1 / 12);
     state.point.current.material.uniforms.uFourthTrigger.value = iRange;
@@ -101,9 +96,9 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
 
     // scene - 5
     const k = scroll.visible(8.6 / 12, 1 / 12);
-    const l = scroll.visible(9.6 / 12, 1 / 12);
     const lRange = scroll.range(9.6 / 12, 1 / 12);
     state.point.current.material.uniforms.uSixthTrigger.value = lRange;
+    state.point.current.geometry.attributes.color.needsUpdate = true;
     fourthText.current?.classList.toggle("show", k);
 
     // scene - 6

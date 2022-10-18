@@ -157,6 +157,7 @@ canvas {
 .text {
   will-change: transform;
   width: max-content;
+  pointer-events: none;
 }
 @media (max-width: 1024px) {
   .canvasWrap > div > div > div:last-child::-webkit-scrollbar {
