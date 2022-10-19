@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useCallback } from "react";
+import { memo, useState, useRef, useLayoutEffect, useCallback } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import ResizeObserver from "resize-observer-polyfill";
 
@@ -48,4 +48,4 @@ const ScrollSmooth = ({ mainColor, subColor, children }) => {
   );
 };
 
-export default React.memo(ScrollSmooth);
+export default memo(ScrollSmooth);

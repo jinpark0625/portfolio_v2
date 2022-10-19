@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import { Wrap } from "../styledComponents";
 
 const ProjectExplanation = ({
@@ -32,4 +32,4 @@ const ProjectExplanation = ({
   );
 };
 
-export default React.memo(ProjectExplanation);
+export default memo(ProjectExplanation);

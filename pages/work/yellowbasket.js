@@ -1,4 +1,3 @@
-import React from "react";
 import url from "/public/images/proejct_2.webp";
 import img1 from "/public/images/yellowbasket/yellow_img_1.webp";
 import img2 from "/public/images/yellowbasket/yellow_img_2.webp";

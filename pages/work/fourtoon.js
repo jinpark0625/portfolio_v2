@@ -1,4 +1,3 @@
-import React from "react";
 import url from "/public/images/fourtoon/url.webp";
 import img2 from "/public/images/fourtoon/fourtoon_img_2.webp";
 import img3 from "/public/images/fourtoon/fourtoon_img_3.webp";

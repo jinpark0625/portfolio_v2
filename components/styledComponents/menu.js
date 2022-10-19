@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import styled from "styled-components";
 
 const StyledMenu = styled.div`
@@ -93,4 +93,4 @@ const Menu = ({ children, ...props }) => {
   return <StyledMenu {...props}>{children}</StyledMenu>;
 };
 
-export default React.memo(Menu);
+export default memo(Menu);

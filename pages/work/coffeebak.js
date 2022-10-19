@@ -1,4 +1,3 @@
-import React from "react";
 import url from "/public/images/proejct_3.webp";
 import img1 from "/public/images/coffeebak/coffee_img_1.webp";
 import img2 from "/public/images/coffeebak/coffee_img_2.webp";

@@ -1,4 +1,5 @@
-import { ShaderMaterial, Color } from "three";
+import { Color } from "three/src/math/Color";
+import { ShaderMaterial } from "three/src/materials/ShaderMaterial.js";
 import { extend } from "@react-three/fiber";
 
 class CustomMaterial extends ShaderMaterial {

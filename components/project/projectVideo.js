@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import { Block, VideoPlayer } from "../styledComponents";
 
 const ProjectVideo = ({ classStyle, source, scale, poster }) => {
@@ -22,4 +22,4 @@ const ProjectVideo = ({ classStyle, source, scale, poster }) => {
   );
 };
 
-export default React.memo(ProjectVideo);
+export default memo(ProjectVideo);

@@ -1,6 +1,6 @@
-import { ShaderMaterial, Vector2 } from "three";
+import { Vector2 } from "three/src/math/Vector2.js";
+import { ShaderMaterial } from "three/src/materials/ShaderMaterial.js";
 import { extend } from "@react-three/fiber";
-import * as THREE from "three";
 
 class CustomMaterialMain extends ShaderMaterial {
   constructor() {
@@ -395,9 +395,7 @@ class CustomMaterialMain extends ShaderMaterial {
         uTime: {
           value: 0,
         },
-        uColor: {
-          value: new THREE.Color(0x0f85d6),
-        },
+
         uFrequency: {
           value: 8,
         },
@@ -465,14 +463,6 @@ class CustomMaterialMain extends ShaderMaterial {
 
   get uTime() {
     return this.uniforms.uTime.value;
-  }
-
-  set uColor(value) {
-    this.uniforms.uColor.value = value;
-  }
-
-  get uColor() {
-    return this.uniforms.uColor.value;
   }
 
   set uFrequency(value) {

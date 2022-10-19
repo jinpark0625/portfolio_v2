@@ -1,16 +1,18 @@
-import React from "react";
+import { useMemo, useLayoutEffect, memo } from "react";
 import { Text3D, Center } from "@react-three/drei";
 import { useBlock } from "../project/blocks";
 import { MeshSurfaceSampler } from "three-stdlib";
-import { Vector3, MathUtils, AdditiveBlending } from "three";
+import { BufferAttribute } from "three/src/core/BufferAttribute";
+import { Vector3 } from "three/src/math/Vector3";
+import { randInt, randFloat } from "three/src/math/MathUtils";
+import { Color } from "three/src/math/Color";
 import state from "./mainStore";
 import "../mainShader";
-import * as THREE from "three";
 import SometimesMedium from "../../public/fonts/Sometimes_medium.json";
 import * as random from "maath/random";
 import useRefs from "react-use-refs";
 
-const Contents = React.memo(function Contents({ models, isMobile }) {
+const Contents = memo(function Contents({ models, isMobile }) {
   // common
   const { currentScale, canvasWidth, canvasHeight, mobile } = useBlock();
 
@@ -23,13 +25,13 @@ const Contents = React.memo(function Contents({ models, isMobile }) {
   /**
    *  scene 2 sphere
    */
-  const mySphere = React.useMemo(() => {
+  const mySphere = useMemo(() => {
     return random.onSphere(new Float32Array(15400 * 3), {
       radius: mobile ? canvasWidth / 3.4 : canvasWidth / 6,
     });
   }, []);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     isMobile && (point.current.material.uniforms.uMobile.value = 0.3);
 
     state.point.current = point.current;
@@ -98,7 +100,7 @@ const Contents = React.memo(function Contents({ models, isMobile }) {
     const r = radius * 1.2;
 
     // color
-    const color = new THREE.Color();
+    const color = new Color();
     const aColor = new Float32Array(state.count * 3);
     var q = ["white", "white", 0x2675ad, 0x0b5394, 0x0b9490];
 
@@ -123,7 +125,7 @@ const Contents = React.memo(function Contents({ models, isMobile }) {
       rand[i3 + 1] = (Math.random() - 1.0) * 2;
       rand[i3 + 2] = 0;
 
-      color.set(q[MathUtils.randInt(0, 4)]);
+      color.set(q[randInt(0, 4)]);
       aColor[i3 + 0] = color.r;
       aColor[i3 + 1] = color.g;
       aColor[i3 + 2] = color.b;
@@ -142,7 +144,7 @@ const Contents = React.memo(function Contents({ models, isMobile }) {
        * model ring
        */
 
-      const phi = MathUtils.randFloat(0, Math.PI * 2);
+      const phi = randFloat(0, Math.PI * 2);
 
       ringPosition.x = r * Math.cos(phi);
       ringPosition.y = r * Math.sin(phi);
@@ -152,45 +154,39 @@ const Contents = React.memo(function Contents({ models, isMobile }) {
       ringVertices[i3 + 2] = 0;
     }
 
-    point.current.geometry.setAttribute(
-      "rand",
-      new THREE.BufferAttribute(rand, 3)
-    );
+    point.current.geometry.setAttribute("rand", new BufferAttribute(rand, 3));
     point.current.geometry.setAttribute(
       "position",
-      new THREE.BufferAttribute(vertices, 3)
+      new BufferAttribute(vertices, 3)
     );
     point.current.geometry.setAttribute(
       "aScale",
-      new THREE.BufferAttribute(scale, 1)
+      new BufferAttribute(scale, 1)
     );
-    point.current.geometry.setAttribute(
-      "angle",
-      new THREE.BufferAttribute(angle, 1)
-    );
+    point.current.geometry.setAttribute("angle", new BufferAttribute(angle, 1));
     point.current.geometry.setAttribute(
       "pindex",
-      new THREE.BufferAttribute(indices, 1)
+      new BufferAttribute(indices, 1)
     );
     point.current.geometry.setAttribute(
       "color",
-      new THREE.BufferAttribute(aColor, 3)
+      new BufferAttribute(aColor, 3)
     );
     point.current.geometry.setAttribute(
       "modelPos",
-      new THREE.BufferAttribute(mySphere, 3)
+      new BufferAttribute(mySphere, 3)
     );
     point.current.geometry.setAttribute(
       "modelPosTwo",
-      new THREE.BufferAttribute(manVertices, 3)
+      new BufferAttribute(manVertices, 3)
     );
     point.current.geometry.setAttribute(
       "modelPosThree",
-      new THREE.BufferAttribute(peoplePosition, 3)
+      new BufferAttribute(peoplePosition, 3)
     );
     point.current.geometry.setAttribute(
       "modelPosFour",
-      new THREE.BufferAttribute(ringVertices, 3)
+      new BufferAttribute(ringVertices, 3)
     );
     point.current.geometry.attributes.position.needsUpdate = true;
     point.current.geometry.attributes.color.needsUpdate = true;
@@ -228,7 +224,6 @@ const Contents = React.memo(function Contents({ models, isMobile }) {
               transparent={true}
               width={canvasWidth}
               height={canvasHeight}
-              blending={AdditiveBlending}
             />
           </points>
         </group>

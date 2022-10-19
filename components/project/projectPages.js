@@ -1,13 +1,15 @@
-import React, { useRef, useMemo } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
-import { ScrollControls, useScroll, Html, Scroll } from "@react-three/drei";
+import { useRef, useMemo, useLayoutEffect } from "react";
+import { useFrame } from "@react-three/fiber";
 import {
-  TextureLoader,
-  LinearFilter,
-  PlaneGeometry,
-  MeshBasicMaterial,
-} from "three";
-import * as THREE from "three";
+  ScrollControls,
+  useScroll,
+  Html,
+  Scroll,
+  useTexture,
+} from "@react-three/drei";
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial";
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry.js";
+import { lerp } from "three/src/math/MathUtils";
 import state from "./scrollStore";
 import { Block, useBlock } from "./blocks";
 
@@ -22,14 +24,14 @@ function Plane({ color = "white", map, ...props }) {
     const { pages } = state;
 
     //scale on scroll
-    material.current.scale = THREE.MathUtils.lerp(
+    material.current.scale = lerp(
       material.current.scale,
       offsetFactor + (scroll.scroll.current / pages) * 0.3,
       0.1
     );
 
     //distortion on scroll
-    material.current.shift = THREE.MathUtils.lerp(
+    material.current.shift = lerp(
       material.current.shift,
       (scroll.scroll.current - last) * 8,
       0.1
@@ -102,12 +104,15 @@ function Content({ left, children, map }) {
 }
 
 const ProjectPages = ({ router }) => {
-  const textures = useLoader(TextureLoader, state.images);
-  const [img1, img2, img3, img4, img5, img6] = useMemo(() => {
-    return textures.map(
-      (texture) => ((texture.minFilter = LinearFilter), texture)
-    );
-  }, []);
+  const [img1, img2, img3, img4, img5, img6] = useTexture([
+    state.images[0],
+    state.images[1],
+    state.images[2],
+    state.images[3],
+    state.images[4],
+    state.images[5],
+  ]);
+
   const { canvasWidth, contentMaxWidth, mobile, canvasHeight, aspect } =
     useBlock();
 
@@ -119,7 +124,7 @@ const ProjectPages = ({ router }) => {
     return contentMaxWidth / aspect;
   }, [canvasWidth, canvasHeight, contentMaxWidth]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     state.pages = ((contentHeight + 1.8) * 3) / canvasHeight;
     state.sections = ((contentHeight + 1.8) * 3) / canvasHeight;
   }, [canvasWidth, contentHeight]);

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, memo, useLayoutEffect } from "react";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
@@ -74,7 +74,7 @@ const StyledArrow = styled.div`
 `;
 
 const Arrow = ({ children, path, ...props }) => {
-  const [color, set] = React.useState("#fff");
+  const [color, set] = useState("#fff");
 
   const checkColor = (route) => {
     switch (route) {
@@ -95,7 +95,7 @@ const Arrow = ({ children, path, ...props }) => {
     }
   };
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     checkColor(path);
   }, [path]);
 
@@ -105,7 +105,7 @@ const Arrow = ({ children, path, ...props }) => {
     </StyledArrow>
   );
 };
-export const MemoRizedArrow = React.memo(Arrow);
+export const MemoRizedArrow = memo(Arrow);
 
 const StyledHamburgerMenu = styled.div`
   cursor: pointer;
@@ -154,7 +154,7 @@ const StyledHamburgerMenu = styled.div`
 `;
 
 export const HamburgerMenu = ({ children, menu, path, menuOpen, ...props }) => {
-  const [color, set] = React.useState("#fff");
+  const [color, set] = useState("#fff");
   const checkColor = (route) => {
     switch (route) {
       case "/work/goodcafeteria":
@@ -174,7 +174,7 @@ export const HamburgerMenu = ({ children, menu, path, menuOpen, ...props }) => {
     }
   };
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     checkColor(path);
   }, [path]);
 

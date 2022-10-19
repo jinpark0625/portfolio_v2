@@ -1,4 +1,3 @@
-import React from "react";
 import { MemoRizedArrow } from "./styledComponents/nav";
 import Link from "next/link";
 

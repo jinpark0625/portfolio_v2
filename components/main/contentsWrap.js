@@ -1,15 +1,16 @@
-import React from "react";
+import { useRef, useMemo } from "react";
 import { useCursor, useScroll, Html, useFBX } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useBlock } from "../project/blocks";
 import state from "./mainStore";
-import { PlaneGeometry, Vector2 } from "three";
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry.js";
+import { Vector2 } from "three/src/math/Vector2.js";
 import Contents from "./contents";
 import useRefs from "react-use-refs";
 
 const ContentsWrap = ({ children, router, isMobile, ...props }) => {
   const { canvasWidth, canvasHeight, mobile } = useBlock();
-  const hoveredRef = React.useRef(false);
+  const hoveredRef = useRef(false);
 
   // scroll variables
   const scroll = useScroll();
@@ -120,7 +121,7 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
     m && percent.current && (percent.current.textContent = `to next ${floor}`);
   });
 
-  const planeGeo = React.useMemo(() => {
+  const planeGeo = useMemo(() => {
     return new PlaneGeometry(1, 1, 1, 1);
   }, []);
 

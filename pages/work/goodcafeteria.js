@@ -1,4 +1,3 @@
-import React from "react";
 import img1 from "/public/images/cafeteria/cafeteria_img_1.webp";
 import img2 from "/public/images/cafeteria/cafeteria_img_2.webp";
 import img3 from "/public/images/cafeteria/cafeteria_img_3.webp";

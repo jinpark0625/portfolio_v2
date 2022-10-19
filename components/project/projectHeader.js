@@ -1,6 +1,6 @@
-import React from "react";
 import { Wrap, HeaderTitle, FooterText } from "../styledComponents";
 import Link from "next/link";
+import { memo } from "react";
 
 const ProjectHeader = ({ title, lead, link, date, headColor, dateColor }) => {
   return (
@@ -44,4 +44,4 @@ const ProjectHeader = ({ title, lead, link, date, headColor, dateColor }) => {
   );
 };
 
-export default React.memo(ProjectHeader);
+export default memo(ProjectHeader);

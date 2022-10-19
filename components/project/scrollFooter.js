@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const ScrollFooter = ({ children }) => {
@@ -19,4 +19,4 @@ const ScrollFooter = ({ children }) => {
   );
 };
 
-export default React.memo(ScrollFooter);
+export default memo(ScrollFooter);

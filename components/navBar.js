@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Nav, HamburgerMenu } from "./styledComponents/nav";
 import Menu from "./styledComponents/menu";
-import React from "react";
+import { useLayoutEffect, useEffect, useState } from "react";
 import { gsap, Power1 } from "gsap";
 import useRefs from "react-use-refs";
 import dynamic from "next/dynamic";
@@ -19,7 +19,7 @@ const Navbar = () => {
   const router = useRouter();
 
   //open menu
-  const [menu, setMenu] = React.useState(false);
+  const [menu, setMenu] = useState(false);
   const menuOpen = () => {
     setMenu((prev) => !prev);
   };
@@ -29,7 +29,7 @@ const Navbar = () => {
   const q = gsap.utils.selector(el);
 
   // navigation animation
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     tl.current = gsap
       .timeline()
       .to(q(".menu"), {
@@ -92,11 +92,11 @@ const Navbar = () => {
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     tl.current.reversed(!menu);
   }, [menu]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (menu) {
       document.body.style.overflow = "hidden";
     } else document.body.style.overflow = "auto";

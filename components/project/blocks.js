@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useContext, useState } from "react";
+import { createContext, useRef, useContext, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { useCursor } from "@react-three/drei";
 import state from "./scrollStore";
