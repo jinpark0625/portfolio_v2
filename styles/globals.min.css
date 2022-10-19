@@ -203,6 +203,8 @@ canvas {
 }
 .text {
   opacity: 0;
+  -webkit-transition: opacity 0.4s, transform 0.4s;
+  -webkit-transition: -webkit-opacity 0.4s, -webkit-transform 0.4s;
   transition: opacity 0.4s, transform 0.4s;
   animation-name: fadeOut;
   position: absolute;
@@ -212,6 +214,8 @@ canvas {
   animation-name: fadeIn;
 }
 .scroll_noti {
+  -webkit-transition: opacity 0.4s;
+  -webkit-transition: -webkit-opacity 0.4s;
   transition: opacity 0.8s;
 }
 .out {
@@ -220,6 +224,8 @@ canvas {
 }
 .hide {
   opacity: 0;
+  -webkit-transition: opacity 0.4s;
+  -webkit-transition: -webkit-opacity 0.4s;
   transition: opacity 0.4s;
   right: -40vw;
 }
