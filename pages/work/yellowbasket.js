@@ -8,12 +8,9 @@ import img6 from "/public/images/yellowbasket/yellow_img_6.webp";
 import img7 from "/public/images/yellowbasket/yellow_img_7.webp";
 import {
   Header,
-  HeaderTitle,
   Paragraph,
   Tagline,
-  FooterText,
   Wrap,
-  Footer,
 } from "../../components/styledComponents";
 import {
   ScrollProgress,
@@ -21,11 +18,12 @@ import {
   ProjectExplanation,
   ProjectImage,
   ProjectMainImage,
-  ProjectVideo,
   ScrollSmooth,
-  ScrollFooter,
+  FirstSection,
+  SecondSection,
+  ProjectFooter,
 } from "../../components/project";
-import Link from "next/link";
+
 import Seo from "../../components/seo";
 const YellowBasket = () => {
   return (
@@ -77,31 +75,22 @@ const YellowBasket = () => {
             </Header>
             <section>
               {/* first section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/yellowbasket/yellow_video_1.mp4"
-                  scale="1.015"
-                  poster="/images/yellowbasket/video_poster.webp"
-                />
-                <ProjectImage img={img1} classStyle="marginGap" />
-              </Wrap>
-              <ProjectMainImage
-                paddingMobile
-                img={img2}
-                padding="0 0 105px 0"
+              <FirstSection
+                videoSource="/images/yellowbasket/yellow_video_1.mp4"
+                videoPoster="/images/yellowbasket/video_poster.webp"
+                imgSourceFirst={img1}
+                imgSourceSecond={img2}
               />
+
               {/* second section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/yellowbasket/yellow_video_2.mp4"
-                  scale="1.015"
-                  poster="/images/yellowbasket/video_poster.webp"
-                />
-                <ProjectImage img={img3} classStyle="marginGap" />
-                <ProjectImage img={img4} classStyle="marginGap" />
-              </Wrap>
+              <SecondSection
+                vid
+                videoSource="/images/yellowbasket/yellow_video_2.mp4"
+                videoPoster="/images/yellowbasket/video_poster.webp"
+                imgSourceFirst={img3}
+                imgSourceSecond={img4}
+              />
+
               {/* Third section */}
               <Wrap paddingMobile padding="0 0 105px 0">
                 <ProjectImage img={img5} classStyle="block" />
@@ -111,24 +100,12 @@ const YellowBasket = () => {
             </section>
           </div>
         </Wrap>
-        <Link href="/work/coffeebak">
-          <a>
-            <Footer>
-              <ScrollFooter>
-                <FooterText fontColor="#aaa" margin="0 0 10px 0">
-                  Next Project
-                </FooterText>
-                <HeaderTitle
-                  fontColor="#000"
-                  weight="600"
-                  fontFamily="SomeTimes"
-                >
-                  Coffee Bak
-                </HeaderTitle>
-              </ScrollFooter>
-            </Footer>
-          </a>
-        </Link>
+
+        <ProjectFooter
+          link="/work/coffeebak"
+          background="#fff"
+          title="Coffee Bak"
+        />
       </ScrollSmooth>
     </>
   );

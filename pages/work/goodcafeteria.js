@@ -22,6 +22,7 @@ import {
   ProjectVideo,
   ScrollSmooth,
   ScrollFooter,
+  FirstSection,
 } from "../../components/project";
 import Link from "next/link";
 import Seo from "../../components/seo";
@@ -79,25 +80,14 @@ const Goodcafeteria = () => {
             </Header>
             <section>
               {/* first section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/cafeteria/cafeteria_video_1.mp4"
-                  scale="1.015"
-                  poster="/images/cafeteria/video_poster.webp"
-                />
-                <ProjectVideo
-                  classStyle="marginGap"
-                  source="/images/cafeteria/cafeteria_video_2.mp4"
-                  scale="1.015"
-                  poster="/images/cafeteria/video_poster.webp"
-                />
-              </Wrap>
-              <ProjectMainImage
-                paddingMobile
-                img={img2}
-                padding="0 0 105px 0"
+              <FirstSection
+                good
+                videoSource="/images/cafeteria/cafeteria_video_1.mp4"
+                videoPoster="/images/cafeteria/video_poster.webp"
+                imgSourceFirst="/images/cafeteria/cafeteria_video_2.mp4"
+                imgSourceSecond={img2}
               />
+
               {/* second section */}
               <Wrap paddingMobile padding="0 0 105px 0">
                 <ProjectVideo

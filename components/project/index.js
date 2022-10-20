@@ -9,6 +9,9 @@ import ProjectVideo from "./projectVideo";
 import ScrollSmooth from "./scrollSmooth";
 import ScrollFooter from "./scrollFooter";
 import ProjectPages from "./projectPages";
+import FirstSection from "./firstSection";
+import SecondSection from "./secondSection";
+import ProjectFooter from "./projectFooter";
 
 export {
   Block,
@@ -23,4 +26,7 @@ export {
   ScrollSmooth,
   ScrollFooter,
   ProjectPages,
+  FirstSection,
+  SecondSection,
+  ProjectFooter,
 };

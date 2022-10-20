@@ -9,12 +9,9 @@ import img7 from "/public/images/binworks/binworks_img_7.webp";
 import img8 from "/public/images/binworks/binworks_img_8.webp";
 import {
   Header,
-  HeaderTitle,
   Paragraph,
   Tagline,
-  FooterText,
   Wrap,
-  Footer,
 } from "../../components/styledComponents";
 import {
   ScrollProgress,
@@ -22,11 +19,12 @@ import {
   ProjectExplanation,
   ProjectImage,
   ProjectMainImage,
-  ProjectVideo,
   ScrollSmooth,
-  ScrollFooter,
+  FirstSection,
+  SecondSection,
+  ProjectFooter,
 } from "../../components/project";
-import Link from "next/link";
+
 import Seo from "../../components/seo";
 
 const BinWorks = () => {
@@ -79,26 +77,19 @@ const BinWorks = () => {
             </Header>
             <section>
               {/* first section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/binworks/binworks_video_1.mp4"
-                  scale="1.015"
-                  poster="/images/binworks/video_poster.webp"
-                />
-                <ProjectImage img={img1} classStyle="marginGap" />
-              </Wrap>
-              <ProjectMainImage
-                paddingMobile
-                img={img2}
-                padding="0 0 105px 0"
+              <FirstSection
+                videoSource="/images/binworks/binworks_video_1.mp4"
+                videoPoster="/images/binworks/video_poster.webp"
+                imgSourceFirst={img1}
+                imgSourceSecond={img2}
               />
               {/* second section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectImage img={img3} classStyle="block" />
-                <ProjectImage img={img4} classStyle="marginGap" />
-                <ProjectImage img={img5} classStyle="marginGap" />
-              </Wrap>
+              <SecondSection
+                videoSource={img3}
+                imgSourceFirst={img4}
+                imgSourceSecond={img5}
+              />
+
               {/* Third section */}
               <Wrap paddingMobile padding="0 0 105px 0">
                 <ProjectImage img={img6} classStyle="block" />
@@ -108,24 +99,11 @@ const BinWorks = () => {
             </section>
           </div>
         </Wrap>
-        <Link href="/work/fourtoon">
-          <a>
-            <Footer>
-              <ScrollFooter>
-                <FooterText fontColor="#aaa" margin="0 0 10px 0">
-                  Next Project
-                </FooterText>
-                <HeaderTitle
-                  fontColor="#000"
-                  weight="600"
-                  fontFamily="SomeTimes"
-                >
-                  Four Toon
-                </HeaderTitle>
-              </ScrollFooter>
-            </Footer>
-          </a>
-        </Link>
+        <ProjectFooter
+          link="/work/fourtoon"
+          background="#fff"
+          title="Four Toon"
+        />
       </ScrollSmooth>
     </>
   );

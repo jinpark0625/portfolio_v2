@@ -5,14 +5,12 @@ import img3 from "/public/images/rentcar/rent_img_3.webp";
 import img4 from "/public/images/rentcar/rent_img_4.webp";
 import img5 from "/public/images/rentcar/rent_img_5.webp";
 import img6 from "/public/images/rentcar/rent_img_6.webp";
+
 import {
   Header,
-  HeaderTitle,
   Paragraph,
   Tagline,
-  FooterText,
   Wrap,
-  Footer,
 } from "../../components/styledComponents";
 import {
   ScrollProgress,
@@ -22,9 +20,11 @@ import {
   ProjectMainImage,
   ProjectVideo,
   ScrollSmooth,
-  ScrollFooter,
+  FirstSection,
+  SecondSection,
+  ProjectFooter,
 } from "../../components/project";
-import Link from "next/link";
+
 import Seo from "../../components/seo";
 
 const CarrotRentCar = () => {
@@ -77,31 +77,20 @@ const CarrotRentCar = () => {
             </Header>
             <section>
               {/* first section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/rentcar/rent_video_1.mp4"
-                  scale="1.015"
-                  poster="/images/rentcar/video_poster.webp"
-                />
-                <ProjectImage img={img1} classStyle="marginGap" />
-              </Wrap>
-              <ProjectMainImage
-                paddingMobile
-                img={img2}
-                padding="0 0 105px 0"
+              <FirstSection
+                videoSource="/images/rentcar/rent_video_1.mp4"
+                videoPoster="/images/rentcar/video_poster.webp"
+                imgSourceFirst={img1}
+                imgSourceSecond={img2}
               />
               {/* second section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/rentcar/rent_video_2.mp4"
-                  scale="1.015"
-                  poster="/images/rentcar/video_poster.webp"
-                />
-                <ProjectImage img={img3} classStyle="marginGap" />
-                <ProjectImage img={img4} classStyle="marginGap" />
-              </Wrap>
+              <SecondSection
+                vid
+                videoSource="/images/rentcar/rent_video_2.mp4"
+                videoPoster="/images/rentcar/video_poster.webp"
+                imgSourceFirst={img3}
+                imgSourceSecond={img4}
+              />
               {/* Third section */}
               <Wrap paddingMobile padding="0 0 105px 0">
                 <ProjectVideo
@@ -116,24 +105,11 @@ const CarrotRentCar = () => {
             </section>
           </div>
         </Wrap>
-        <Link href="/work/goodcafeteria">
-          <a>
-            <Footer background="#dae4e1">
-              <ScrollFooter>
-                <FooterText fontColor="#aaa" margin="0 0 10px 0">
-                  Next Project
-                </FooterText>
-                <HeaderTitle
-                  fontColor="#000"
-                  weight="600"
-                  fontFamily="SomeTimes"
-                >
-                  Good Cafeteria
-                </HeaderTitle>
-              </ScrollFooter>
-            </Footer>
-          </a>
-        </Link>
+        <ProjectFooter
+          link="/work/goodcafeteria"
+          background="#dae4e1"
+          title="Good Cafeteria"
+        />
       </ScrollSmooth>
     </>
   );

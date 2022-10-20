@@ -4,7 +4,7 @@ import { memo } from "react";
 
 const ProjectHeader = ({ title, lead, link, date, headColor, dateColor }) => {
   return (
-    <Wrap fontColor={headColor}>
+    <Wrap fontColor={headColor} className="wrap_pad">
       <div className="center flexColumn">
         {/* title & lead */}
         <div className="headerWrap">

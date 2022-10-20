@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { m, useScroll, useSpring } from "framer-motion";
 
 const ScrollProgress = ({ color, children }) => {
   //scroll progress
@@ -11,9 +11,9 @@ const ScrollProgress = ({ color, children }) => {
   });
 
   return (
-    <motion.div className="progress_bar" style={{ scaleY, background: color }}>
+    <m.div className="progress_bar" style={{ scaleY, background: color }}>
       {children}
-    </motion.div>
+    </m.div>
   );
 };
 

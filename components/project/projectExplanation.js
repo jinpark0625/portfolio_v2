@@ -10,7 +10,7 @@ const ProjectExplanation = ({
   children,
 }) => {
   return (
-    <Wrap margin="105px 0 0 0">
+    <Wrap margin="105px 0 0 0" className="wrap_pad">
       <div className="center">
         <div className="techStackWrap">
           <p className="techStackTag" style={{ color: pointColor }}>

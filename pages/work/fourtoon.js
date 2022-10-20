@@ -7,12 +7,9 @@ import img6 from "/public/images/fourtoon/fourtoon_img_6.webp";
 import img7 from "/public/images/fourtoon/fourtoon_img_7.webp";
 import {
   Header,
-  HeaderTitle,
   Paragraph,
   Tagline,
-  FooterText,
   Wrap,
-  Footer,
 } from "../../components/styledComponents";
 import {
   ScrollProgress,
@@ -20,11 +17,12 @@ import {
   ProjectExplanation,
   ProjectImage,
   ProjectMainImage,
-  ProjectVideo,
   ScrollSmooth,
-  ScrollFooter,
+  FirstSection,
+  SecondSection,
+  ProjectFooter,
 } from "../../components/project";
-import Link from "next/link";
+
 import Seo from "../../components/seo";
 
 const FourToon = () => {
@@ -77,50 +75,29 @@ const FourToon = () => {
             </Header>
             <section>
               {/* first section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/fourtoon/fourtoon_video_1.mp4"
-                  scale="1.015"
-                  poster="/images/fourtoon/video_poster.webp"
-                />
-                <ProjectImage img={img2} classStyle="marginGap" />
-              </Wrap>
-              <ProjectMainImage
-                paddingMobile
-                img={img3}
-                padding="0 0 105px 0"
+              <FirstSection
+                videoSource="/images/fourtoon/fourtoon_video_1.mp4"
+                videoPoster="/images/fourtoon/video_poster.webp"
+                imgSourceFirst={img2}
+                imgSourceSecond={img3}
               />
               {/* second section */}
               <Wrap padding="0 0 20px 0">
                 <ProjectImage img={img4} classStyle="block" />
               </Wrap>
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectImage img={img5} classStyle="block" />
-                <ProjectImage img={img6} classStyle="marginGap" />
-                <ProjectImage img={img7} classStyle="marginGap" />
-              </Wrap>
+              <SecondSection
+                videoSource={img5}
+                imgSourceFirst={img6}
+                imgSourceSecond={img7}
+              />
             </section>
           </div>
         </Wrap>
-        <Link href="/work/carrotrentcar">
-          <a>
-            <Footer>
-              <ScrollFooter>
-                <FooterText fontColor="#aaa" margin="0 0 10px 0">
-                  Next Project
-                </FooterText>
-                <HeaderTitle
-                  fontColor="#000"
-                  weight="600"
-                  fontFamily="SomeTimes"
-                >
-                  Jeju Carrot Rent Car
-                </HeaderTitle>
-              </ScrollFooter>
-            </Footer>
-          </a>
-        </Link>
+        <ProjectFooter
+          link="/work/carrotrentcar"
+          background="#fff"
+          title="Jeju Carrot Rent Car"
+        />
       </ScrollSmooth>
     </>
   );

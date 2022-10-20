@@ -1,5 +1,5 @@
 import { memo, useState, useRef, useLayoutEffect, useCallback } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { m, useScroll, useSpring, useTransform } from "framer-motion";
 import ResizeObserver from "resize-observer-polyfill";
 
 const ScrollSmooth = ({ mainColor, subColor, children }) => {
@@ -36,13 +36,13 @@ const ScrollSmooth = ({ mainColor, subColor, children }) => {
 
   return (
     <>
-      <motion.div
+      <m.div
         ref={scrollRef}
         style={{ y: spring, backgroundColor: backgroundFramer }} // translateY of scroll container using negative scroll value
         className="scroll-container"
       >
         {children}
-      </motion.div>
+      </m.div>
       <div style={{ height: pageHeight }} className="test" />
     </>
   );

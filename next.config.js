@@ -8,7 +8,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const CompressionPlugin = require("compression-webpack-plugin");
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
@@ -25,3 +24,5 @@ module.exports = withPlugins(
   ],
   nextConfig
 );
+
+// module.exports = withBundleAnalyzer({});

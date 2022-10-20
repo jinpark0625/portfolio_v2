@@ -13,6 +13,10 @@ const Styledwrap = styled.div`
     position: relative;
   }
 
+  .wrap_pad {
+    padding: 0 45px;
+  }
+
   .center {
     max-width: 1024px;
     margin: 0 auto;
@@ -153,6 +157,7 @@ const Styledwrap = styled.div`
     width: 66.6666%;
     font-weight: 300;
   }
+
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.desktop}px) {
     .imageWrap {
@@ -165,6 +170,9 @@ const Styledwrap = styled.div`
     .center {
       flex-wrap: wrap;
       padding: 0 45px;
+    }
+    .wrap_pad {
+      padding: unset;
     }
     .about_margin {
       margin: 108px 0 84px;

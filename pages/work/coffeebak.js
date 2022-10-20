@@ -9,12 +9,9 @@ import img7 from "/public/images/coffeebak/coffee_img_7.webp";
 import img8 from "/public/images/coffeebak/coffee_img_8.webp";
 import {
   Header,
-  HeaderTitle,
   Paragraph,
   Tagline,
-  FooterText,
   Wrap,
-  Footer,
 } from "../../components/styledComponents";
 import {
   ScrollProgress,
@@ -22,11 +19,12 @@ import {
   ProjectExplanation,
   ProjectImage,
   ProjectMainImage,
-  ProjectVideo,
   ScrollSmooth,
-  ScrollFooter,
+  FirstSection,
+  SecondSection,
+  ProjectFooter,
 } from "../../components/project";
-import Link from "next/link";
+
 import Seo from "../../components/seo";
 
 const CoffeeBak = () => {
@@ -80,26 +78,18 @@ const CoffeeBak = () => {
             </Header>
             <section>
               {/* first section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/coffeebak/coffee_video_1.mp4"
-                  scale="1.015"
-                  poster="/images/coffeebak/video_poster.webp"
-                />
-                <ProjectImage img={img1} classStyle="marginGap" />
-              </Wrap>
-              <ProjectMainImage
-                paddingMobile
-                img={img2}
-                padding="0 0 105px 0"
+              <FirstSection
+                videoSource="/images/coffeebak/coffee_video_1.mp4"
+                videoPoster="/images/coffeebak/video_poster.webp"
+                imgSourceFirst={img1}
+                imgSourceSecond={img2}
               />
               {/* second section */}
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectImage img={img3} classStyle="block" />
-                <ProjectImage img={img4} classStyle="marginGap" />
-                <ProjectImage img={img5} classStyle="marginGap" />
-              </Wrap>
+              <SecondSection
+                videoSource={img3}
+                imgSourceFirst={img4}
+                imgSourceSecond={img5}
+              />
               {/* Third section */}
               <Wrap paddingMobile padding="0 0 105px 0">
                 <ProjectImage img={img6} classStyle="block" />
@@ -109,24 +99,11 @@ const CoffeeBak = () => {
             </section>
           </div>
         </Wrap>
-        <Link href="/work/binworks">
-          <a>
-            <Footer>
-              <ScrollFooter>
-                <FooterText fontColor="#aaa" margin="0 0 10px 0">
-                  Next Project
-                </FooterText>
-                <HeaderTitle
-                  fontColor="#000"
-                  weight="600"
-                  fontFamily="SomeTimes"
-                >
-                  Bin Works
-                </HeaderTitle>
-              </ScrollFooter>
-            </Footer>
-          </a>
-        </Link>
+        <ProjectFooter
+          link="/work/binworks"
+          background="#fff"
+          title="Bin Works"
+        />
       </ScrollSmooth>
     </>
   );
