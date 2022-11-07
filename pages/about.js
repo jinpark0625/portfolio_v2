@@ -22,11 +22,18 @@ const About = () => {
                   <p className="link">github.com/jinpark0625</p>
                 </a>
               </Link>
+              <Link href="http://parkjin.com/" passHref>
+                <a target="_blank" rel="website link" style={{ color: "#fff" }}>
+                  <p className="link">parkjin.com (kor)</p>
+                </a>
+              </Link>
             </FooterText>
             <Tagline margin="48px 0 80px">
-              A creative web developer with a passion for design, animation,
-              interaction, problem-solving, and for mastering the latest
-              front-end technologies.
+              A changing, hard-working, completing person.
+              <br />A creative Web Frontend Developer having an experience of
+              building Web and Mobile applications with Javascript, React, React
+              Native and some other libraries. I come from a graphic design and
+              fashion background, so I have a good eye for design.
             </Tagline>
           </Header>
           <div className="about_container center">
@@ -43,6 +50,7 @@ const About = () => {
                   <li>React</li>
                   <li>Three.js</li>
                   <li>Next.js</li>
+                  <li>TypeScript</li>
                 </ul>
               </div>
               <div className="skill_item">
@@ -57,11 +65,12 @@ const About = () => {
                 </ul>
               </div>
               <div className="skill_item">
-                <p className="skill_title">Framework</p>
+                <p className="skill_title">Others</p>
                 <ul className="skill_list">
                   <li>Bootstrap</li>
                   <li>Tailwind CSS</li>
                   <li>Styled Components</li>
+                  <li>Storybook</li>
                 </ul>
               </div>
             </div>
@@ -95,69 +104,142 @@ const About = () => {
             </p>
             <div className="about_work">
               <div className="about_work_item">
-                <p className="skill_title">DMonster</p>
-                <FooterText width="max-content">2021-2022</FooterText>
+                <p className="list_title">DMonster</p>
+                <FooterText width="max-content" margin="10px 0 0">
+                  2021-2022
+                </FooterText>
+                <FooterText width="max-content">
+                  Junior Frontend Developer
+                </FooterText>
               </div>
-              <p className="about_work_item_des">
-                A minimal WebGL library and 3D engine created to learn the
-                essentials of computer graphics concepts and to limit the need
-                for larger 3D libraries.
-              </p>
+
+              <div className="about_work_item_des">
+                <ul>
+                  <li className="list_style">
+                    Developed various websites frontend using HTML/CSS/JS(ES6),
+                    React, Styled Components, and Redux , integrated with
+                    RESTful APIs.
+                  </li>
+                  <li className="list_style">
+                    Published mobile application using React Native.
+                  </li>
+                  <li className="list_style">
+                    Worked with basic HTML and CSS to manage the web
+                    application.
+                  </li>
+                  <li className="list_style">
+                    Supported web design team to design websites and mobile
+                    application that have more than 3'000 daily users.
+                  </li>
+                </ul>
+              </div>
             </div>
             <div className="about_work">
               <div className="about_work_item">
-                <p className="skill_title">Tomato Project</p>
-                <FooterText width="max-content">2019-2020</FooterText>
+                <p className="list_title">Tomato Project</p>
+                <FooterText width="max-content" margin="10px 0 0">
+                  2019-2020
+                </FooterText>
+                <FooterText width="max-content">Graphic Designer</FooterText>
               </div>
-              <p className="about_work_item_des">
-                A minimal WebGL library and 3D engine created to learn the
-                essentials of computer graphics concepts and to limit the need
-                for larger 3D libraries.
-              </p>
+              <div className="about_work_item_des">
+                <ul>
+                  <li className="list_style">
+                    Designed visual content for Facebook and Instagram posts,
+                    which achieved 200% increase in Instagram followers.
+                  </li>
+                  <li className="list_style">
+                    Collaborated with the design team to create advertising
+                    posters and videos.
+                  </li>
+                </ul>
+              </div>
             </div>
             <div className="about_work">
               <div className="about_work_item">
-                <p className="skill_title">Hanmi Post</p>
-                <FooterText width="max-content">2019</FooterText>
+                <p className="list_title">Hanmi Post</p>
+                <FooterText width="max-content" margin="10px 0 0">
+                  2019
+                </FooterText>
+                <FooterText width="max-content">Graphic Designer</FooterText>
               </div>
-              <p className="about_work_item_des">
-                A minimal WebGL library and 3D engine created to learn the
-                essentials of computer graphics concepts and to limit the need
-                for larger 3D libraries.
-              </p>
+              <div className="about_work_item_des">
+                <ul>
+                  <li className="list_style">
+                    Designed packages like delivery box, poly bag, and packing
+                    tape to elevate and differentiate branding.
+                  </li>
+                  <li className="list_style">
+                    Developed creative advertising content for various media,
+                    including catalogs, business cards, flyers, posters, and
+                    product packing while ensuring maximum brand awareness of
+                    target audience.
+                  </li>
+                </ul>
+              </div>
             </div>
             <div className="about_work">
               <div className="about_work_item">
-                <p className="skill_title">Northern Esports Academy</p>
-                <FooterText width="max-content">2019</FooterText>
+                <p className="list_title">Northern Esports Academy</p>
+                <FooterText width="max-content" margin="10px 0 0">
+                  2019
+                </FooterText>
+                <FooterText width="max-content">
+                  Freelance Graphic Designer
+                </FooterText>
               </div>
-              <p className="about_work_item_des">
-                A minimal WebGL library and 3D engine created to learn the
-                essentials of computer graphics concepts and to limit the need
-                for larger 3D libraries.
-              </p>
+              <div className="about_work_item_des">
+                <ul>
+                  <li className="list_style">
+                    Conceptualized and created their logo, and designed Twitter
+                    Banners and Twitch Panels.
+                  </li>
+                </ul>
+              </div>
             </div>
             <div className="about_work">
               <div className="about_work_item">
-                <p className="skill_title">Cheum Tour</p>
-                <FooterText width="max-content">2019</FooterText>
+                <p className="list_title">Cheum Tour</p>
+                <FooterText width="max-content" margin="10px 0 0">
+                  2019
+                </FooterText>
+                <FooterText width="max-content">
+                  Freelance Graphic Designer
+                </FooterText>
               </div>
-              <p className="about_work_item_des">
-                A minimal WebGL library and 3D engine created to learn the
-                essentials of computer graphics concepts and to limit the need
-                for larger 3D libraries.
-              </p>
+
+              <div className="about_work_item_des">
+                <ul>
+                  <li className="list_style">
+                    Desinged, and created branding collateral, such as
+                    itineraries, letters and catalogues.
+                  </li>
+                </ul>
+              </div>
             </div>
             <div className="about_work">
               <div className="about_work_item">
-                <p className="skill_title">Chicago City Sports</p>
-                <FooterText width="max-content">2015-2016</FooterText>
+                <p className="list_title">Chicago City Sports</p>
+                <FooterText width="max-content" margin="10px 0 0">
+                  2015-2016
+                </FooterText>
+                <FooterText width="max-content">
+                  Internship (Visual Merchandiser)
+                </FooterText>
               </div>
-              <p className="about_work_item_des">
-                A minimal WebGL library and 3D engine created to learn the
-                essentials of computer graphics concepts and to limit the need
-                for larger 3D libraries.
-              </p>
+              <div className="about_work_item_des">
+                <ul>
+                  <li className="list_style">
+                    Perform installation and removal of window presentations and
+                    in-store displays in support of promotional events for new
+                    product launches.
+                  </li>
+                  <li className="list_style">
+                    Coordinate with the visual design manager to develop and
+                    implement visual displays.
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
