@@ -13,7 +13,6 @@ import {
   Wrap,
 } from "../../components/styledComponents";
 import {
-  ScrollProgress,
   ProjectHeader,
   ProjectExplanation,
   ProjectImage,
@@ -23,22 +22,28 @@ import {
   SecondSection,
   ProjectFooter,
 } from "../../components/project";
-
 import Seo from "../../components/seo";
+import { useRef } from "react";
+
 const YellowBasket = () => {
+  const ref = useRef();
+
   return (
     <>
       <Seo title="YellowBasket" />
-      <ScrollProgress color="#ffcc00" />
-      <ScrollSmooth mainColor="#121212" subColor="#f9f6f1">
+      <ScrollSmooth
+        mainColor="#121212"
+        subColor="#f9f6f1"
+        scrollColor="#ffcc00"
+        section={ref}
+      >
         <Wrap>
           <div className="startMargin">
             <Header padding="32px 0 145px 0" background="unset">
               {/* header section */}
               <ProjectHeader
                 title="Yellow Basket"
-                lead="An interactive fairy tale for Amsterdam’s biggest fashion
-                department store."
+                lead="Meet with a new experience"
                 link="https://ybasket.co.kr/"
                 date="2021"
                 headColor="#fff"
@@ -49,31 +54,24 @@ const YellowBasket = () => {
               {/* explanation section*/}
               <ProjectExplanation
                 pointColor="#ffcc00"
-                specOne="Development"
-                specTwo="Development"
-                specThr="Development"
-                specFou="Development"
+                specOne="Front-end development"
               >
                 <Tagline margin="0 0 30px 0" fontColor="#fff">
-                  The Amsterdam-based agency DEPT contacted us on behalf of
-                  their partners Bijenkorf with the festive ask - “Please craft
-                  us an innovative Christmas story”. So as we waved our last
-                  goodbyes to August’s comforting warmth and welcomed this
-                  challenge as a way to take the bite out of winter’s impending
-                  arrival. Winter was coming.
+                  Yellow Basket is the “shop-in-shop” concept store having a
+                  wide selection of products like cosmetics, electronics,
+                  stationery and so on. It’s all about the convenience of being
+                  able to find everything people need in one place.
                 </Tagline>
                 <Paragraph fontColor="#6b6b6b">
-                  Sharpening our Apple pencils, and filling our heads with
-                  magical imagery, we quickly aligned with DEPT’s team to sketch
-                  the outline of the Bijenkorf’s online Christmas campaign.
-                  Creating an enchanting moment for online shoppers started with
-                  the Bijenkorf name itself: “beehive” in English. Additional
-                  magic came from expanding our hive to collaborate with the
-                  amazing French-Canadian illustrator Myriam Wares.
+                  Together with my senior developer, we built the front and
+                  back-end of this website. I Built the front-end with HTML,
+                  CSS, and JS to improve the appearance of the website. I
+                  optimized web design for mobile and other platforms for
+                  maximum speed.
                 </Paragraph>
               </ProjectExplanation>
             </Header>
-            <section>
+            <section ref={ref}>
               {/* first section */}
               <FirstSection
                 videoSource="/images/yellowbasket/yellow_video_1.mp4"
