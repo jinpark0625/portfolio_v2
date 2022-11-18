@@ -1,14 +1,13 @@
 import Layout from "../components/layout";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import "../styles/globals.min.css";
 import "../styles/nprogress.min.css";
 import "../public/fonts/font.css";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import nProgress from "nprogress";
-import { Transition, animated } from "react-spring";
-import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
+  // nProgress
   useEffect(() => {
     const handleRouteStart = () => nProgress.start();
     const handleRouteDone = () => nProgress.done();
@@ -25,6 +24,7 @@ export default function App({ Component, pageProps }) {
     };
   }, []);
 
+  // size for chrome
   const handleResize = () => {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
@@ -38,26 +38,10 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   const { asPath } = useRouter();
-  const [items, set] = useState([{ id: asPath, Component, pageProps }]);
-  useEffect(() => {
-    set([{ id: asPath, Component, pageProps }]);
-  }, [Component]);
+
   return (
-    <Layout>
-      <Transition
-        items={items}
-        keys={(item) => item.id}
-        from={{ opacity: 0, transform: "translateY(-100px)" }}
-        initial={{ opacity: 0 }}
-        enter={{ opacity: 1, transform: "translateY(0px)" }}
-        leave={{ opacity: 0, transform: "translateY(100px)" }}
-      >
-        {(styles, { pageProps, Component }) => (
-          <animated.div style={{ ...styles, width: "100%" }}>
-            <Component {...pageProps} />
-          </animated.div>
-        )}
-      </Transition>
+    <Layout asPath={asPath}>
+      <Component {...pageProps} />
     </Layout>
   );
 }
