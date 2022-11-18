@@ -14,25 +14,30 @@ import {
   Wrap,
 } from "../../components/styledComponents";
 import {
-  ScrollProgress,
   ProjectHeader,
   ProjectExplanation,
   ProjectImage,
   ProjectMainImage,
-  ScrollSmooth,
   FirstSection,
   SecondSection,
   ProjectFooter,
+  ScrollSmooth,
 } from "../../components/project";
-
 import Seo from "../../components/seo";
+import { useRef } from "react";
 
 const BinWorks = () => {
+  const ref = useRef();
+
   return (
     <>
       <Seo title="BinWorks" />
-      <ScrollProgress color="#feae2e" />
-      <ScrollSmooth mainColor="#090909" subColor="#fff">
+      <ScrollSmooth
+        mainColor="#090909"
+        subColor="#fff"
+        scrollColor="#feae2e"
+        section={ref}
+      >
         <Wrap>
           <div className="startMargin">
             <Header padding="32px 0 145px 0" background="#unset">
@@ -75,7 +80,7 @@ const BinWorks = () => {
                 </Paragraph>
               </ProjectExplanation>
             </Header>
-            <section>
+            <section ref={ref}>
               {/* first section */}
               <FirstSection
                 videoSource="/images/binworks/binworks_video_1.mp4"
@@ -99,6 +104,7 @@ const BinWorks = () => {
             </section>
           </div>
         </Wrap>
+
         <ProjectFooter
           link="/work/fourtoon"
           background="#fff"
