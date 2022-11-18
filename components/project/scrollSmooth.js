@@ -1,5 +1,12 @@
-import { memo, useState, useRef, useLayoutEffect, useCallback } from "react";
-import { m, useScroll, useSpring, useTransform } from "framer-motion";
+import { useState, useRef, useLayoutEffect, useCallback, memo } from "react";
+import {
+  m,
+  useScroll,
+  useSpring,
+  useTransform,
+  LazyMotion,
+  domAnimation,
+} from "framer-motion";
 import ResizeObserver from "resize-observer-polyfill";
 
 const ScrollSmooth = ({ mainColor, subColor, children }) => {
@@ -35,7 +42,7 @@ const ScrollSmooth = ({ mainColor, subColor, children }) => {
   );
 
   return (
-    <>
+    <LazyMotion features={domAnimation}>
       <m.div
         ref={scrollRef}
         style={{ y: spring, backgroundColor: backgroundFramer }} // translateY of scroll container using negative scroll value
@@ -43,8 +50,8 @@ const ScrollSmooth = ({ mainColor, subColor, children }) => {
       >
         {children}
       </m.div>
-      <div style={{ height: pageHeight }} className="test" />
-    </>
+      <div style={{ height: pageHeight }} />
+    </LazyMotion>
   );
 };
 
