@@ -1,7 +1,8 @@
 import { memo } from "react";
 import styled from "styled-components";
+import { domAnimation, LazyMotion, m } from "framer-motion";
 
-const StyledMenu = styled.div`
+const StyledMenu = styled(m.div)`
   position: fixed;
   top: 0px;
   left: 0px;
@@ -10,7 +11,28 @@ const StyledMenu = styled.div`
   height: 100vh;
   height: -webkit-fill-available;
   background: ${({ theme: { color } }) => color.background};
-  transform: translateY(-100%);
+
+  @keyframes center {
+    from {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes top {
+    from {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    to {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
 
   .wrap {
     display: flex;
@@ -43,21 +65,20 @@ const StyledMenu = styled.div`
     color: black;
   }
   .li {
-    transform: translateY(-100%);
     font-size: ${({ theme: { fontSize } }) => fontSize.headerIntro}rem;
   }
 
   .cont {
     color: #fff;
     font-size: ${({ theme: { fontSize } }) => fontSize.tagline}rem;
-    margin-top: 4px;
   }
   .line {
+    opacity: 0;
     width: 100%;
     height: 1px;
     position: absolute;
     background: #4f4f4f;
-    transform: scaleX(0);
+    animation: top 0.6s 0.6s forwards;
   }
   .top_line {
     top: 80px;
@@ -68,11 +89,12 @@ const StyledMenu = styled.div`
     transform-origin: right;
   }
   .center_line {
+    opacity: 0;
+    animation: center 0.6s 0.6s forwards;
     width: 1px;
     height: 100%;
     position: absolute;
     background: #4f4f4f;
-    transform: scaleY(0);
     right: 0;
     transform-origin: bottom;
   }
@@ -90,7 +112,24 @@ const StyledMenu = styled.div`
 `;
 
 const Menu = ({ children, ...props }) => {
-  return <StyledMenu {...props}>{children}</StyledMenu>;
+  return (
+    <LazyMotion features={domAnimation}>
+      <StyledMenu
+        {...props}
+        initial={{ y: "-100%" }}
+        animate={{
+          y: "0",
+          transition: { duration: 0.6 },
+        }}
+        exit={{
+          y: "-100%",
+          transition: { duration: 0.6 },
+        }}
+      >
+        {children}
+      </StyledMenu>
+    </LazyMotion>
+  );
 };
 
 export default memo(Menu);
