@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect, useCallback, memo } from "react";
+import { useState, useLayoutEffect, useCallback, memo } from "react";
 import {
   m,
   useScroll,
@@ -9,11 +9,21 @@ import {
 } from "framer-motion";
 import ResizeObserver from "resize-observer-polyfill";
 import useIntersectionObserver from "./useIntersectionObserver";
+import { useRouter } from "next/router";
+import useRefs from "react-use-refs";
 
-const ScrollSmooth = ({ mainColor, subColor, pointColor, children }) => {
+const ScrollSmooth = ({
+  mainColor,
+  subColor,
+  pointColor,
+  nextProject,
+  link,
+  children,
+}) => {
+  const [scrollRef, footerRef, percentageRef] = useRefs();
+
   const { scrollYProgress, scrollY } = useScroll();
-  // scroll container
-  const scrollRef = useRef(null);
+
   // page scrollable height based on content length
   const [pageHeight, setPageHeight] = useState(0);
   // update scrollable height when browser is resizing
@@ -24,12 +34,11 @@ const ScrollSmooth = ({ mainColor, subColor, pointColor, children }) => {
   }, []);
 
   // current screen height
-  const [screenHeight, setScreenHeight] = useState(0);
   const [innerHeight, setInnerHeight] = useState(0);
   // observe when browser is resizing
   useLayoutEffect(() => {
     setInnerHeight(window.innerHeight);
-    setScreenHeight(document.body.offsetHeight);
+
     const resizeObserver = new ResizeObserver((entries) =>
       resizePageHeight(entries)
     );
@@ -55,45 +64,28 @@ const ScrollSmooth = ({ mainColor, subColor, pointColor, children }) => {
     restDelta: 0.001,
   });
 
-  const test = useRef();
-  const hmm = useRef();
-
-  const img1Ref = useRef();
-
-  scrollY.onChange((y) => {
-    // if(y >= test.current.offsetTop)
-    // let currentScroll = y >= test.current.offsetTop ? y : 0;
-    // console.log(test.current.offsetTop, innerHeight);
-    // (pageHeight - test.current.offsetTop - innerHeight);
-    // let scrollPercent = (y - test.current.offsetTop) / innerHeight;
-    // let scrollPercentRounded = Math.round(scrollPercent * 100);
-    // let finalNumber = 100 + scrollPercentRounded;
-    // if (finalNumber < 0) finalNumber = 0;
-    // console.log(hmm.current.style.transform.scale);
-    // hmm.current.style = `transform:scale(${
-    //   finalNumber / 100
-    // }); background: green;
-    // width: 100%;
-    // height: 100%;`;
-    // hmm.current.style.transform = `scale(${finalNumber / 10})`;
-    // test.current.innerText = finalNumber;
-  });
   const customThreshold = [...Array(100).keys()].map((x) => x / 100);
 
-  const img1Observer = useIntersectionObserver(img1Ref, customThreshold);
-  const img1ContainerTransform = useTransform(
-    img1Observer.springValue,
-    [0, 1],
-    [5, 0]
-  );
-
-  const img1transform = useTransform(
-    img1Observer.springValue,
-    [0, 0.3, 1],
-    [0, 0, 1]
-  );
+  const img1Observer = useIntersectionObserver(footerRef, customThreshold);
 
   const testOpacity = useTransform(img1Observer.springValue, [0, 1], [0, 1]);
+
+  const router = useRouter();
+  let routerCheck = 0;
+  scrollY.onChange((y) => {
+    percentageRef.current.innerText = 0;
+    if (img1Observer.inView) {
+      let scrollPercent = (y - footerRef.current.offsetTop) / innerHeight;
+      let scrollPercentRounded = Math.round(scrollPercent * 100);
+      let finalNum = scrollPercentRounded + 100;
+      percentageRef.current.innerText = finalNum;
+      if (finalNum === 100) {
+        if (routerCheck === 1) return;
+        router.push(`/work/${link}`);
+        routerCheck = 1;
+      }
+    }
+  });
 
   return (
     <LazyMotion features={domAnimation}>
@@ -139,12 +131,18 @@ const ScrollSmooth = ({ mainColor, subColor, pointColor, children }) => {
               transform: "translate(-50%, -50%)",
             }}
           >
-            <h2>BinWorks</h2>
+            <div style={{ position: "relative", width: "100%" }}>
+              <div
+                ref={percentageRef}
+                style={{ position: "absolute", right: "-24px", top: "-10px" }}
+              ></div>
+              <h2>{nextProject}</h2>
+            </div>
             <p>Next Project</p>
           </m.div>
         </div>
         <div
-          ref={img1Ref}
+          ref={footerRef}
           style={{
             height: "100vh",
           }}
