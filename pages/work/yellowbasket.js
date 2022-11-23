@@ -3,182 +3,24 @@ import img1 from "/public/images/yellowbasket/yellow_img_1.png";
 import img2 from "/public/images/yellowbasket/yellow_img_2.webp";
 import img3 from "/public/images/yellowbasket/yellow_img_3.png";
 import img4 from "/public/images/yellowbasket/yellow_img_4.png";
-import img5 from "/public/images/yellowbasket/yellow_img_5.webp";
-import img6 from "/public/images/yellowbasket/yellow_img_6.webp";
-import img7 from "/public/images/yellowbasket/yellow_img_7.webp";
 import img8 from "/public/images/yellowbasket/yellow_img_m_1.png";
 import img9 from "/public/images/yellowbasket/yellow_img_m_2.png";
 import img10 from "/public/images/yellowbasket/yellow_img_m_3.png";
 import img11 from "/public/images/yellowbasket/yellow_img_8.png";
 import nextImage from "/public/images/yellowbasket/next.jpg";
-import {
-  Header,
-  Paragraph,
-  Tagline,
-  Wrap,
-  Block,
-} from "../../components/styledComponents";
-import {
-  ProjectHeader,
-  ProjectExplanation,
-  ProjectImage,
-  ProjectMainImage,
-  ScrollSmooth,
-  FirstSection,
-  SecondSection,
-  ProjectFooter,
-  ProjectVideo,
-} from "../../components/project";
+import { Block, VideoPlayer } from "../../components/styledComponents";
+import { ScrollSmooth } from "../../components/project";
 import Seo from "../../components/seo";
-import styled from "styled-components";
 import Image from "next/image";
-
-// mainColor="#121212"
-// subColor="#f9f6f1"
-// scrollColor="#ffcc00"
-// headColor="#fff"
-// dateColor="#ffcc00"
-// pointColor="#ffcc00"
-// fontColor="#6b6b6b"
-
-const WorkHeader = styled.header`
-  max-width: 1800px;
-  margin: 0 auto;
-
-  .work_container {
-    margin: ${({ theme: { space } }) => `0 ${space[5]}px`};
-  }
-  .work_wrap {
-    width: 100%;
-    margin: ${({ theme: { space } }) => `${space[11]}px 0 ${space[6]}px`};
-  }
-  .work_title {
-    font-size: ${({ theme: { fontSize } }) => fontSize.title}rem;
-    font-weight: 600;
-    font-family: SomeTimes;
-    color: ${({ subColor }) => subColor};
-  }
-  .work_overview_text {
-    color: ${({ subColor }) => subColor};
-    max-width: 520px;
-    line-height: ${({ theme: { lineHeight } }) => lineHeight.paragraph};
-  }
-  .work_overview {
-    margin-top: ${({ theme: { space } }) => space[6]}px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .work_overview_des {
-    font-size: ${({ theme: { fontSize } }) => fontSize.footerSize}rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    text-align: right;
-  }
-  .work_date {
-    color: ${({ subColor }) => subColor};
-  }
-  .work_role {
-    display: flex;
-    align-items: center;
-    color: ${({ mainColor }) => mainColor};
-  }
-  .circle {
-    display: block;
-    width: 4px;
-    height: 4px;
-    background: ${({ mainColor }) => mainColor};
-    border-radius: 100%;
-    margin: 0 8px;
-  }
-
-  @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
-      mediaQuery.tablet}px) {
-    .work_container {
-      margin: 0 35px;
-    }
-    .work_wrap {
-      margin-top: ${({ theme: { space } }) => `${space[10]}px`};
-    }
-    .work_overview_text {
-      max-width: unset;
-    }
-    .work_overview {
-      flex-direction: column;
-    }
-    .work_overview_des {
-      margin-top: ${({ theme: { space } }) => space[3]}px;
-      justify-content: start;
-      text-align: left;
-    }
-    .work_date {
-      margin-bottom: 6px;
-    }
-  }
-  @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
-      mediaQuery.mobile}px) {
-    .work_title {
-      font-size: ${({ theme: { fontSize } }) => fontSize.subTitle}rem;
-    }
-    .work_overview {
-      margin-top: ${({ theme: { space } }) => space[4]}px;
-    }
-  }
-`;
-
-const WorkDevelopment = styled.div`
-  margin: ${({ theme: { space } }) => `0 auto ${space[10]}px`};
-  display: flex;
-  justify-content: center;
-  color: ${({ subColor }) => subColor};
-
-  .work_development {
-    margin: ${({ theme: { space } }) => `${space[6]}px 50px 0`};
-    display: flex;
-    max-width: 1024px;
-    justify-content: space-between;
-  }
-  .work_development_list,
-  .work_text {
-    flex: 1;
-    line-height: ${({ theme: { lineHeight } }) => lineHeight.paragraph};
-  }
-  .work_development_list dt {
-    color: ${({ grayColor }) => grayColor};
-  }
-  .work_development_list dd {
-    margin-bottom: ${({ theme: { space } }) => space[3]}px;
-  }
-  .work_development_list .work_link {
-    margin-top: ${({ theme: { space } }) => space[3]}px;
-    color: ${({ mainColor }) => mainColor};
-  }
-
-  @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
-      mediaQuery.tablet}px) {
-    .work_development {
-      margin: ${({ theme: { space } }) => `${space[6]}px 35px 0`};
-      flex-direction: column;
-    }
-    .work_development_list {
-      margin-top: 32px;
-      order: 2;
-    }
-    .work_development_tools {
-      display: flex;
-    }
-    .work_development_tools > dl:first-child {
-      margin-right: ${({ theme: { space } }) => `${space[3]}px`};
-    }
-  }
-  @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
-      mediaQuery.mobile}px) {
-    margin: ${({ theme: { space } }) => `0 auto ${space[8]}px`};
-  }
-`;
-
-// mobile gap & margin 조정
-// mobile 이미지간 여백조정
+import {
+  WorkHeader,
+  WorkDevelopment,
+  WorkSection,
+  ImageContainer,
+  FullImageContainer,
+  FullConceptContainer,
+  MobileContainer,
+} from "../../components/project/projectStyles";
 
 const YellowBasket = () => {
   return (
@@ -188,9 +30,11 @@ const YellowBasket = () => {
         mainColor="#121212"
         subColor="#f9f6f1"
         pointColor="#ffcc00"
-        nextProject="Bin Works"
-        link="binworks"
+        nextProject="Coffee Bak"
+        link="coffeebak"
+        nextImage={nextImage}
       >
+        {/* header */}
         <WorkHeader mainColor="#ffcc00" subColor="#fff">
           <div className="work_container">
             <div className="work_wrap">
@@ -216,7 +60,18 @@ const YellowBasket = () => {
             </div>
           </div>
         </WorkHeader>
-        <ProjectMainImage img={url} />
+        {/* full_width image */}
+        <FullImageContainer>
+          <Image
+            alt="project_image"
+            src={url}
+            layout="fill"
+            objectFit="cover"
+            placeholder="blur"
+          />
+        </FullImageContainer>
+
+        {/* description */}
         <WorkDevelopment
           mainColor="#ffcc00"
           subColor="#fff"
@@ -245,91 +100,91 @@ const YellowBasket = () => {
             </p>
           </div>
         </WorkDevelopment>
-        <section
-          className="work_body"
-          style={{
-            paddingBottom: "145px",
-          }}
-        >
+        {/* section */}
+        <WorkSection>
+          {/* first section */}
           <div className="section_margin">
-            <Wrap paddingMobile padding="0 0 105px 0">
-              {/* first section */}
-              <ProjectVideo
-                classStyle="block"
-                source="/images/yellowbasket/yellow_video_1.mp4"
-                scale="1.015"
-                poster="/images/yellowbasket/video_poster.webp"
-                border="#E7E7E7"
-              />
-              <ProjectImage
-                img={img1}
-                classStyle="marginGap"
-                border="#E7E7E7"
-                padding="0 0 399.25% 0"
-              />
-            </Wrap>
+            <div className="project_image_wrap">
+              <ImageContainer padding="56.25" border="#e7e7e7">
+                <div className="image_wrap">
+                  <VideoPlayer
+                    source="/images/yellowbasket/yellow_video_1.mp4"
+                    scale="1.015"
+                    poster="/images/yellowbasket/video_poster.webp"
+                  />
+                </div>
+              </ImageContainer>
+
+              <ImageContainer padding="399.25" border="#e7e7e7" marginTop>
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={img1}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
+            </div>
           </div>
-          <ProjectMainImage img={img2} padding="0 0 105px 0" />
+          {/* full_width image */}
+          <FullImageContainer margin>
+            <Image
+              alt="project_image"
+              src={img2}
+              layout="fill"
+              objectFit="cover"
+              placeholder="blur"
+            />
+          </FullImageContainer>
+
           {/* second section */}
           <div className="section_margin">
-            <Wrap paddingMobile padding="0 0 105px 0">
-              <ProjectImage
-                img={img11}
-                classStyle="block"
-                border="#E7E7E7"
-                padding="0 0 111.25% 0"
-              />
-              <ProjectImage
-                img={img3}
-                classStyle="marginGap"
-                border="#E7E7E7"
-              />
-            </Wrap>
+            <div className="project_image_wrap">
+              <ImageContainer padding="111.25" border="#e7e7e7">
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={img11}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
+
+              <ImageContainer padding="56.25" border="#e7e7e7" marginTop>
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={img3}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
+            </div>
           </div>
 
-          <Wrap>
-            <div className="imageWrapMix">
-              <Image
-                alt="project_image"
-                src={img4}
-                layout="fill"
-                objectFit="cover"
-                placeholder="blur"
-              />
-            </div>
-          </Wrap>
-          <div
-            style={{
-              margin: "0 50px",
-              // mobile 35px
-              paddingTop: "105px",
-            }}
-          >
-            <div
-              style={{
-                maxWidth: "1024px",
-                display: "flex",
-                margin: "0 auto",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: "32px",
-                // 20px
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  maxWidth: "320px",
-                  flex: 1,
-                }}
-              >
-                <Block className={`center`}>
-                  <Block
-                    width="100%"
-                    position="relative"
-                    padding="0 0 283.02% 0"
-                  >
+          {/* fullwidth_img_mix */}
+          <FullConceptContainer margin>
+            <Image
+              alt="project_image"
+              src={img4}
+              layout="fill"
+              objectFit="cover"
+              placeholder="blur"
+            />
+          </FullConceptContainer>
+
+          {/* mobile */}
+          <div className="section_margin">
+            <MobileContainer>
+              <div className="project_mobile_image">
+                <ImageContainer padding="283.02">
+                  <div className="image_wrap">
                     <Image
                       alt="project_image"
                       src={img8}
@@ -340,18 +195,12 @@ const YellowBasket = () => {
                         borderRadius: "12px",
                       }}
                     />
-                  </Block>
-                </Block>
+                  </div>
+                </ImageContainer>
               </div>
-              <div
-                style={{
-                  width: "100%",
-                  maxWidth: "320px",
-                  flex: 1,
-                }}
-              >
-                <Block className={`center`}>
-                  <Block width="100%" position="relative" padding="0 0 350% 0">
+              <div className="project_mobile_image">
+                <ImageContainer padding="350">
+                  <div className="image_wrap">
                     <Image
                       alt="project_image"
                       src={img9}
@@ -362,22 +211,12 @@ const YellowBasket = () => {
                         borderRadius: "12px",
                       }}
                     />
-                  </Block>
-                </Block>
+                  </div>
+                </ImageContainer>
               </div>
-              <div
-                style={{
-                  width: "100%",
-                  maxWidth: "320px",
-                  flex: 1,
-                }}
-              >
-                <Block className={`center`}>
-                  <Block
-                    width="100%"
-                    position="relative"
-                    padding="0 0 231.447% 0"
-                  >
+              <div className="project_mobile_image">
+                <ImageContainer padding="231.447">
+                  <div className="image_wrap">
                     <Image
                       alt="project_image"
                       src={img10}
@@ -388,12 +227,12 @@ const YellowBasket = () => {
                         borderRadius: "12px",
                       }}
                     />
-                  </Block>
-                </Block>
+                  </div>
+                </ImageContainer>
               </div>
-            </div>
+            </MobileContainer>
           </div>
-        </section>
+        </WorkSection>
       </ScrollSmooth>
     </>
   );
