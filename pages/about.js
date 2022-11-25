@@ -6,7 +6,7 @@ import {
   AboutSkill,
   AboutEducation,
   AboutWork,
-} from "../components/project/aboutStyles";
+} from "../components/styledComponents/aboutStyles";
 
 const About = () => {
   return (
