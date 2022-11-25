@@ -164,7 +164,7 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
             {/* 당신을 만나 인생의 빛나는 점을 찍고 싶습니다 */}
           </div>
           <div className="text" ref={fifthText}>
-            I'll provide a solution to satisfy everyone with creativity.
+            I&apos;ll provide a solution to satisfy everyone with creativity.
             {/* 통찰력과 창의력으로 모두가 만족하는 솔루션을 제공하겠습니다 */}
           </div>
           <div className="hide percent" ref={percent}></div>
