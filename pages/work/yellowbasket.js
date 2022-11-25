@@ -9,17 +9,7 @@ import img10 from "/public/images/yellowbasket/yellow_img_m_3.png";
 import img11 from "/public/images/yellowbasket/yellow_img_8.png";
 import nextImage from "/public/images/yellowbasket/next.jpg";
 import { Block, VideoPlayer } from "../../components/styledComponents";
-import {
-  ScrollSmooth,
-  ProjectHeader,
-  ProjectExplanation,
-  ProjectImage,
-  ProjectMainImage,
-  FirstSection,
-  SecondSection,
-  ProjectFooter,
-  ProjectVideo,
-} from "../../components/project";
+import { ScrollSmooth } from "../../components/project";
 import Seo from "../../components/seo";
 import Image from "next/image";
 import {

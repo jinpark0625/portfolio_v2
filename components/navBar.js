@@ -2,10 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Nav, HamburgerMenu } from "./styledComponents/nav";
 import Menu from "./styledComponents/menu";
-import { useLayoutEffect, useEffect, useState } from "react";
-import { gsap, Power1 } from "gsap";
-import useRefs from "react-use-refs";
 import dynamic from "next/dynamic";
+import { AnimatePresence, motion, useCycle } from "framer-motion";
 
 const ArrowLink = dynamic(() => import("./arrowLink"), {
   ssr: false,
@@ -15,117 +13,50 @@ const LogoLink = dynamic(() => import("./logoLink"), {
   loading: () => <div></div>,
 });
 
+const itemVariants = {
+  closed: {
+    opacity: 0,
+    transition: {
+      duration: 0.6,
+    },
+  },
+  open: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      delay: 0.6,
+    },
+  },
+};
+
+const menuVariants = {
+  closed: {},
+  open: {},
+};
+
 const Navbar = () => {
   const router = useRouter();
 
-  //open menu
-  const [menu, setMenu] = useState(false);
-  const menuOpen = () => {
-    setMenu((prev) => !prev);
-  };
-
-  // store the timeline in a ref.
-  const [el, tl] = useRefs();
-  const q = gsap.utils.selector(el);
-
-  // navigation animation
-  useLayoutEffect(() => {
-    tl.current = gsap
-      .timeline()
-      .to(q(".menu"), {
-        duration: 0.6,
-        y: "0%",
-        ease: Power1.easeIn,
-      })
-      .fromTo(
-        q(".li"),
-        {
-          y: "-100%",
-          opacity: 0,
-        },
-        {
-          duration: 0.4,
-          opacity: 1,
-          y: "0%",
-        },
-        1
-      )
-      .fromTo(
-        q(".line"),
-        {
-          scaleX: 0,
-          opacity: 0,
-        },
-        {
-          duration: 0.4,
-          opacity: 1,
-          scaleX: 1,
-        },
-        1
-      )
-      .fromTo(
-        q(".center_line"),
-        {
-          scaleY: 0,
-          opacity: 0,
-        },
-        {
-          duration: 0.4,
-          opacity: 1,
-          scaleY: 1,
-        },
-        1
-      )
-      .fromTo(
-        q(".logo"),
-        {
-          opacity: 0,
-        },
-        {
-          duration: 0.4,
-          opacity: 1,
-        },
-        1
-      );
-    return () => {
-      tl.current.progress(0).kill();
-    };
-  }, []);
-
-  useEffect(() => {
-    tl.current.reversed(!menu);
-  }, [menu]);
-
-  useEffect(() => {
-    if (menu) {
-      document.body.style.overflow = "hidden";
-    } else document.body.style.overflow = "auto";
-  }, [menu]);
-
-  const handleClick = () => {
-    setMenu(false);
-  };
+  const [open, cycleOpen] = useCycle(false, true);
 
   return (
-    <div style={{ position: "relative", zIndex: 2 }}>
-      <div ref={el}>
-        {/* <div> */}
+    <div style={{ position: "relative", zIndex: 3 }}>
+      <div>
         <Nav>
           <div className="navWrap">
             {router.pathname === "/" ||
             router.pathname === "/work" ||
             router.pathname === "/about" ? null : (
-              <ArrowLink handleClick={handleClick} router={router} />
+              <ArrowLink handleClick={cycleOpen} router={router} open={open} />
             )}
             {router.pathname === "/work" || router.pathname === "/about" ? (
-              <LogoLink handleClick={handleClick} />
+              <LogoLink handleClick={cycleOpen} open={open} />
             ) : (
               <div></div>
             )}
-
             <HamburgerMenu
-              menu={menu}
-              menuOpen={menuOpen}
+              menu={open}
+              menuOpen={cycleOpen}
               path={router.pathname}
             >
               <span className="first" />
@@ -133,38 +64,54 @@ const Navbar = () => {
             </HamburgerMenu>
           </div>
         </Nav>
-        <Menu className="menu">
-          <div className="wrap">
-            <span className="top_line line" />
-            <span className="bot_line line" />
-            <Link href="/work">
-              <a
-                className="section"
-                style={{ cursor: "pointer" }}
-                onClick={handleClick}
+        <AnimatePresence>
+          {open && (
+            <Menu className="menu" open={open}>
+              <motion.div
+                className="wrap"
+                initial="closed"
+                animate="open"
+                exit="closed"
+                variants={menuVariants}
               >
-                <span className="center_line" />
-                <div className="li">Work</div>
-              </a>
-            </Link>
-            <Link href="/about">
-              <a
-                className="section"
-                style={{ cursor: "pointer" }}
-                onClick={handleClick}
-              >
-                <div className="li">About</div>
-              </a>
-            </Link>
-            <div className="footer">
-              <Link href="mailto:jinpark0625@gmail.com">
-                <a>
-                  <div className="li cont">Contact</div>
-                </a>
-              </Link>
-            </div>
-          </div>
-        </Menu>
+                <span className="top_line line" />
+                <span className="bot_line line" />
+                <Link href="/work">
+                  <a
+                    className="section"
+                    style={{ cursor: "pointer" }}
+                    onClick={cycleOpen}
+                  >
+                    <span className="center_line" />
+                    <motion.div className="li" variants={itemVariants}>
+                      Work
+                    </motion.div>
+                  </a>
+                </Link>
+                <Link href="/about">
+                  <a
+                    className="section"
+                    style={{ cursor: "pointer" }}
+                    onClick={cycleOpen}
+                  >
+                    <motion.div className="li" variants={itemVariants}>
+                      About
+                    </motion.div>
+                  </a>
+                </Link>
+                <div className="footer">
+                  <Link href="mailto:jinpark0625@gmail.com">
+                    <a>
+                      <motion.div className="li cont" variants={itemVariants}>
+                        Contact
+                      </motion.div>
+                    </a>
+                  </Link>
+                </div>
+              </motion.div>
+            </Menu>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
