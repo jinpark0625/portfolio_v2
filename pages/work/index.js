@@ -1,25 +1,17 @@
-import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import state from "../../components/project/scrollStore";
 import "../../components/project/projectsShader";
 import Seo from "../../components/seo";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
-const ContentWrap = dynamic(
-  () => import("../../components/project/contentWrap"),
+const ProjectContentWrap = dynamic(
+  () => import("../../components/project/projectContentWrap"),
   {
     ssr: false,
   }
 );
 
 const Work = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const router = useRouter();
 
   return (
@@ -30,9 +22,9 @@ const Work = () => {
         linear
         orthographic
         frameloop="demand"
-        camera={{ zoom: state.zoom, position: [0, 0, 500] }}
+        camera={{ zoom: 75, position: [0, 0, 500] }}
       >
-        {isMounted && <ContentWrap router={router} />}
+        <ProjectContentWrap router={router} />
       </Canvas>
     </div>
   );

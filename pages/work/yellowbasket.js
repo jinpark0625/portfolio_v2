@@ -9,7 +9,17 @@ import img10 from "/public/images/yellowbasket/yellow_img_m_3.png";
 import img11 from "/public/images/yellowbasket/yellow_img_8.png";
 import nextImage from "/public/images/yellowbasket/next.jpg";
 import { Block, VideoPlayer } from "../../components/styledComponents";
-import { ScrollSmooth } from "../../components/project";
+import {
+  ScrollSmooth,
+  ProjectHeader,
+  ProjectExplanation,
+  ProjectImage,
+  ProjectMainImage,
+  FirstSection,
+  SecondSection,
+  ProjectFooter,
+  ProjectVideo,
+} from "../../components/project";
 import Seo from "../../components/seo";
 import Image from "next/image";
 import {
@@ -21,6 +31,7 @@ import {
   FullConceptContainer,
   MobileContainer,
 } from "../../components/project/projectStyles";
+import Link from "next/link";
 
 const YellowBasket = () => {
   return (
@@ -89,7 +100,11 @@ const YellowBasket = () => {
                   <dd>HTML / CSS / Vanila JS</dd>
                 </dl>
               </div>
-              <span className="work_link">View Website</span>
+              <Link href="https://ybasket.co.kr/" passHref>
+                <a target="_blank" rel="website link" className="work_link">
+                  View Website
+                </a>
+              </Link>
             </div>
 
             <p className="work_text">

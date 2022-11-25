@@ -4,82 +4,162 @@ import img3 from "/public/images/cafeteria/cafeteria_img_3.webp";
 import img4 from "/public/images/cafeteria/cafeteria_img_4.webp";
 import img5 from "/public/images/cafeteria/cafeteria_img_5.webp";
 import img6 from "/public/images/cafeteria/cafeteria_img_6.webp";
-import {
-  Header,
-  HeaderTitle,
-  Paragraph,
-  Tagline,
-  FooterText,
-  Wrap,
-  Footer,
-} from "../../components/styledComponents";
-import {
-  ScrollProgress,
-  ProjectHeader,
-  ProjectExplanation,
-  ProjectImage,
-  ProjectMainImage,
-  ProjectVideo,
-  ScrollSmooth,
-  ScrollFooter,
-  FirstSection,
-} from "../../components/project";
+import nextImage from "/public/images/proejct_2.webp";
+import { VideoPlayer } from "../../components/styledComponents";
+import { ScrollSmooth } from "../../components/project";
 import Link from "next/link";
 import Seo from "../../components/seo";
+import {
+  WorkHeader,
+  WorkDevelopment,
+  WorkSection,
+  ImageContainer,
+  FullImageContainer,
+  MobileContainer,
+} from "../../components/project/projectStyles";
+import Image from "next/image";
 
 const Goodcafeteria = () => {
   return (
     <>
       <Seo title="GoodCafeteria" />
-      <ScrollProgress color="#000" />
-      <ScrollSmooth mainColor="#ff9030" subColor="#ededed">
-        {/* <ScrollSmooth mainColor="#ff9030" subColor="#363636"> */}
-        {/*mainColor="#e2e0d6" subColor="#ededed" d9d9d9  e8e6e4 dbdbdb f09649*/}
 
-        <Wrap>
+      <ScrollSmooth
+        mainColor="#ff9030"
+        subColor="#ededed"
+        pointColor="#000"
+        nextProject="Yellow Basket"
+        link="yellowbasket"
+        nextImage={nextImage}
+      >
+        {/* header */}
+        <WorkHeader mainColor="#000" subColor="#fff">
+          <div className="work_container">
+            <div className="work_wrap">
+              <h1 className="work_title">Good Cafeteria</h1>
+              <div className="work_overview">
+                <p className="work_overview_text">
+                  Lunchflation, a recently created phrase, means the specific
+                  inflation of lunchtime meal prices. Workers and students
+                  cannot buy lunch as it was few years ago. Recently, they are
+                  turning to cafeteria because Eating a meal at cafeteria price
+                  is quite cheap in comparison with a typical meal at an average
+                  restaurant in Korea. Goodcafeteria helps to find the best
+                  local cafeterias and their menus.
+                </p>
+                <div className="work_overview_des">
+                  <p className="work_date">2022</p>
+                  <ul className="work_role">
+                    <li>Front-end development</li>
+                    <li>
+                      <span className="circle"></span>
+                    </li>
+                    <li>Web design</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </WorkHeader>
+
+        {/* full_width image */}
+        <FullImageContainer>
+          <Image
+            alt="project_image"
+            src={img1}
+            layout="fill"
+            objectFit="cover"
+            placeholder="blur"
+          />
+        </FullImageContainer>
+
+        {/* description */}
+        <WorkDevelopment
+          mainColor="#ff9030"
+          subColor="#000"
+          grayColor="#8D8D8D"
+        >
+          <div className="work_development">
+            <div className="work_development_list">
+              <div className="work_development_tools">
+                <dl>
+                  <dt>CLIENT</dt>
+                  <dd>Good Cafeteria</dd>
+                </dl>
+                <dl>
+                  <dt>TOOLS</dt>
+                  <dd>
+                    React / Styled-Components / Rest API
+                    <br />
+                    AWS S3 / Lottie / MobX / Redux / JWT
+                  </dd>
+                </dl>
+              </div>
+              <Link href="https://ybasket.co.kr/" passHref>
+                <a target="_blank" rel="website link" className="work_link">
+                  View Website
+                </a>
+              </Link>
+            </div>
+
+            <p className="work_text">
+              This work is a side project. I was in charge of overall visual
+              aspects of the website. I created the layout and design of a
+              website using Adobe XD. I focused on intuitive user interface so
+              that users don’t have to get lost, confused, guessing, reading a
+              manual book, or even asking the others. As for development, I
+              worked as a front-end developer to build this project. By clicking
+              address pin button in the header, users can find their current
+              location or input the address. The input data will be stored in
+              Local Storage so that users don’t need to set up their location
+              again. Cafeterias will show up in order of proximity to the
+              location users set. If users click like button in the upper left
+              corner, the cafeterias they have liked will be stored in IndexdDB.
+              I also built administrator page so that admin users can add
+              content on their carfeteria pages and access all items in the
+              admin toolbar.
+            </p>
+          </div>
+        </WorkDevelopment>
+
+        {/* <Wrap>
           <div className="startMargin">
             <Header padding="32px 0 145px 0" background="unset">
-              {/* header section */}
               <ProjectHeader
                 title="Good Cafeteria"
-                lead="An interactive fairy tale for Amsterdam’s biggest fashion
-                department store."
+                lead="Eat something different everyday"
                 link="https://d3txk89kbw52f5.cloudfront.net/"
                 date="2022"
                 headColor="#fff"
                 dateColor="#000"
               />
-              {/* title image section */}
+
               <ProjectMainImage img={img1} />
-              {/* explanation section*/}
+
               <ProjectExplanation
                 pointColor="#000"
-                specOne="Development"
-                specTwo="Development"
-                specThr="Development"
-                specFou="Development"
+                specOne="UI/UX Design"
+                specTwo="Front-end development"
               >
                 <Tagline margin="0 0 30px 0" fontColor="#fff">
-                  The Amsterdam-based agency DEPT contacted us on behalf of
-                  their partners Bijenkorf with the festive ask - “Please craft
-                  us an innovative Christmas story”. So as we waved our last
-                  goodbyes to August’s comforting warmth and welcomed this
-                  challenge as a way to take the bite out of winter’s impending
-                  arrival. Winter was coming.
+                  Lunchflation, a recently created phrase, means the specific
+                  inflation of lunchtime meal prices. Workers and students
+                  cannot buy lunch as it was few years ago. Recently, they are
+                  turning to cafeteria because Eating a meal at cafeteria price
+                  is quite cheap in comparison with a typical meal at an average
+                  restaurant in Korea. Goodcafeteria helps to find the best
+                  local cafeterias and their menus.
                 </Tagline>
-                <Paragraph fontColor="#e8e6e4">
-                  Sharpening our Apple pencils, and filling our heads with
-                  magical imagery, we quickly aligned with DEPT’s team to sketch
-                  the outline of the Bijenkorf’s online Christmas campaign.
-                  Creating an enchanting moment for online shoppers started with
-                  the Bijenkorf name itself: “beehive” in English. Additional
-                  magic came from expanding our hive to collaborate with the
-                  amazing French-Canadian illustrator Myriam Wares.
+                <Paragraph fontColor="#292929">
+                  This work is personal project. I was in charge of overall
+                  visual aspects of the website. I created the layout and design
+                  of a website using Adobe XD. I focused on intuitive user
+                  interface so that users don’t have to get lost, confused,
+                  guessing, reading a manual book, or even asking the others.
                 </Paragraph>
               </ProjectExplanation>
             </Header>
-            <section>
-              {/* first section */}
+            <section ref={ref}>
               <FirstSection
                 good
                 videoSource="/images/cafeteria/cafeteria_video_1.mp4"
@@ -88,7 +168,6 @@ const Goodcafeteria = () => {
                 imgSourceSecond={img2}
               />
 
-              {/* second section */}
               <Wrap paddingMobile padding="0 0 105px 0">
                 <ProjectVideo
                   classStyle="block"
@@ -104,7 +183,7 @@ const Goodcafeteria = () => {
                 />
                 <ProjectImage img={img3} classStyle="marginGap" />
               </Wrap>
-              {/* Third section */}
+
               <Wrap paddingMobile padding="0 0 105px 0">
                 <ProjectImage img={img4} classStyle="block" />
                 <ProjectImage img={img5} classStyle="marginGap" />
@@ -112,25 +191,7 @@ const Goodcafeteria = () => {
               </Wrap>
             </section>
           </div>
-        </Wrap>
-        <Link href="/work/yellowbasket">
-          <a>
-            <Footer>
-              <ScrollFooter>
-                <FooterText fontColor="#aaa" margin="0 0 10px 0">
-                  Next Project
-                </FooterText>
-                <HeaderTitle
-                  fontColor="#000"
-                  weight="600"
-                  fontFamily="SomeTimes"
-                >
-                  Yello Basket
-                </HeaderTitle>
-              </ScrollFooter>
-            </Footer>
-          </a>
-        </Link>
+        </Wrap> */}
       </ScrollSmooth>
     </>
   );
