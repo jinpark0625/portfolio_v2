@@ -52,11 +52,9 @@ ul {
 }
 .scroll-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
   will-change: transform;
+  right: 0;
+  left: 0;
 }
 .loading,
 .scrollArea {
@@ -158,6 +156,7 @@ canvas {
   will-change: transform;
   width: max-content;
   pointer-events: none;
+  text-align: center;
 }
 @media (max-width: 1024px) {
   .canvasWrap > div > div > div:last-child::-webkit-scrollbar {
@@ -167,6 +166,9 @@ canvas {
 @media (max-width: 600px) {
   .listSub {
     display: none;
+  }
+  .text {
+    font-size: 14px;
   }
 }
 .text_wrap {

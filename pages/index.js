@@ -1,11 +1,15 @@
-import { Suspense } from "react";
 import Seo from "../components/seo";
 import { Canvas } from "@react-three/fiber";
-import { ScrollControls } from "@react-three/drei";
-import Loader from "../components/loader";
-import { ContentsWrap } from "../components/main";
 import { useRouter } from "next/router";
 import { isMobile } from "react-device-detect";
+import dynamic from "next/dynamic";
+
+const MainContentsWrap = dynamic(
+  () => import("../components/main/mainContentsWrap"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
   const router = useRouter();
@@ -28,17 +32,7 @@ export default function Home() {
         gl={{ antialias: false }}
         dpr={[1, 2]}
       >
-        <Suspense fallback={<Loader />}>
-          <ScrollControls
-            pages={12}
-            distance={1}
-            damping={4}
-            horizontal={false}
-            infinite={false}
-          >
-            <ContentsWrap router={router} isMobile={_isMobile} />
-          </ScrollControls>
-        </Suspense>
+        <MainContentsWrap router={router} isMobile={_isMobile} />
       </Canvas>
     </div>
   );

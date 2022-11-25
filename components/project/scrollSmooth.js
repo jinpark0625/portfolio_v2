@@ -11,6 +11,7 @@ import ResizeObserver from "resize-observer-polyfill";
 import useIntersectionObserver from "./useIntersectionObserver";
 import { useRouter } from "next/router";
 import useRefs from "react-use-refs";
+import Image from "next/image";
 
 const ScrollSmooth = ({
   mainColor,
@@ -18,6 +19,7 @@ const ScrollSmooth = ({
   pointColor,
   nextProject,
   link,
+  nextImage,
   children,
 }) => {
   const [scrollRef, footerRef, percentageRef] = useRefs();
@@ -51,9 +53,10 @@ const ScrollSmooth = ({
   const spring = useSpring(transform, physics); // apply easing to the negative scroll value
 
   // set points to change background
+
   const backgroundFramer = useTransform(
     scrollYProgress,
-    [0.2, 0.3, 0.8, 0.9],
+    [0.2, 0.3, 0.7, 0.8],
     [mainColor, subColor, subColor, mainColor]
   );
 
@@ -78,6 +81,7 @@ const ScrollSmooth = ({
       let scrollPercent = (y - footerRef.current.offsetTop) / innerHeight;
       let scrollPercentRounded = Math.round(scrollPercent * 100);
       let finalNum = scrollPercentRounded + 100;
+      if (finalNum < 0) finalNum = 0;
       percentageRef.current.innerText = finalNum;
       if (finalNum === 100) {
         if (routerCheck === 1) return;
@@ -116,11 +120,17 @@ const ScrollSmooth = ({
               left: "0",
               width: "100%",
               height: "100%",
-              background: "red",
-              scale: testOpacity,
               opacity: testOpacity,
             }}
-          />
+          >
+            <Image
+              alt="project_image"
+              src={nextImage}
+              layout="fill"
+              objectFit="cover"
+              placeholder="blur"
+            />
+          </m.div>
           <m.div
             style={{
               position: "fixed",
@@ -136,7 +146,15 @@ const ScrollSmooth = ({
                 ref={percentageRef}
                 style={{ position: "absolute", right: "-24px", top: "-10px" }}
               ></div>
-              <h2>{nextProject}</h2>
+              <h2
+                style={{
+                  fontFamily: "SomeTimes",
+                  fontSize: "1.875rem",
+                  marginBottom: "12px",
+                }}
+              >
+                {nextProject}
+              </h2>
             </div>
             <p>Next Project</p>
           </m.div>

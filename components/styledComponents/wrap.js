@@ -7,12 +7,6 @@ const Styledwrap = styled.div`
   position: relative;
   background: ${({ background }) => background};
 
-  .imageWrap {
-    width: 100%;
-    height: 840px;
-    position: relative;
-  }
-
   .wrap_pad {
     padding: 0 45px;
   }
@@ -31,10 +25,10 @@ const Styledwrap = styled.div`
     margin-bottom: 300px;
   }
   .marginGap {
-    margin: 20px auto 0;
+    margin: 64px auto 0;
   }
-
   .headerWrap {
+    min-width: 580px;
     max-width: 580px;
     margin: 0 0 0 auto;
   }
@@ -134,9 +128,11 @@ const Styledwrap = styled.div`
   .skill_title {
     font-size: ${({ theme: { fontSize } }) => fontSize.paragraph}rem;
     color: ${({ theme: { color }, fontColor }) => fontColor || color.white};
-    line-height: ${({ theme: { lineHeight } }) => lineHeight.paragraph};
     font-weight: 600;
     line-height: 2;
+  }
+  .skill_item > .skill_title {
+    padding-bottom: 10px;
   }
   .skill_list {
     color: #fff;
@@ -156,20 +152,30 @@ const Styledwrap = styled.div`
   .about_work_item_des {
     width: 66.6666%;
     font-weight: 300;
+    padding-left: 20px;
   }
 
-  @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
-      mediaQuery.desktop}px) {
-    .imageWrap {
-      height: 695px;
-    }
+  .list_title {
+    font-size: ${({ theme: { fontSize } }) => fontSize.paragraph}rem;
+    color: ${({ theme: { color }, fontColor }) => fontColor || color.white};
+    font-weight: 600;
+    line-height: 1.618;
+  }
+  .list_style {
+    list-style: circle;
+    list-style-position: inside;
+    text-indent: -20px;
+    padding-bottom: 10px;
+    line-height: 1.618;
   }
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.tablet}px) {
     .center {
       flex-wrap: wrap;
-      padding: 0 45px;
+    }
+    .section_margin {
+      margin: 0 35px;
     }
     .wrap_pad {
       padding: unset;
@@ -201,14 +207,10 @@ const Styledwrap = styled.div`
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.miniTablet}px) {
-    .imageWrap {
-      height: 500px;
-    }
-    .center {
-      padding: 0 35px;
-    }
     .headerWrap {
       max-width: unset;
+      min-width: unset;
+      margin: unset;
     }
     .headerTitle {
       margin: 0 0 40px 0;
@@ -224,6 +226,7 @@ const Styledwrap = styled.div`
     .techStackTag {
       flex: 1 0 200px;
       margin: 0 0 25px 0;
+      align-self: center;
     }
     .techStack {
       display: none;
@@ -263,13 +266,14 @@ const Styledwrap = styled.div`
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.mobile}px) {
-    .imageWrap {
-      height: 300px;
-    }
     .block::before {
       height: 80px;
     }
     padding: ${({ paddingMobile }) => paddingMobile && "0 0 80px 0"};
+
+    .marginGap {
+      margin: 32px auto 0;
+    }
   }
 `;
 

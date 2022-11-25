@@ -1,13 +1,13 @@
 import Logo from "./styledComponents/logo";
 import Link from "next/link";
 
-const LogoLink = ({ handleClick }) => {
+const LogoLink = ({ open, handleClick }) => {
   return (
     <Link href="/">
       <a
         className="logoWrap"
         onClick={() => {
-          handleClick();
+          open ? handleClick() : null;
         }}
       >
         <Logo />

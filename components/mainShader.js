@@ -305,7 +305,7 @@ class CustomMaterialMain extends ShaderMaterial {
             float angleS = atan(rotatingS.x, rotatingS.z);
             float distanceToCenterS = length(rotatingS.xz);
             // float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.13;
-            float angleOffsetS = (1.0 / distanceToCenterS) + uTime * 0.13;
+            float angleOffsetS = (1.0 / distanceToCenterS) + uTime * 0.03;
             angleS += angleOffsetS;
 
             rotatingS.x = cos(angleS) * distanceToCenterS;

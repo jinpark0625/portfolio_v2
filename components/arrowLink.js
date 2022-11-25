@@ -1,16 +1,16 @@
 import { MemoRizedArrow } from "./styledComponents/nav";
 import Link from "next/link";
 
-const ArrowLink = ({ handleClick, router }) => {
+const ArrowLink = ({ open, handleClick, router }) => {
   return (
     <Link href="/work">
       <a
         className="logoWrap"
         onClick={() => {
-          handleClick();
+          open ? handleClick() : null;
         }}
       >
-        <MemoRizedArrow path={router.pathname} />
+        <MemoRizedArrow path={router.pathname} menu={open} />
       </a>
     </Link>
   );

@@ -147,19 +147,25 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
             Scroll down slowly
           </div>
           <div className="text" ref={firstText}>
-            오늘은 내 인생의 작은 점을 찍는 날입니다
+            Today is the day to make a dot in my life.
           </div>
           <div className="text" ref={secondText}>
-            인생은 작은 점들이 모여 현재가 되고 미래를 만듭니다
+            Dots come together to become the present
+            {/* 인생은 작은 점들이 모여 현재가 되고 미래를 만듭니다 */}
           </div>
           <div className="text" ref={thirdText}>
-            나의 노력과 진정성을 더하면 좋은 결과가 있을 거라 믿습니다
+            I believe that my hard work,
+            <br />
+            dedication and persistence will pay off.
+            {/* 나의 노력과 진정성을 더하면 좋은 결과가 있을 거라 믿습니다 */}
           </div>
           <div className="text" ref={fourthText}>
-            당신을 만나 인생의 빛나는 점을 찍고 싶습니다
+            I want to meet you to make a dot
+            {/* 당신을 만나 인생의 빛나는 점을 찍고 싶습니다 */}
           </div>
           <div className="text" ref={fifthText}>
-            통찰력과 창의력으로 모두가 만족하는 솔루션을 제공하겠습니다
+            I'll provide a solution to satisfy everyone with creativity.
+            {/* 통찰력과 창의력으로 모두가 만족하는 솔루션을 제공하겠습니다 */}
           </div>
           <div className="hide percent" ref={percent}></div>
         </Html>

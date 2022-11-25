@@ -9,7 +9,7 @@ const fontSize = {
   title_m: 2.75,
   title: 3.125,
 };
-const space = [12, 20, 25, 30, 35, 54, 60, 75, 100, 105, 145];
+const space = [12, 20, 25, 32, 36, 50, 64, 75, 100, 105, 145, 240];
 const color = {
   // background: "#17191c",
   background: "#000",
