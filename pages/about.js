@@ -128,7 +128,7 @@ const About = () => {
                 </li>
                 <li className="work_list">
                   Supported web design team to design websites and mobile
-                  application that have more than 3'000 daily users.
+                  application that have more than 3&apos;000 daily users.
                 </li>
               </ul>
             </div>
