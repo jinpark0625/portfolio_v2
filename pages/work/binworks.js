@@ -8,7 +8,7 @@ import img7 from "/public/images/binworks/binworks_img_m_1.png";
 import img8 from "/public/images/binworks/binworks_img_m_2.png";
 import img9 from "/public/images/binworks/binworks_img_m_3.png";
 import nextImage from "/public/images/binworks/next.jpg";
-import { VideoPlayer } from "../../components/styledComponents";
+import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import Seo from "../../components/seo";
 import Image from "next/image";

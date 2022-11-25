@@ -14,7 +14,7 @@ import img13 from "/public/images/fourtoon/fourtoon_img_m_10.png";
 import img14 from "/public/images/fourtoon/fourtoon_img_m_11.png";
 import img15 from "/public/images/fourtoon/fourtoon_img_m_12.png";
 import nextImage from "/public/images/fourtoon/next.webp";
-import { VideoPlayer } from "../../components/styledComponents";
+import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import {
   WorkHeader,

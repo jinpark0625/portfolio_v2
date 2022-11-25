@@ -5,7 +5,7 @@ import img4 from "/public/images/cafeteria/cafeteria_img_4.webp";
 import img5 from "/public/images/cafeteria/cafeteria_img_5.webp";
 import img6 from "/public/images/cafeteria/cafeteria_img_6.webp";
 import nextImage from "/public/images/proejct_2.webp";
-import { VideoPlayer } from "../../components/styledComponents";
+import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import Link from "next/link";
 import Seo from "../../components/seo";

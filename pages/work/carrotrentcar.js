@@ -9,7 +9,7 @@ import img7 from "/public/images/rentcar/rent_img_m_2.png";
 import img8 from "/public/images/rentcar/rent_img_m_3.png";
 import nextImage from "/public/images/rentcar/next.jpg";
 
-import { VideoPlayer } from "../../components/styledComponents";
+import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import {
   WorkHeader,

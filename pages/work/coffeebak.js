@@ -16,7 +16,7 @@ import imgM10 from "/public/images/coffeebak/coffee_img_m_10.png";
 import imgM11 from "/public/images/coffeebak/coffee_img_m_11.png";
 import imgM12 from "/public/images/coffeebak/coffee_img_m_12.png";
 import nextImage from "/public/images/proejct_4.webp";
-import { VideoPlayer } from "../../components/styledComponents";
+import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import {
   WorkHeader,
