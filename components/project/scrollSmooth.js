@@ -12,6 +12,7 @@ import useIntersectionObserver from "./useIntersectionObserver";
 import { useRouter } from "next/router";
 import useRefs from "react-use-refs";
 import Image from "next/image";
+import { ProjectFooter } from "../styledComponents/commonStyles";
 
 const ScrollSmooth = ({
   mainColor,
@@ -93,6 +94,7 @@ const ScrollSmooth = ({
 
   return (
     <LazyMotion features={domAnimation}>
+      {/* smooth scroll */}
       <m.div
         ref={scrollRef}
         style={{ y: spring, backgroundColor: backgroundFramer, zIndex: 2 }} // translateY of scroll container using negative scroll value
@@ -100,26 +102,22 @@ const ScrollSmooth = ({
       >
         {children}
       </m.div>
+
+      {/* scroll progress bar */}
       <m.div
         className="progress_bar"
         style={{ scaleY, background: pointColor }}
       />
+      {/* the basis for content height  */}
       <div style={{ height: pageHeight }} />
 
-      <div
-        style={{
-          height: "auto",
-        }}
-      >
-        <div style={{ height: "100vh", zIndex: 1 }}>
+      {/* footer */}
+      <ProjectFooter>
+        <div className="footer_container">
           <m.div
             ref={testOpacity}
+            className="footer_image_wrap"
             style={{
-              position: "fixed",
-              top: "0",
-              left: "0",
-              width: "100%",
-              height: "100%",
               opacity: testOpacity,
             }}
           >
@@ -131,41 +129,16 @@ const ScrollSmooth = ({
               placeholder="blur"
             />
           </m.div>
-          <m.div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              color: "#fff",
-              textAlign: "center",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <div style={{ position: "relative", width: "100%" }}>
-              <div
-                ref={percentageRef}
-                style={{ position: "absolute", right: "-24px", top: "-10px" }}
-              ></div>
-              <h2
-                style={{
-                  fontFamily: "SomeTimes",
-                  fontSize: "1.875rem",
-                  marginBottom: "12px",
-                }}
-              >
-                {nextProject}
-              </h2>
+          <div className="footer_text_container">
+            <div className="footer_text_wrap">
+              <m.div ref={percentageRef} className="footer_percentage"></m.div>
+              <h2 className="footer_title">{nextProject}</h2>
             </div>
             <p>Next Project</p>
-          </m.div>
+          </div>
         </div>
-        <div
-          ref={footerRef}
-          style={{
-            height: "100vh",
-          }}
-        />
-      </div>
+        <div className="footer_empty_height" ref={footerRef}></div>
+      </ProjectFooter>
     </LazyMotion>
   );
 };
