@@ -1,40 +1,6 @@
 import { useState, memo, useLayoutEffect } from "react";
 import styled from "styled-components";
 
-const StyledNav = styled.nav`
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  z-index: 10000000;
-  display: flex;
-  width: 100%;
-  height: 80px;
-  pointer-events: none;
-  overflow: hidden;
-
-  .navWrap {
-    margin: 0 auto;
-    max-width: 1800px;
-    width: 100%;
-    padding-left: 50px;
-    padding-right: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
-      mediaQuery.tablet}px) {
-    .navWrap {
-      padding: 0 35px;
-    }
-  }
-`;
-
-export const Nav = ({ children, ...props }) => {
-  return <StyledNav {...props}>{children}</StyledNav>;
-};
-
 const StyledArrow = styled.div`
   width: 40px;
   display: flex;

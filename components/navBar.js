@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Nav, HamburgerMenu } from "./styledComponents/nav";
+import { HamburgerMenu } from "./styledComponents/nav";
 import Menu from "./styledComponents/menu";
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion, useCycle } from "framer-motion";
+import { NavBarContainer, Nav } from "./styledComponents/menuStyles";
 
 const ArrowLink = dynamic(() => import("./arrowLink"), {
   ssr: false,
@@ -40,7 +41,7 @@ const Navbar = () => {
   const [open, cycleOpen] = useCycle(false, true);
 
   return (
-    <div style={{ position: "relative", zIndex: 3 }}>
+    <NavBarContainer>
       <div>
         <Nav>
           <div className="navWrap">
@@ -113,7 +114,7 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </NavBarContainer>
   );
 };
 

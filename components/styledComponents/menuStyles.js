@@ -109,3 +109,38 @@ export const StyledMenu = styled(m.div)`
     }
   }
 `;
+
+export const NavBarContainer = styled.div`
+  position: relative;
+  z-index: 3;
+`;
+
+export const Nav = styled.nav`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 10000000;
+  display: flex;
+  width: 100%;
+  height: 80px;
+  pointer-events: none;
+  overflow: hidden;
+
+  .navWrap {
+    margin: 0 auto;
+    max-width: 1800px;
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
+      mediaQuery.tablet}px) {
+    .navWrap {
+      padding: 0 35px;
+    }
+  }
+`;
