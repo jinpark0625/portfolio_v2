@@ -17,7 +17,7 @@ export default function Home() {
   const _isMobile = isMobile;
 
   return (
-    <div className="canvasWrap">
+    <div className="canvasWrap" style={{ cursor: "auto" }}>
       <Seo title="Home" />
       <Canvas
         camera={{
