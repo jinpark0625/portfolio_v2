@@ -1,17 +1,16 @@
-import url from "/public/images/proejct_2.webp";
-import img1 from "/public/images/yellowbasket/yellow_img_1.png";
-import img2 from "/public/images/yellowbasket/yellow_img_2.webp";
-import img3 from "/public/images/yellowbasket/yellow_img_3.png";
-import img4 from "/public/images/yellowbasket/yellow_img_4.png";
-import img8 from "/public/images/yellowbasket/yellow_img_m_1.png";
-import img9 from "/public/images/yellowbasket/yellow_img_m_2.png";
-import img10 from "/public/images/yellowbasket/yellow_img_m_3.png";
-import img11 from "/public/images/yellowbasket/yellow_img_8.png";
-import nextImage from "/public/images/yellowbasket/next.jpg";
-import VideoPlayer from "../../components/styledComponents/video";
+import {
+  YbWork,
+  CoNext,
+  Ybimg1,
+  Ybimg2,
+  Ybimg3,
+  Ybimg4,
+  Ybimg5,
+  YbimgM1,
+  YbimgM2,
+  YbimgM3,
+} from "../../components/project/images";
 import { ScrollSmooth } from "../../components/project";
-import Seo from "../../components/seo";
-import Image from "next/image";
 import {
   WorkHeader,
   WorkDevelopment,
@@ -21,6 +20,9 @@ import {
   FullConceptContainer,
   MobileContainer,
 } from "../../components/project/projectStyles";
+import Seo from "../../components/seo";
+import VideoPlayer from "../../components/styledComponents/video";
+import Image from "next/image";
 import Link from "next/link";
 
 const YellowBasket = () => {
@@ -33,7 +35,7 @@ const YellowBasket = () => {
         pointColor="#ffcc00"
         nextProject="Coffee Bak"
         link="coffeebak"
-        nextImage={nextImage}
+        nextImage={CoNext}
       >
         {/* header */}
         <WorkHeader mainColor="#ffcc00" subColor="#fff">
@@ -65,7 +67,7 @@ const YellowBasket = () => {
         <FullImageContainer>
           <Image
             alt="project_image"
-            src={url}
+            src={YbWork}
             layout="fill"
             objectFit="cover"
             placeholder="blur"
@@ -124,7 +126,7 @@ const YellowBasket = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img1}
+                    src={Ybimg1}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -137,7 +139,7 @@ const YellowBasket = () => {
           <FullImageContainer margin>
             <Image
               alt="project_image"
-              src={img2}
+              src={Ybimg2}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -151,7 +153,7 @@ const YellowBasket = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img11}
+                    src={Ybimg3}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -163,7 +165,7 @@ const YellowBasket = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img3}
+                    src={Ybimg4}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -177,7 +179,7 @@ const YellowBasket = () => {
           <FullConceptContainer margin>
             <Image
               alt="project_image"
-              src={img4}
+              src={Ybimg5}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -192,7 +194,7 @@ const YellowBasket = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img8}
+                      src={YbimgM1}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -208,7 +210,7 @@ const YellowBasket = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img9}
+                      src={YbimgM2}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -224,7 +226,7 @@ const YellowBasket = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img10}
+                      src={YbimgM3}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
