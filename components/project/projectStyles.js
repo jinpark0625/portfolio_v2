@@ -166,6 +166,19 @@ export const WorkSection = styled.section`
     margin: 0 auto;
   }
 
+  .logo_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #fff;
+  }
+  .logo_wrap > svg {
+    width: 20%;
+  }
+
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.tablet}px) {
     .section_margin {
