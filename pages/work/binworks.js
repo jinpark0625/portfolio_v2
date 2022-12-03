@@ -1,17 +1,16 @@
-import url from "/public/images/proejct_4.webp";
-import img1 from "/public/images/binworks/binworks_img_1.png";
-import img2 from "/public/images/binworks/binworks_img_2.webp";
-import img3 from "/public/images/binworks/binworks_img_3.png";
-import img4 from "/public/images/binworks/binworks_img_6.png";
-import img5 from "/public/images/binworks/binworks_img_7.png";
-import img7 from "/public/images/binworks/binworks_img_m_1.png";
-import img8 from "/public/images/binworks/binworks_img_m_2.png";
-import img9 from "/public/images/binworks/binworks_img_m_3.png";
-import nextImage from "/public/images/binworks/next.jpg";
-import VideoPlayer from "../../components/styledComponents/video";
+import {
+  BwWork,
+  FoNext,
+  Bwimg1,
+  Bwimg2,
+  Bwimg3,
+  Bwimg4,
+  Bwimg5,
+  BwimgM1,
+  BwimgM2,
+  BwimgM3,
+} from "../../components/project/images";
 import { ScrollSmooth } from "../../components/project";
-import Seo from "../../components/seo";
-import Image from "next/image";
 import {
   WorkHeader,
   WorkDevelopment,
@@ -21,7 +20,10 @@ import {
   FullConceptContainer,
   MobileContainer,
 } from "../../components/project/projectStyles";
+import VideoPlayer from "../../components/styledComponents/video";
 import Link from "next/link";
+import Seo from "../../components/seo";
+import Image from "next/image";
 
 const BinWorks = () => {
   return (
@@ -33,7 +35,7 @@ const BinWorks = () => {
         pointColor="#feae2e"
         nextProject="Four Toon"
         link="fourtoon"
-        nextImage={nextImage}
+        nextImage={FoNext}
       >
         {/* header */}
         <WorkHeader mainColor="#feae2e" subColor="#fff">
@@ -67,7 +69,7 @@ const BinWorks = () => {
         <FullImageContainer>
           <Image
             alt="project_image"
-            src={url}
+            src={BwWork}
             layout="fill"
             objectFit="cover"
             placeholder="blur"
@@ -129,7 +131,7 @@ const BinWorks = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img1}
+                    src={Bwimg1}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -142,7 +144,7 @@ const BinWorks = () => {
           <FullImageContainer margin>
             <Image
               alt="project_image"
-              src={img2}
+              src={Bwimg2}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -156,7 +158,7 @@ const BinWorks = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img4}
+                    src={Bwimg3}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -168,7 +170,7 @@ const BinWorks = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img5}
+                    src={Bwimg4}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -182,7 +184,7 @@ const BinWorks = () => {
           <FullConceptContainer margin>
             <Image
               alt="project_image"
-              src={img3}
+              src={Bwimg5}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -197,7 +199,7 @@ const BinWorks = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img7}
+                      src={BwimgM1}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -213,7 +215,7 @@ const BinWorks = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img8}
+                      src={BwimgM2}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -229,7 +231,7 @@ const BinWorks = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img9}
+                      src={BwimgM3}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
