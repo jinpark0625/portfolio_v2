@@ -15,7 +15,7 @@ const Work = () => {
   const router = useRouter();
 
   return (
-    <div className="canvasWrap" style={{ position: "relative", zIndex: 1 }}>
+    <div className="canvasWrap">
       <Seo title="Work" />
       <Canvas
         className="canvas"
