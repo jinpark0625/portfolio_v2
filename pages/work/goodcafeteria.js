@@ -1,9 +1,12 @@
-import img1 from "/public/images/cafeteria/cafeteria_img_1.webp";
+// import img1 from "/public/images/cafeteria/cafeteria_img_1.webp";
+import img1 from "/public/images/cafeteria/cafeteria_img_1.png";
 import img2 from "/public/images/cafeteria/cafeteria_img_2.webp";
-import img3 from "/public/images/cafeteria/cafeteria_img_3.webp";
-import img4 from "/public/images/cafeteria/cafeteria_img_4.webp";
+// import img3 from "/public/images/cafeteria/cafeteria_img_3.webp";
+import img3 from "/public/images/cafeteria/logo.png";
+import img4 from "/public/images/cafeteria/cafeteria_img_4.png";
 import img5 from "/public/images/cafeteria/cafeteria_img_5.webp";
 import img6 from "/public/images/cafeteria/cafeteria_img_6.webp";
+import test from "/public/images/cafeteria/e.png";
 import nextImage from "/public/images/proejct_2.webp";
 import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
@@ -16,8 +19,10 @@ import {
   ImageContainer,
   FullImageContainer,
   MobileContainer,
+  FullConceptContainer,
 } from "../../components/project/projectStyles";
 import Image from "next/image";
+import GoodCafeteriaLogo from "../../components/project/goodCafeteriaLogo";
 
 const Goodcafeteria = () => {
   return (
@@ -26,7 +31,8 @@ const Goodcafeteria = () => {
 
       <ScrollSmooth
         mainColor="#ff9030"
-        subColor="#ededed"
+        // subColor="#ededed"
+        subColor="#fff"
         pointColor="#000"
         nextProject="Yellow Basket"
         link="yellowbasket"
@@ -73,12 +79,35 @@ const Goodcafeteria = () => {
           />
         </FullImageContainer>
 
-        {/* description */}
-        <WorkDevelopment
+        {/* visual identity */}
+        {/* <WorkDevelopment
           mainColor="#ff9030"
           subColor="#000"
           grayColor="#8D8D8D"
         >
+          <div className="work_development">
+            <div>
+              <h2>Visual Identity</h2>
+              <p>
+                Focused on intuitive user interface so that users don’t have to
+                get lost, confused, guessing, reading a manual book, or even
+                asking the others.
+              </p>
+            </div>
+
+            <div>
+              <div>
+                <p>Typography</p>
+              </div>
+              <div>
+                <p>Colors</p>
+              </div>
+            </div>
+          </div>
+        </WorkDevelopment> */}
+
+        {/* description */}
+        <WorkDevelopment mainColor="#000" subColor="#fff" grayColor="#78501e">
           <div className="work_development">
             <div className="work_development_list">
               <div className="work_development_tools">
@@ -121,6 +150,117 @@ const Goodcafeteria = () => {
             </p>
           </div>
         </WorkDevelopment>
+        {/* section */}
+        <WorkSection>
+          {/* first section */}
+          <div className="section_margin">
+            <div className="project_image_wrap">
+              {/* <ImageContainer padding="56.25" border="#e7e7e7">
+                <div className="logo_wrap">
+                  <div>
+                    <GoodCafeteriaLogo />
+                  </div>
+                </div>
+              </ImageContainer> */}
+
+              <ImageContainer padding="56.25" marginTop>
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={img3}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
+
+              <ImageContainer padding="95" marginTop>
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={test}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
+            </div>
+          </div>
+
+          {/* full_width image */}
+          <FullImageContainer margin>
+            <Image
+              alt="project_image"
+              src={img2}
+              layout="fill"
+              objectFit="cover"
+              placeholder="blur"
+            />
+          </FullImageContainer>
+
+          {/* second section */}
+          <div className="section_margin">
+            <div className="project_image_wrap">
+              <ImageContainer padding="56.25" border="#e7e7e7">
+                <div className="image_wrap">
+                  <VideoPlayer
+                    source="/images/cafeteria/cafeteria_video_1.mp4"
+                    scale="1.015"
+                    poster="/images/cafeteria/video_poster.webp"
+                  />
+                </div>
+              </ImageContainer>
+
+              <ImageContainer padding="56.25" border="#e7e7e7" marginTop>
+                <div className="image_wrap">
+                  <VideoPlayer
+                    source="/images/cafeteria/cafeteria_video_2.mp4"
+                    scale="1.015"
+                    poster="/images/cafeteria/video_poster.webp"
+                  />
+                </div>
+              </ImageContainer>
+            </div>
+          </div>
+
+          {/* fullwidth_img_mix */}
+          <FullConceptContainer margin>
+            <Image
+              alt="project_image"
+              src={img4}
+              layout="fill"
+              objectFit="cover"
+              placeholder="blur"
+            />
+          </FullConceptContainer>
+
+          {/* third section */}
+          <div className="section_margin">
+            <div className="project_image_wrap">
+              <ImageContainer padding="56.25" border="#e7e7e7">
+                <div className="image_wrap">
+                  <VideoPlayer
+                    source="/images/cafeteria/cafeteria_video_3.mp4"
+                    scale="1.015"
+                    poster="/images/cafeteria/video_poster.webp"
+                  />
+                </div>
+              </ImageContainer>
+
+              <ImageContainer padding="56.25" marginTop border="#e7e7e7">
+                <div className="image_wrap">
+                  <VideoPlayer
+                    source="/images/cafeteria/cafeteria_video_4.mp4"
+                    scale="1.015"
+                    poster="/images/cafeteria/video_poster.webp"
+                  />
+                </div>
+              </ImageContainer>
+            </div>
+          </div>
+        </WorkSection>
 
         {/* <Wrap>
           <div className="startMargin">
