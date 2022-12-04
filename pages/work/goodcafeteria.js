@@ -30,16 +30,15 @@ const Goodcafeteria = () => {
       <Seo title="GoodCafeteria" />
 
       <ScrollSmooth
-        mainColor="#ff9030"
-        // subColor="#ededed"
+        mainColor="#f37021"
         subColor="#fff"
-        pointColor="#000"
+        pointColor="#210e08"
         nextProject="Yellow Basket"
         link="yellowbasket"
         nextImage={nextImage}
       >
         {/* header */}
-        <WorkHeader mainColor="#000" subColor="#fff">
+        <WorkHeader mainColor="#210e08" subColor="#fffdd0">
           <div className="work_container">
             <div className="work_wrap">
               <h1 className="work_title">Good Cafeteria</h1>
@@ -79,35 +78,12 @@ const Goodcafeteria = () => {
           />
         </FullImageContainer>
 
-        {/* visual identity */}
-        {/* <WorkDevelopment
-          mainColor="#ff9030"
-          subColor="#000"
-          grayColor="#8D8D8D"
-        >
-          <div className="work_development">
-            <div>
-              <h2>Visual Identity</h2>
-              <p>
-                Focused on intuitive user interface so that users don’t have to
-                get lost, confused, guessing, reading a manual book, or even
-                asking the others.
-              </p>
-            </div>
-
-            <div>
-              <div>
-                <p>Typography</p>
-              </div>
-              <div>
-                <p>Colors</p>
-              </div>
-            </div>
-          </div>
-        </WorkDevelopment> */}
-
         {/* description */}
-        <WorkDevelopment mainColor="#000" subColor="#fff" grayColor="#78501e">
+        <WorkDevelopment
+          mainColor="#210e08"
+          subColor="#fffdd0"
+          grayColor="#47331b"
+        >
           <div className="work_development">
             <div className="work_development_list">
               <div className="work_development_tools">

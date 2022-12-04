@@ -1,14 +1,15 @@
-import url from "/public/images/proejct_6.webp";
-import img1 from "/public/images/rentcar/rent_img_1.png";
-import img2 from "/public/images/rentcar/rent_img_2.webp";
-import img3 from "/public/images/rentcar/rent_img_3.png";
-import img4 from "/public/images/rentcar/rent_img_4.png";
-import img5 from "/public/images/rentcar/rent_img_5.png";
-import img6 from "/public/images/rentcar/rent_img_m_1.png";
-import img7 from "/public/images/rentcar/rent_img_m_2.png";
-import img8 from "/public/images/rentcar/rent_img_m_3.png";
-import nextImage from "/public/images/rentcar/next.jpg";
-
+import {
+  GcNext,
+  RcWork,
+  Rcimg1,
+  Rcimg2,
+  Rcimg3,
+  Rcimg4,
+  Rcimg5,
+  RcimgM1,
+  RcimgM2,
+  RcimgM3,
+} from "../../components/project/images";
 import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import {
@@ -33,7 +34,7 @@ const CarrotRentCar = () => {
         pointColor="#14473c"
         nextProject="Good Cafeteria"
         link="goodcafeteria"
-        nextImage={nextImage}
+        nextImage={GcNext}
       >
         {/* header */}
         <WorkHeader mainColor="#14473c" subColor="#312b28">
@@ -66,7 +67,7 @@ const CarrotRentCar = () => {
         <FullImageContainer>
           <Image
             alt="project_image"
-            src={url}
+            src={RcWork}
             layout="fill"
             objectFit="cover"
             placeholder="blur"
@@ -76,7 +77,7 @@ const CarrotRentCar = () => {
         <WorkDevelopment
           mainColor="#14473c"
           subColor="#312b28"
-          grayColor="#8D8D8D"
+          grayColor="#79874a"
         >
           <div className="work_development">
             <div className="work_development_list">
@@ -125,7 +126,7 @@ const CarrotRentCar = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img1}
+                    src={Rcimg1}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -139,7 +140,7 @@ const CarrotRentCar = () => {
           <FullImageContainer margin>
             <Image
               alt="project_image"
-              src={img2}
+              src={Rcimg2}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -153,7 +154,7 @@ const CarrotRentCar = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img3}
+                    src={Rcimg3}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -165,7 +166,7 @@ const CarrotRentCar = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img4}
+                    src={Rcimg4}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -179,7 +180,7 @@ const CarrotRentCar = () => {
           <FullConceptContainer margin padding="0 0 44% 0">
             <Image
               alt="project_image"
-              src={img5}
+              src={Rcimg5}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -194,7 +195,7 @@ const CarrotRentCar = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img6}
+                      src={RcimgM1}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -210,7 +211,7 @@ const CarrotRentCar = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img7}
+                      src={RcimgM2}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -226,7 +227,7 @@ const CarrotRentCar = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img8}
+                      src={RcimgM3}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"

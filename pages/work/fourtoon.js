@@ -1,19 +1,21 @@
-import url from "/public/images/fourtoon/url.webp";
-import img2 from "/public/images/fourtoon/fourtoon_img_2.png";
-import img3 from "/public/images/fourtoon/fourtoon_img_3.webp";
-import img4 from "/public/images/fourtoon/fourtoon_img_m_1.png";
-import img5 from "/public/images/fourtoon/fourtoon_img_m_2.png";
-import img6 from "/public/images/fourtoon/fourtoon_img_m_3.png";
-import img7 from "/public/images/fourtoon/fourtoon_img_m_4.png";
-import img8 from "/public/images/fourtoon/fourtoon_img_m_5.png";
-import img9 from "/public/images/fourtoon/fourtoon_img_m_6.png";
-import img10 from "/public/images/fourtoon/fourtoon_img_m_7.png";
-import img11 from "/public/images/fourtoon/fourtoon_img_m_8.png";
-import img12 from "/public/images/fourtoon/fourtoon_img_m_9.png";
-import img13 from "/public/images/fourtoon/fourtoon_img_m_10.png";
-import img14 from "/public/images/fourtoon/fourtoon_img_m_11.png";
-import img15 from "/public/images/fourtoon/fourtoon_img_m_12.png";
-import nextImage from "/public/images/fourtoon/next.webp";
+import {
+  RcWork,
+  Foimg1,
+  Foimg2,
+  Foimg3,
+  FoimgM1,
+  FoimgM2,
+  FoimgM3,
+  FoimgM4,
+  FoimgM5,
+  FoimgM6,
+  FoimgM7,
+  FoimgM8,
+  FoimgM9,
+  FoimgM10,
+  FoimgM11,
+  FoimgM12,
+} from "../../components/project/images";
 import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import {
@@ -88,13 +90,13 @@ const FourToon = () => {
       <ScrollSmooth
         mainColor="#fcb118"
         subColor="#fff"
-        pointColor="#000"
+        pointColor="#1a5285"
         nextProject="Carrot Rent Car"
         link="carrotrentcar"
-        nextImage={nextImage}
+        nextImage={RcWork}
       >
         {/* header */}
-        <WorkHeader mainColor="#000" subColor="#fff">
+        <WorkHeader mainColor="#1a5285" subColor="#291919">
           <div className="work_container">
             <div className="work_wrap">
               <h1 className="work_title">Four Toon</h1>
@@ -126,7 +128,7 @@ const FourToon = () => {
         <FullImageContainer>
           <Image
             alt="project_image"
-            src={url}
+            src={Foimg1}
             layout="fill"
             objectFit="cover"
             placeholder="blur"
@@ -134,7 +136,11 @@ const FourToon = () => {
         </FullImageContainer>
 
         {/* description */}
-        <WorkDevelopment mainColor="#fff" subColor="#000" grayColor="#7e590b">
+        <WorkDevelopment
+          mainColor="#1a5285"
+          subColor="#000"
+          grayColor="#6c4e44"
+        >
           <div className="work_development">
             <div className="work_development_list">
               <div className="work_development_tools">
@@ -184,7 +190,7 @@ const FourToon = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img2}
+                    src={Foimg2}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -198,7 +204,7 @@ const FourToon = () => {
           <FullImageContainer margin>
             <Image
               alt="project_image"
-              src={img3}
+              src={Foimg3}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -213,7 +219,7 @@ const FourToon = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img4}
+                      src={FoimgM1}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -234,7 +240,7 @@ const FourToon = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img5}
+                      src={FoimgM2}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -255,7 +261,7 @@ const FourToon = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img6}
+                      src={FoimgM3}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -277,7 +283,7 @@ const FourToon = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={img10}
+                        src={FoimgM4}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -293,7 +299,7 @@ const FourToon = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={img11}
+                        src={FoimgM5}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -309,7 +315,7 @@ const FourToon = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={img12}
+                        src={FoimgM6}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -327,7 +333,7 @@ const FourToon = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={img13}
+                        src={FoimgM7}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -343,7 +349,7 @@ const FourToon = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={img14}
+                        src={FoimgM8}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -359,7 +365,7 @@ const FourToon = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={img15}
+                        src={FoimgM9}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -381,7 +387,7 @@ const FourToon = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img7}
+                      src={FoimgM10}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -402,7 +408,7 @@ const FourToon = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img8}
+                      src={FoimgM11}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -423,7 +429,7 @@ const FourToon = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={img9}
+                      src={FoimgM12}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"

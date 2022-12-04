@@ -1,21 +1,23 @@
-import url from "/public/images/proejct_3.webp";
-import img1 from "/public/images/coffeebak/coffee_img_1.webp";
-import img2 from "/public/images/coffeebak/coffee_img_2.webp";
-import img3 from "/public/images/coffeebak/coffee_img_3.webp";
-import img4 from "/public/images/coffeebak/coffee_img_4.webp";
-import imgM1 from "/public/images/coffeebak/coffee_img_m_1.png";
-import imgM2 from "/public/images/coffeebak/coffee_img_m_2.png";
-import imgM3 from "/public/images/coffeebak/coffee_img_m_3.png";
-import imgM4 from "/public/images/coffeebak/coffee_img_m_4.png";
-import imgM5 from "/public/images/coffeebak/coffee_img_m_5.png";
-import imgM6 from "/public/images/coffeebak/coffee_img_m_6.png";
-import imgM7 from "/public/images/coffeebak/coffee_img_m_7.png";
-import imgM8 from "/public/images/coffeebak/coffee_img_m_8.png";
-import imgM9 from "/public/images/coffeebak/coffee_img_m_9.png";
-import imgM10 from "/public/images/coffeebak/coffee_img_m_10.png";
-import imgM11 from "/public/images/coffeebak/coffee_img_m_11.png";
-import imgM12 from "/public/images/coffeebak/coffee_img_m_12.png";
-import nextImage from "/public/images/proejct_4.webp";
+import {
+  BwWork,
+  CoWork,
+  Coimg1,
+  Coimg2,
+  Coimg3,
+  Coimg4,
+  CoimgM1,
+  CoimgM2,
+  CoimgM3,
+  CoimgM4,
+  CoimgM5,
+  CoimgM6,
+  CoimgM7,
+  CoimgM8,
+  CoimgM9,
+  CoimgM10,
+  CoimgM11,
+  CoimgM12,
+} from "../../components/project/images";
 import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import {
@@ -90,13 +92,13 @@ const CoffeeBak = () => {
       <ScrollSmooth
         mainColor="#193624"
         subColor="#fff"
-        pointColor="#ebcd7d"
+        pointColor="#eb9109"
         nextProject="Bin Works"
         link="binworks"
-        nextImage={nextImage}
+        nextImage={BwWork}
       >
         {/* header */}
-        <WorkHeader mainColor="#ebcd7d" subColor="#fff">
+        <WorkHeader mainColor="#eb9109" subColor="#fff">
           <div className="work_container">
             <div className="work_wrap">
               <h1 className="work_title">Coffee Bak</h1>
@@ -115,10 +117,6 @@ const CoffeeBak = () => {
                   <p className="work_date">2021</p>
                   <ul className="work_role">
                     <li>Front-end development</li>
-                    <li>
-                      <span className="circle"></span>
-                    </li>
-                    <li>Web design</li>
                   </ul>
                 </div>
               </div>
@@ -130,7 +128,7 @@ const CoffeeBak = () => {
         <FullImageContainer>
           <Image
             alt="project_image"
-            src={url}
+            src={CoWork}
             layout="fill"
             objectFit="cover"
             placeholder="blur"
@@ -139,9 +137,9 @@ const CoffeeBak = () => {
 
         {/* description */}
         <WorkDevelopment
-          mainColor="#ebcd7d"
+          mainColor="#eb9109"
           subColor="#fff"
-          grayColor="#8D8D8D"
+          grayColor="#8c9d84"
         >
           <div className="work_development">
             <div className="work_development_list">
@@ -195,7 +193,7 @@ const CoffeeBak = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img1}
+                    src={Coimg1}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -209,7 +207,7 @@ const CoffeeBak = () => {
           <FullImageContainer margin>
             <Image
               alt="project_image"
-              src={img2}
+              src={Coimg2}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -223,7 +221,7 @@ const CoffeeBak = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img3}
+                    src={Coimg3}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -235,7 +233,7 @@ const CoffeeBak = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img4}
+                    src={Coimg4}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -253,7 +251,7 @@ const CoffeeBak = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={imgM1}
+                      src={CoimgM1}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -274,7 +272,7 @@ const CoffeeBak = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={imgM2}
+                      src={CoimgM2}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -295,7 +293,7 @@ const CoffeeBak = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={imgM3}
+                      src={CoimgM3}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -317,7 +315,7 @@ const CoffeeBak = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={imgM4}
+                        src={CoimgM4}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -333,7 +331,7 @@ const CoffeeBak = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={imgM5}
+                        src={CoimgM5}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -349,7 +347,7 @@ const CoffeeBak = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={imgM6}
+                        src={CoimgM6}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -367,7 +365,7 @@ const CoffeeBak = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={imgM7}
+                        src={CoimgM7}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -383,7 +381,7 @@ const CoffeeBak = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={imgM8}
+                        src={CoimgM8}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -399,7 +397,7 @@ const CoffeeBak = () => {
                     <div className="image_wrap">
                       <Image
                         alt="project_image"
-                        src={imgM9}
+                        src={CoimgM9}
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
@@ -421,7 +419,7 @@ const CoffeeBak = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={imgM10}
+                      src={CoimgM10}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -442,7 +440,7 @@ const CoffeeBak = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={imgM11}
+                      src={CoimgM11}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
@@ -463,7 +461,7 @@ const CoffeeBak = () => {
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
-                      src={imgM12}
+                      src={CoimgM12}
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
