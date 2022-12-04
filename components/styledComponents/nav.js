@@ -45,15 +45,15 @@ const Arrow = ({ children, path, ...props }) => {
   const checkColor = (route) => {
     switch (route) {
       case "/work/goodcafeteria":
-        return set("#000");
+        return set("#210e08");
       case "/work/yellowbasket":
         return set("#ffcc00");
       case "/work/binworks":
         return set("#feae2e");
       case "/work/coffeebak":
-        return set("#ebcd7d");
+        return set("#eb9109");
       case "/work/fourtoon":
-        return set("#000");
+        return set("#1a5285");
       case "/work/carrotrentcar":
         return set("#14473c");
       default:
@@ -124,15 +124,15 @@ export const HamburgerMenu = ({ children, menu, path, menuOpen, ...props }) => {
   const checkColor = (route) => {
     switch (route) {
       case "/work/goodcafeteria":
-        return set("#000");
+        return set("#210e08");
       case "/work/yellowbasket":
         return set("#ffcc00");
       case "/work/binworks":
         return set("#feae2e");
       case "/work/coffeebak":
-        return set("#ebcd7d");
+        return set("#eb9109");
       case "/work/fourtoon":
-        return set("#000");
+        return set("#1a5285");
       case "/work/carrotrentcar":
         return set("#14473c");
       default:
