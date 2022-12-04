@@ -20,7 +20,7 @@ export const WorkHeader = styled.header`
     font-size: ${({ theme: { fontSize } }) => fontSize.title}rem;
     font-weight: 600;
     font-family: SomeTimes;
-    color: ${({ subColor }) => subColor};
+    color: ${({ mainColor }) => mainColor};
   }
   .work_overview_text {
     color: ${({ subColor }) => subColor};
