@@ -1,13 +1,15 @@
-// import img1 from "/public/images/cafeteria/cafeteria_img_1.webp";
-import img1 from "/public/images/cafeteria/cafeteria_img_1.png";
-import img2 from "/public/images/cafeteria/cafeteria_img_2.webp";
-// import img3 from "/public/images/cafeteria/cafeteria_img_3.webp";
-import img3 from "/public/images/cafeteria/logo.png";
-import img4 from "/public/images/cafeteria/cafeteria_img_4.png";
-import img5 from "/public/images/cafeteria/cafeteria_img_5.webp";
-import img6 from "/public/images/cafeteria/cafeteria_img_6.webp";
-import test from "/public/images/cafeteria/e.png";
-import nextImage from "/public/images/proejct_2.webp";
+import {
+  YbWork,
+  Gcimg1,
+  Gcimg2,
+  Gcimg3,
+  Gcimg4,
+  Gcimg5,
+  Gcimg6,
+  Gcimg7,
+  Gcimg8,
+  Gcimg9,
+} from "../../components/project/images";
 import VideoPlayer from "../../components/styledComponents/video";
 import { ScrollSmooth } from "../../components/project";
 import Link from "next/link";
@@ -31,11 +33,12 @@ const Goodcafeteria = () => {
 
       <ScrollSmooth
         mainColor="#f37021"
+        // mainColor="#ffa900"
         subColor="#fff"
         pointColor="#210e08"
         nextProject="Yellow Basket"
         link="yellowbasket"
-        nextImage={nextImage}
+        nextImage={YbWork}
       >
         {/* header */}
         <WorkHeader mainColor="#210e08" subColor="#fffdd0">
@@ -71,7 +74,7 @@ const Goodcafeteria = () => {
         <FullImageContainer>
           <Image
             alt="project_image"
-            src={img1}
+            src={Gcimg1}
             layout="fill"
             objectFit="cover"
             placeholder="blur"
@@ -131,19 +134,11 @@ const Goodcafeteria = () => {
           {/* first section */}
           <div className="section_margin">
             <div className="project_image_wrap">
-              {/* <ImageContainer padding="56.25" border="#e7e7e7">
-                <div className="logo_wrap">
-                  <div>
-                    <GoodCafeteriaLogo />
-                  </div>
-                </div>
-              </ImageContainer> */}
-
               <ImageContainer padding="56.25" marginTop>
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={img3}
+                    src={Gcimg2}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -155,7 +150,7 @@ const Goodcafeteria = () => {
                 <div className="image_wrap">
                   <Image
                     alt="project_image"
-                    src={test}
+                    src={Gcimg3}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
@@ -169,7 +164,7 @@ const Goodcafeteria = () => {
           <FullImageContainer margin>
             <Image
               alt="project_image"
-              src={img2}
+              src={Gcimg4}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -205,7 +200,7 @@ const Goodcafeteria = () => {
           <FullConceptContainer margin>
             <Image
               alt="project_image"
-              src={img4}
+              src={Gcimg5}
               layout="fill"
               objectFit="cover"
               placeholder="blur"
@@ -236,78 +231,59 @@ const Goodcafeteria = () => {
               </ImageContainer>
             </div>
           </div>
-        </WorkSection>
 
-        {/* <Wrap>
-          <div className="startMargin">
-            <Header padding="32px 0 145px 0" background="unset">
-              <ProjectHeader
-                title="Good Cafeteria"
-                lead="Eat something different everyday"
-                link="https://d3txk89kbw52f5.cloudfront.net/"
-                date="2022"
-                headColor="#fff"
-                dateColor="#000"
-              />
+          {/* full_width image */}
+          <FullImageContainer margin>
+            <Image
+              alt="project_image"
+              src={Gcimg6}
+              layout="fill"
+              objectFit="cover"
+              placeholder="blur"
+            />
+          </FullImageContainer>
 
-              <ProjectMainImage img={img1} />
+          {/* fourth section */}
+          <div className="section_margin">
+            <div className="project_image_wrap">
+              <ImageContainer padding="56.25" marginTop border="#e7e7e7">
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={Gcimg7}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
 
-              <ProjectExplanation
-                pointColor="#000"
-                specOne="UI/UX Design"
-                specTwo="Front-end development"
-              >
-                <Tagline margin="0 0 30px 0" fontColor="#fff">
-                  Lunchflation, a recently created phrase, means the specific
-                  inflation of lunchtime meal prices. Workers and students
-                  cannot buy lunch as it was few years ago. Recently, they are
-                  turning to cafeteria because Eating a meal at cafeteria price
-                  is quite cheap in comparison with a typical meal at an average
-                  restaurant in Korea. Goodcafeteria helps to find the best
-                  local cafeterias and their menus.
-                </Tagline>
-                <Paragraph fontColor="#292929">
-                  This work is personal project. I was in charge of overall
-                  visual aspects of the website. I created the layout and design
-                  of a website using Adobe XD. I focused on intuitive user
-                  interface so that users don’t have to get lost, confused,
-                  guessing, reading a manual book, or even asking the others.
-                </Paragraph>
-              </ProjectExplanation>
-            </Header>
-            <section ref={ref}>
-              <FirstSection
-                good
-                videoSource="/images/cafeteria/cafeteria_video_1.mp4"
-                videoPoster="/images/cafeteria/video_poster.webp"
-                imgSourceFirst="/images/cafeteria/cafeteria_video_2.mp4"
-                imgSourceSecond={img2}
-              />
+              <ImageContainer padding="56.25" marginTop border="#e7e7e7">
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={Gcimg8}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
 
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectVideo
-                  classStyle="block"
-                  source="/images/cafeteria/cafeteria_video_3.mp4"
-                  scale="1.015"
-                  poster="/images/cafeteria/video_poster.webp"
-                />
-                <ProjectVideo
-                  classStyle="marginGap"
-                  source="/images/cafeteria/cafeteria_video_4.mp4"
-                  scale="1.015"
-                  poster="/images/cafeteria/video_poster.webp"
-                />
-                <ProjectImage img={img3} classStyle="marginGap" />
-              </Wrap>
-
-              <Wrap paddingMobile padding="0 0 105px 0">
-                <ProjectImage img={img4} classStyle="block" />
-                <ProjectImage img={img5} classStyle="marginGap" />
-                <ProjectImage img={img6} classStyle="marginGap" />
-              </Wrap>
-            </section>
+              <ImageContainer padding="142" marginTop>
+                <div className="image_wrap">
+                  <Image
+                    alt="project_image"
+                    src={Gcimg9}
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                  />
+                </div>
+              </ImageContainer>
+            </div>
           </div>
-        </Wrap> */}
+        </WorkSection>
       </ScrollSmooth>
     </>
   );
