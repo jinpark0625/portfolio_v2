@@ -104,7 +104,7 @@ const ProjectPages = ({ router }) => {
           path="/work/fourtoon"
           map={img5}
           title="Four Toon"
-          sub="WEB DEVELOPMENT"
+          sub="ART DIRECTION / WEB DEVELOPMENT"
           router={router}
           pixelWidth={pixelWidth}
         />
