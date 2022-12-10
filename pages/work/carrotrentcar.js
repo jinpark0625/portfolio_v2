@@ -43,7 +43,7 @@ const CarrotRentCar = () => {
               <h1 className="work_title">Carrot Rent Car</h1>
               <div className="work_overview">
                 <p className="work_overview_text">
-                  Jeju Carrot Rent Car is the company to rent cars from Jeju
+                  Jeju Carrot Rent Car is the company to rent cars in Jeju
                   Island. Jeju Carrot Rent Car considers customer service its
                   top priority and offers a range of benefits like return
                   policy, free GPS navigation, collision coverage and etc for
