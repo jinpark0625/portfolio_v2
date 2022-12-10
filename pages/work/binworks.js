@@ -44,11 +44,11 @@ const BinWorks = () => {
               <h1 className="work_title">Bin Works</h1>
               <div className="work_overview">
                 <p className="work_overview_text">
-                  Binworks is made to be an web space where Lee Da Bin expresses
-                  his ideas using various artworks. The Nike Incense holder
-                  counts among his major wokrs. Ceramic and wood are materials
-                  that’s often used for an incense holder, but He used plastic
-                  material to think outside the box.
+                  Binworks is an web space where Lee Da Bin expresses his ideas
+                  with various artworks. The Nike Incense holder counts among
+                  his major wokrs. Ceramic and wood are materials that’s often
+                  used for an incense holder, but He used plastic material to
+                  think outside the box.
                 </p>
                 <div className="work_overview_des">
                   <p className="work_date">2021</p>
