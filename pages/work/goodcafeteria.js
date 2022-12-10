@@ -24,7 +24,6 @@ import {
   FullConceptContainer,
 } from "../../components/project/projectStyles";
 import Image from "next/image";
-import GoodCafeteriaLogo from "../../components/project/goodCafeteriaLogo";
 
 const Goodcafeteria = () => {
   return (
@@ -112,20 +111,15 @@ const Goodcafeteria = () => {
 
             <p className="work_text">
               This work is a side project. I was in charge of overall visual
-              aspects of the website. I created the layout and design of a
-              website using Adobe XD. I focused on intuitive user interface so
-              that users don’t have to get lost, confused, guessing, reading a
-              manual book, or even asking the others. As for development, I
-              worked as a front-end developer to build this project. By clicking
-              address pin button in the header, users can find their current
-              location or input the address. The input data will be stored in
-              Local Storage so that users don’t need to set up their location
-              again. Cafeterias will show up in order of proximity to the
-              location users set. If users click like button in the upper left
-              corner, the cafeterias they have liked will be stored in IndexdDB.
-              I also built administrator page so that admin users can add
-              content on their carfeteria pages and access all items in the
-              admin toolbar.
+              aspects of the website. I tried to create intuitive user interface
+              so that users don’t have to get lost and confused. I built this
+              web using React and styled it to look as much like an mobile app
+              as possible. The main features of Good Cafeteria are listed as
+              follows. Good Cafeteria not only shows the list of cafeterias in
+              order of their distance from users, but also help users search for
+              specific places they want. Users can save posts to create a
+              favorite list of cafeteriasdocument. Further, I built an admin
+              panel to give cafeteria owners control over their data.
             </p>
           </div>
         </WorkDevelopment>
