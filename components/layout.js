@@ -35,7 +35,7 @@ function Layout({ asPath, children }) {
             className="container"
             animate="in"
             initial="out"
-            exit="out"
+            exit={asPath.includes("/work/") ? null : "out"}
             variants={variants}
           >
             {children}
