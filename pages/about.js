@@ -18,12 +18,20 @@ const About = () => {
           <div className="title">Jin Park</div>
           <div className="small_text margin_m">
             <Link href="https://github.com/jinpark0625" passHref>
-              <a target="_blank" rel="website link" style={{ color: "#fff" }}>
+              <a
+                target="_blank"
+                rel="website link"
+                style={{ color: "#feae2e" }}
+              >
                 <p className="link">github.com/jinpark0625</p>
               </a>
             </Link>
             <Link href="http://parkjin.com/" passHref>
-              <a target="_blank" rel="website link" style={{ color: "#fff" }}>
+              <a
+                target="_blank"
+                rel="website link"
+                style={{ color: "#feae2e" }}
+              >
                 <p className="link">parkjin.com (kor)</p>
               </a>
             </Link>
