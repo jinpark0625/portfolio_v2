@@ -198,9 +198,6 @@ const YellowBasket = () => {
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
-                      style={{
-                        borderRadius: "12px",
-                      }}
                     />
                   </div>
                 </ImageContainer>
@@ -214,9 +211,6 @@ const YellowBasket = () => {
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
-                      style={{
-                        borderRadius: "12px",
-                      }}
                     />
                   </div>
                 </ImageContainer>
@@ -230,9 +224,6 @@ const YellowBasket = () => {
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
-                      style={{
-                        borderRadius: "12px",
-                      }}
                     />
                   </div>
                 </ImageContainer>

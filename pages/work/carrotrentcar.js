@@ -199,9 +199,6 @@ const CarrotRentCar = () => {
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
-                      style={{
-                        borderRadius: "12px",
-                      }}
                     />
                   </div>
                 </ImageContainer>
@@ -215,9 +212,6 @@ const CarrotRentCar = () => {
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
-                      style={{
-                        borderRadius: "12px",
-                      }}
                     />
                   </div>
                 </ImageContainer>
@@ -231,9 +225,6 @@ const CarrotRentCar = () => {
                       layout="fill"
                       objectFit="cover"
                       placeholder="blur"
-                      style={{
-                        borderRadius: "12px",
-                      }}
                     />
                   </div>
                 </ImageContainer>
