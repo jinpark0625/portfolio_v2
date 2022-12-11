@@ -150,7 +150,8 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
             Life is a series of dots called &quot;experiences&quot;.
           </div>
           <div className="text" ref={secondText}>
-            Each and every event in the past is connected to the present
+            Each and every event in the past <br className="mobile_text" />
+            is connected to the present
             <br />
             as if a dot begins to move and becomes a line.
             {/* as if a dot begins to move and forms a connected line. */}
@@ -161,10 +162,12 @@ const ContentsWrap = ({ children, router, isMobile, ...props }) => {
             and make me who I am today.
           </div>
           <div className="text" ref={fourthText}>
-            I look forward to having you as a shining dot in my life.
+            I look forward to having you <br className="mobile_text" />
+            as a shining dot in my life.
           </div>
           <div className="text" ref={fifthText}>
-            I&apos;ll provide a solution to satisfy everyone with creativity.
+            I&apos;ll provide a solution <br className="mobile_text" />
+            to satisfy everyone with creativity.
           </div>
           <div className="hide percent" ref={percent}></div>
         </Html>
