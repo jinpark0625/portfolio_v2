@@ -160,6 +160,10 @@ canvas {
   pointer-events: none;
   text-align: center;
 }
+.mobile_text {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .canvasWrap > div > div > div:last-child::-webkit-scrollbar {
     display: none;
@@ -171,6 +175,9 @@ canvas {
   }
   .text {
     font-size: 14px;
+  }
+  .mobile_text {
+    display: block;
   }
 }
 .text_wrap {
