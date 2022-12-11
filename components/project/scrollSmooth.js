@@ -86,6 +86,7 @@ const ScrollSmooth = ({
       percentageRef.current.innerText = finalNum;
       if (finalNum === 100) {
         if (routerCheck === 1) return;
+        // router.push(`/work/${link}`, undefined, { scroll: false });
         router.push(`/work/${link}`);
         routerCheck = 1;
       }
