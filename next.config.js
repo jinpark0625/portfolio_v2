@@ -14,6 +14,10 @@ const nextConfig = {
     config.plugins.push(new CompressionPlugin());
     return config;
   },
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
 };
 
 module.exports = withPlugins(
