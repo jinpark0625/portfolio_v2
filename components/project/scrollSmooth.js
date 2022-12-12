@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useCallback, memo } from "react";
+import { useState, useLayoutEffect, useCallback } from "react";
 import {
   m,
   useScroll,
@@ -83,6 +83,7 @@ const ScrollSmooth = ({
       let scrollPercentRounded = Math.round(scrollPercent * 100);
       let finalNum = scrollPercentRounded + 100;
       if (finalNum < 0) finalNum = 0;
+      if (finalNum > 100) finalNum = 100;
       percentageRef.current.innerText = finalNum;
       if (finalNum === 100) {
         if (routerCheck === 1) return;
@@ -144,4 +145,4 @@ const ScrollSmooth = ({
   );
 };
 
-export default memo(ScrollSmooth);
+export default ScrollSmooth;
