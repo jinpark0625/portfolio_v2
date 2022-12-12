@@ -1,4 +1,4 @@
-import { MemoRizedArrow } from "./styledComponents/nav";
+import { Arrow } from "./styledComponents/nav";
 import Link from "next/link";
 
 const ArrowLink = ({ open, handleClick, router }) => {
@@ -9,8 +9,9 @@ const ArrowLink = ({ open, handleClick, router }) => {
         onClick={() => {
           open ? handleClick() : null;
         }}
+        aria-label="Link to work page"
       >
-        <MemoRizedArrow path={router.pathname} menu={open} />
+        <Arrow path={router.pathname} menu={open} />
       </a>
     </Link>
   );
