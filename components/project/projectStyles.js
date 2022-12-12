@@ -212,7 +212,7 @@ export const ImageContainer = styled.div`
     overflow: hidden;
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    border-radius: ${({ mobile }) => mobile && "12px"};
   }
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
@@ -220,7 +220,7 @@ export const ImageContainer = styled.div`
     margin-top: ${({ marginTop }) => (marginTop ? "32px" : "unset")};
 
     .image_wrap {
-      border-radius: 4px;
+      border-radius: ${({ mobile }) => mobile && "4px"};
     }
   }
 `;
