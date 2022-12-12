@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { HamburgerMenu } from "./styledComponents/nav";
 import Menu from "./styledComponents/menu";
 import dynamic from "next/dynamic";
@@ -8,9 +7,11 @@ import { NavBarContainer, Nav } from "./styledComponents/menuStyles";
 
 const ArrowLink = dynamic(() => import("./arrowLink"), {
   ssr: false,
+  loading: () => <div></div>,
 });
 
 const LogoLink = dynamic(() => import("./logoLink"), {
+  ssr: false,
   loading: () => <div></div>,
 });
 
@@ -35,9 +36,15 @@ const menuVariants = {
   open: {},
 };
 
-const Navbar = () => {
-  const router = useRouter();
+const HandleNavMenu = ({ path, cycleOpen, open }) => {
+  if (path.includes("/work/")) {
+    return <ArrowLink handleClick={cycleOpen} path={path} open={open} />;
+  } else if (path === "/") {
+    return <div></div>;
+  } else return <LogoLink handleClick={cycleOpen} open={open} />;
+};
 
+const Navbar = ({ path }) => {
   const [open, cycleOpen] = useCycle(false, true);
 
   return (
@@ -45,21 +52,8 @@ const Navbar = () => {
       <div>
         <Nav>
           <div className="navWrap">
-            {router.pathname === "/" ||
-            router.pathname === "/work" ||
-            router.pathname === "/about" ? null : (
-              <ArrowLink handleClick={cycleOpen} router={router} open={open} />
-            )}
-            {router.pathname === "/work" || router.pathname === "/about" ? (
-              <LogoLink handleClick={cycleOpen} open={open} />
-            ) : (
-              <div></div>
-            )}
-            <HamburgerMenu
-              menu={open}
-              menuOpen={cycleOpen}
-              path={router.pathname}
-            >
+            <HandleNavMenu path={path} cycleOpen={cycleOpen} open={open} />
+            <HamburgerMenu menu={open} menuOpen={cycleOpen} path={path}>
               <span className="first" />
               <span className="second" />
             </HamburgerMenu>
@@ -82,6 +76,7 @@ const Navbar = () => {
                     className="section"
                     style={{ cursor: "pointer" }}
                     onClick={cycleOpen}
+                    aria-label="Link to work page"
                   >
                     <span className="center_line" />
                     <motion.div className="li" variants={itemVariants}>
@@ -94,6 +89,7 @@ const Navbar = () => {
                     className="section"
                     style={{ cursor: "pointer" }}
                     onClick={cycleOpen}
+                    aria-label="Link to about page"
                   >
                     <motion.div className="li" variants={itemVariants}>
                       About
@@ -102,7 +98,7 @@ const Navbar = () => {
                 </Link>
                 <div className="footer">
                   <Link href="mailto:jinpark0625@gmail.com">
-                    <a>
+                    <a aria-label="Email to me">
                       <motion.div className="li cont" variants={itemVariants}>
                         Contact
                       </motion.div>
