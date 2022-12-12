@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { domAnimation, LazyMotion } from "framer-motion";
 import { StyledMenu } from "./menuStyles";
 
@@ -23,4 +22,4 @@ const Menu = ({ children, ...props }) => {
   );
 };
 
-export default memo(Menu);
+export default Menu;
