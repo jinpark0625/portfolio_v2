@@ -1,7 +1,7 @@
 import { Arrow } from "./styledComponents/nav";
 import Link from "next/link";
 
-const ArrowLink = ({ open, handleClick, router }) => {
+const ArrowLink = ({ open, handleClick, path }) => {
   return (
     <Link href="/work">
       <a
@@ -11,7 +11,7 @@ const ArrowLink = ({ open, handleClick, router }) => {
         }}
         aria-label="Link to work page"
       >
-        <Arrow path={router.pathname} menu={open} />
+        <Arrow path={path} menu={open} />
       </a>
     </Link>
   );
