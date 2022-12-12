@@ -1,4 +1,4 @@
-import { useState, memo, useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import styled from "styled-components";
 
 const StyledArrow = styled.div`
@@ -39,7 +39,7 @@ const StyledArrow = styled.div`
   }
 `;
 
-const Arrow = ({ children, path, ...props }) => {
+export const Arrow = ({ children, path, ...props }) => {
   const [color, set] = useState("#fff");
 
   const checkColor = (route) => {
@@ -71,7 +71,6 @@ const Arrow = ({ children, path, ...props }) => {
     </StyledArrow>
   );
 };
-export const MemoRizedArrow = memo(Arrow);
 
 const StyledHamburgerMenu = styled.div`
   cursor: pointer;
