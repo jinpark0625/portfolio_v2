@@ -1,6 +1,8 @@
 {
-    "editor.formatOnSave": true,
-    "json.schemas": [
-    
-    ]
+  "editor.formatOnSave": true,
+  "json.schemas": [],
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#243158ee",
+    "titleBar.inactiveBackground": "#243158ee"
+  }
 }
