@@ -191,7 +191,7 @@ const CarrotRentCar = () => {
           <div className="section_margin">
             <MobileContainer>
               <div className="project_mobile_image">
-                <ImageContainer padding="283.02">
+                <ImageContainer padding="283.02" mobile>
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
@@ -204,7 +204,7 @@ const CarrotRentCar = () => {
                 </ImageContainer>
               </div>
               <div className="project_mobile_image">
-                <ImageContainer padding="350">
+                <ImageContainer padding="350" mobile>
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
@@ -217,7 +217,7 @@ const CarrotRentCar = () => {
                 </ImageContainer>
               </div>
               <div className="project_mobile_image">
-                <ImageContainer padding="231.447">
+                <ImageContainer padding="231.447" mobile>
                   <div className="image_wrap">
                     <Image
                       alt="project_image"
