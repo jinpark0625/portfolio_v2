@@ -256,3 +256,7 @@ canvas {
 .percent {
   opacity: 1;
 }
+.fixedScroll {
+  overflow: hidden;
+  touch-action: none;
+}
