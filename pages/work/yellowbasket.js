@@ -93,7 +93,12 @@ const YellowBasket = () => {
                 </dl>
               </div>
               <Link href="https://ybasket.co.kr/" passHref>
-                <a target="_blank" rel="website link" className="work_link">
+                <a
+                  target="_blank"
+                  rel="website link"
+                  className="work_link"
+                  aria-label="Link to website"
+                >
                   View Website
                 </a>
               </Link>
