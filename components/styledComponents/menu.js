@@ -1,5 +1,6 @@
 import { domAnimation, LazyMotion } from "framer-motion";
 import { StyledMenu } from "./menuStyles";
+import { useEffect } from "react";
 
 const variants = {
   in: {
@@ -16,7 +17,12 @@ const variants = {
   },
 };
 
-const Menu = ({ children, ...props }) => {
+const Menu = ({ children, open, ...props }) => {
+  useEffect(() => {
+    document.body.classList.add("fixedScroll");
+    return () => document.body.classList.remove("fixedScroll");
+  }, []);
+
   return (
     <LazyMotion features={domAnimation}>
       <StyledMenu
