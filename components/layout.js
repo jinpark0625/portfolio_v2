@@ -26,7 +26,7 @@ function Layout({ asPath, children }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
+      <Navbar path={asPath} />
       {/* page transition */}
       <LazyMotion features={domAnimation}>
         <AnimatePresence exitBeforeEnter={!exitBefore}>
