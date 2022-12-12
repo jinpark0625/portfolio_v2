@@ -1,5 +1,23 @@
-import { useState, useLayoutEffect } from "react";
 import styled from "styled-components";
+
+const HandleColor = (path) => {
+  switch (path) {
+    case "/work/goodcafeteria":
+      return "#210e08";
+    case "/work/yellowbasket":
+      return "#ffcc00";
+    case "/work/binworks":
+      return "#feae2e";
+    case "/work/coffeebak":
+      return "#eb9109";
+    case "/work/fourtoon":
+      return "#1a5285";
+    case "/work/carrotrentcar":
+      return "#14473c";
+    default:
+      return "#fff";
+  }
+};
 
 const StyledArrow = styled.div`
   width: 40px;
@@ -12,61 +30,32 @@ const StyledArrow = styled.div`
     width: 17px;
     left: 5px;
   }
-  .arrow:before {
-    content: "";
-    width: 10px;
-    height: 1px;
-    background-color: ${({ color, menu, theme }) =>
-      menu ? theme.color.white : color};
-    display: inline-block;
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    top: 3px;
-    position: relative;
-  }
+  .arrow::before,
   .arrow::after {
     content: "";
     width: 10px;
     height: 1px;
-    background-color: ${({ color, menu, theme }) =>
-      menu ? theme.color.white : color};
+    background-color: ${({ path, menu }) => {
+      return menu ? "#fff" : HandleColor(path);
+    }};
+    top: 3px;
+    position: relative;
     display: inline-block;
+  }
+  .arrow::before {
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .arrow::after {
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg);
     margin-left: -3px;
-    top: 3px;
-    position: relative;
   }
 `;
 
-export const Arrow = ({ children, path, ...props }) => {
-  const [color, set] = useState("#fff");
-
-  const checkColor = (route) => {
-    switch (route) {
-      case "/work/goodcafeteria":
-        return set("#210e08");
-      case "/work/yellowbasket":
-        return set("#ffcc00");
-      case "/work/binworks":
-        return set("#feae2e");
-      case "/work/coffeebak":
-        return set("#eb9109");
-      case "/work/fourtoon":
-        return set("#1a5285");
-      case "/work/carrotrentcar":
-        return set("#14473c");
-      default:
-        return set("#fff");
-    }
-  };
-
-  useLayoutEffect(() => {
-    checkColor(path);
-  }, [path]);
-
+export const Arrow = ({ children, menu, path, ...props }) => {
   return (
-    <StyledArrow {...props} color={color}>
+    <StyledArrow {...props} menu={menu} path={path}>
       <div className="arrow" />
     </StyledArrow>
   );
@@ -81,11 +70,11 @@ const StyledHamburgerMenu = styled.div`
   opacity: 1;
   transition: opacity 200ms;
   pointer-events: all;
-
   span {
     display: block;
-    background-color: ${({ color, menu, theme }) =>
-      menu ? theme.color.white : color};
+    background-color: ${({ path, menu }) => {
+      return menu ? "#fff" : HandleColor(path);
+    }};
     display: block;
     height: 1px;
     width: 18px;
@@ -119,37 +108,8 @@ const StyledHamburgerMenu = styled.div`
 `;
 
 export const HamburgerMenu = ({ children, menu, path, menuOpen, ...props }) => {
-  const [color, set] = useState("#fff");
-  const checkColor = (route) => {
-    switch (route) {
-      case "/work/goodcafeteria":
-        return set("#210e08");
-      case "/work/yellowbasket":
-        return set("#ffcc00");
-      case "/work/binworks":
-        return set("#feae2e");
-      case "/work/coffeebak":
-        return set("#eb9109");
-      case "/work/fourtoon":
-        return set("#1a5285");
-      case "/work/carrotrentcar":
-        return set("#14473c");
-      default:
-        return set("#fff");
-    }
-  };
-
-  useLayoutEffect(() => {
-    checkColor(path);
-  }, [path]);
-
   return (
-    <StyledHamburgerMenu
-      {...props}
-      onClick={menuOpen}
-      color={color}
-      menu={menu}
-    >
+    <StyledHamburgerMenu {...props} onClick={menuOpen} menu={menu} path={path}>
       {children}
     </StyledHamburgerMenu>
   );
