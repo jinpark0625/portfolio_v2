@@ -2,7 +2,7 @@ import Navbar from "./navBar";
 import { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { useState, memo } from "react";
+import { useState } from "react";
 
 const variants = {
   in: {
@@ -45,4 +45,4 @@ function Layout({ asPath, children }) {
     </ThemeProvider>
   );
 }
-export default memo(Layout);
+export default Layout;
