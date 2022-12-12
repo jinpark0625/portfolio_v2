@@ -9,6 +9,7 @@ const LogoLink = ({ open, handleClick }) => {
         onClick={() => {
           open ? handleClick() : null;
         }}
+        aria-label="Link to main page"
       >
         <Logo />
       </a>
