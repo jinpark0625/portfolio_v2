@@ -1,4 +1,4 @@
-import { useMemo, useLayoutEffect, memo } from "react";
+import { useMemo, useLayoutEffect } from "react";
 import { Text3D, Center } from "@react-three/drei";
 import { useBlock } from "../project/blocks";
 import { MeshSurfaceSampler } from "three-stdlib";
@@ -12,7 +12,8 @@ import SometimesMedium from "../../public/fonts/Sometimes_medium.json";
 import * as random from "maath/random";
 import useRefs from "react-use-refs";
 
-const Contents = memo(function Contents({ models, isMobile }) {
+// const Contents = memo(function Contents({ models, isMobile }) {
+const Contents = ({ models, isMobile }) => {
   // common
   const { currentScale, canvasWidth, canvasHeight, mobile } = useBlock();
 
@@ -58,6 +59,7 @@ const Contents = memo(function Contents({ models, isMobile }) {
     const manSample = new MeshSurfaceSampler(models[0].children[0]);
     manSample.build();
     const manVertices = new Float32Array(state.count * 3);
+
     const manTempPosition = new Vector3();
 
     /**
@@ -230,6 +232,6 @@ const Contents = memo(function Contents({ models, isMobile }) {
       </Center>
     </>
   );
-});
+};
 
 export default Contents;
