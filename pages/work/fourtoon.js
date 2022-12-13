@@ -103,7 +103,7 @@ const FourToon = () => {
               <div className="work_overview">
                 <p className="work_overview_text">
                   Fourtoon is a new platform that allows users to freely share
-                  their webtoons, which mean comics posted online. Fourtoon
+                  their webtoons, which means comics posted online. Fourtoon
                   allows communication between writers and readers by enabling
                   viewers to post comments and writers to check responses to
                   their latest work. Through Fourtoon, everyone can now share

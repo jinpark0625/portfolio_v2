@@ -44,11 +44,11 @@ const BinWorks = () => {
               <h1 className="work_title">Bin Works</h1>
               <div className="work_overview">
                 <p className="work_overview_text">
-                  Binworks is an web space where Lee Da Bin expresses his ideas
+                  Binworks is a web space where Lee Da Bin expresses his ideas
                   with various artworks. The Nike Incense holder counts among
-                  his major wokrs. Ceramic and wood are materials that’s often
-                  used for an incense holder, but He used plastic material to
-                  think outside the box.
+                  his major works. Ceramics and wood are materials that are
+                  often used for an incense holder, but He used plastic
+                  materials to think outside the box.
                 </p>
                 <div className="work_overview_des">
                   <p className="work_date">2021</p>
@@ -109,10 +109,10 @@ const BinWorks = () => {
             <p className="work_text">
               BinWorks has a unique and premium feel to it. The design of
               website needed to fit accordingly and to translate those core
-              values into the visual. I desinged site with light text on a black
-              background to ensure brand consistency. I created most of visual
-              elements like header, hero section, buttons and so on. All pages
-              are fully responsive and optimised for mobile viewing.
+              values into the visual. I designed the site with light text on a
+              black background to ensure brand consistency. I created most of
+              the visual elements like header, hero section, buttons, and so on.
+              All pages are fully responsive and optimised for mobile viewing.
             </p>
           </div>
         </WorkDevelopment>

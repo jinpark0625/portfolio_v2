@@ -44,10 +44,10 @@ const YellowBasket = () => {
               <h1 className="work_title">Yellow Basket</h1>
               <div className="work_overview">
                 <p className="work_overview_text">
-                  Yellow Basket is the “shop-in-shop” concept store having a
-                  wide selection of products like cosmetics, electronics,
-                  stationery and so on. It’s all about the convenience of being
-                  able to find everything people need in one place.
+                  Yellow Basket is a “shop-in-shop” concept store having a wide
+                  selection of products like cosmetics, electronics, stationery,
+                  and so on. It’s all about the convenience of being able to
+                  find everything people need in one place.
                 </p>
                 <div className="work_overview_des">
                   <p className="work_date">2021</p>

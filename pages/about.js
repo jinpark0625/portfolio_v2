@@ -22,6 +22,7 @@ const About = () => {
                 target="_blank"
                 rel="website link"
                 style={{ color: "#feae2e" }}
+                aria-label="Link to github"
               >
                 <p className="link">github.com/jinpark0625</p>
               </a>
@@ -31,6 +32,7 @@ const About = () => {
                 target="_blank"
                 rel="website link"
                 style={{ color: "#feae2e" }}
+                aria-label="Link to portfolio v1"
               >
                 <p className="link">parkjin.com (kor)</p>
               </a>
@@ -136,7 +138,7 @@ const About = () => {
                 </li>
                 <li className="work_list">
                   Supported web design team to design websites and mobile
-                  application that have more than 3&apos;000 daily users.
+                  applications that have more than 3&apos;000 daily users.
                 </li>
               </ul>
             </div>
@@ -169,13 +171,13 @@ const About = () => {
             <div className="work_item_des">
               <ul>
                 <li className="work_list">
-                  Designed packages like delivery box, poly bag, and packing
+                  Designed packages like delivery boxes, poly bags, and packing
                   tape to elevate and differentiate branding.
                 </li>
                 <li className="work_list">
                   Developed creative advertising content for various media,
                   including catalogs, business cards, flyers, posters, and
-                  product packing while ensuring maximum brand awareness of
+                  product packing while ensuring maximum brand awareness of the
                   target audience.
                 </li>
               </ul>
@@ -206,8 +208,8 @@ const About = () => {
             <div className="work_item_des">
               <ul>
                 <li className="work_list">
-                  Desinged, and created branding collateral, such as
-                  itineraries, letters and catalogues.
+                  Designed, and created branding collateral, such as
+                  itineraries, letters and catalogs.
                 </li>
               </ul>
             </div>
