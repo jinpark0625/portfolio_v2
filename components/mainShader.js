@@ -11,7 +11,6 @@ class CustomMaterialMain extends ShaderMaterial {
         uniform float uTime;
         uniform float uFrequency;
         uniform float uMobile;
-        
 
         // mouse event
         uniform vec3 uMouse;
@@ -67,12 +66,7 @@ class CustomMaterialMain extends ShaderMaterial {
             
           // Other corners
             vec2 i1;
-            //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
-            //i1.y = 1.0 - i1.x;
             i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-            // x0 = x0 - 0.0 + 0.0 * C.xx ;
-            // x1 = x0 - i1 + 1.0 * C.xx ;
-            // x2 = x0 - 1.0 + 2.0 * C.xx ;
             vec4 x12 = x0.xyxy + C.xxzz;
             x12.xy -= i1;
             
@@ -142,11 +136,9 @@ class CustomMaterialMain extends ShaderMaterial {
         
           vec3 isX = step( x0.yzw, x0.xxx );
           vec3 isYZ = step( x0.zww, x0.yyz );
-        //  i0.x = dot( isX, vec3( 1.0 ) );
           i0.x = isX.x + isX.y + isX.z;
           i0.yzw = 1.0 - isX;
         
-        //  i0.y += dot( isYZ.xy, vec2( 1.0 ) );
           i0.y += isYZ.x + isYZ.y;
           i0.zw += 1.0 - isYZ.xy;
         
@@ -259,8 +251,6 @@ class CustomMaterialMain extends ShaderMaterial {
              * Position
              */
             // random noise
-            float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.1)));
-            // float distortion = snoise4(vec4(position * uFrequency, uTime * .005)) ;
             float distortion = snoise4(vec4(position * uFrequency, sin(
               (2. * PI * uTime * .0003) 
             )));
@@ -304,7 +294,6 @@ class CustomMaterialMain extends ShaderMaterial {
             // rotating animation
             float angleS = atan(rotatingS.x, rotatingS.z);
             float distanceToCenterS = length(rotatingS.xz);
-            // float angleOffsetS = (1.0 / distanceToCenterS) * uTime * 0.13;
             float angleOffsetS = (1.0 / distanceToCenterS) + uTime * 0.03;
             angleS += angleOffsetS;
 
@@ -339,8 +328,8 @@ class CustomMaterialMain extends ShaderMaterial {
             vec3 toCircle = mix(toPeople, mixedC, uSixthTrigger);
 
             float distanceToMouse = pow(1. - clamp(length(uMouse.xy - toCircle.xy) -.001, -2., 1.), 2.5);
-            toCircle.x -= distanceToMouse * 0.5 * rndz * cos(angle) * uMouseTrigger;
-            toCircle.y -= distanceToMouse * 0.5 * rndz * sin(angle) * uMouseTrigger;
+            toCircle.x -= distanceToMouse * 0.5 * distortion * cos(angle) * uMouseTrigger;
+            toCircle.y -= distanceToMouse * 0.5 * distortion * sin(angle) * uMouseTrigger;
 
             // camera
             vec4 viewPosition = viewMatrix * vec4(toCircle, 1.);
@@ -355,9 +344,6 @@ class CustomMaterialMain extends ShaderMaterial {
 
             gl_PointSize = finalRadius * uPixelRatio * aScale;
             gl_PointSize *= (1.0 / - viewPosition.z);
-
-
-            // gl_PointSize =  uPixelRatio * aScale * .1;
 
             vColor = color;
         }
@@ -432,6 +418,7 @@ class CustomMaterialMain extends ShaderMaterial {
           value: 1,
         },
       },
+      precision: "lowp",
     });
   }
   set uMouse(value) {
