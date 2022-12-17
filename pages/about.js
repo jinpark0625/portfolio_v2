@@ -39,7 +39,7 @@ const About = () => {
             </Link>
           </div>
           <div className="intro">
-            A changing, hard-working, completing person.
+            I love turning my ideas into a reality with code.
             <br />A creative Web Frontend Developer having an experience of
             building Web and Mobile applications with Javascript, React, React
             Native and some other libraries. I come from a graphic design and
@@ -93,16 +93,22 @@ const About = () => {
           <p className="subtitle">EDUCATION</p>
           <div className="list_wrap">
             <div className="list">
-              <p className="list_title">Seneca College</p>
+              <p className="list_title">Vom Academy</p>
+              <p className="margin_m list_title">Seneca College</p>
               <p className="margin_m list_title">
                 Kyungpook National University
               </p>
             </div>
             <div className="list">
-              <p className="list_text">Creative Advertising</p>
+              <p className="list_text">Front End Developer Bootcamp</p>
+              <p className="margin_m list_text">Creative Advertising</p>
               <p className="margin_m list_text">Fashion Design</p>
             </div>
             <div className="edu_item_m">
+              <p className="list_title">Vom Academy</p>
+              <p className="list_text">Front End Developer Bootcamp</p>
+            </div>
+            <div className="edu_item_m margin_m">
               <p className="list_title">Seneca College</p>
               <p className="list_text">Creative Advertising</p>
             </div>
@@ -126,19 +132,17 @@ const About = () => {
             <div className="work_item_des">
               <ul>
                 <li className="work_list">
-                  Developed various websites frontend using HTML/CSS/JS(ES6),
-                  React, Styled Components, and Redux , integrated with RESTful
-                  APIs.
+                  Developed front-end code for 7 websites and Worked closely
+                  with clients to meet project requirements, goals, and desired
+                  functionality.
                 </li>
                 <li className="work_list">
-                  Published mobile application using React Native.
+                  Implemented mobile applications using React Native.
                 </li>
                 <li className="work_list">
-                  Worked with basic HTML and CSS to manage the web application.
-                </li>
-                <li className="work_list">
-                  Supported web design team to design websites and mobile
-                  applications that have more than 3&apos;000 daily users.
+                  Collaborated with the design team to design new features for
+                  websites and mobile applications that increased user
+                  engagement by 40%.
                 </li>
               </ul>
             </div>
@@ -146,14 +150,14 @@ const About = () => {
           <div className="list_wrap">
             <div className="list">
               <p className="list_title">Tomato Project</p>
-              <div className="small_text margin_s">2019-2020</div>
-              <div className="small_text">Graphic Designer</div>
+              <div className="small_text margin_s">2019-Present</div>
+              <div className="small_text">Graphic Designer (Volunteering)</div>
             </div>
             <div className="work_item_des">
               <ul>
                 <li className="work_list">
-                  Designed visual content for Facebook and Instagram posts,
-                  which achieved 200% increase in Instagram followers.
+                  Designed visual content for Facebook and Instagram posts that
+                  increased followers by 200%.
                 </li>
                 <li className="work_list">
                   Collaborated with the design team to create advertising
@@ -185,6 +189,22 @@ const About = () => {
           </div>
           <div className="list_wrap">
             <div className="list">
+              <p className="list_title">Cheum Tour</p>
+              <div className="small_text margin_s">2019</div>
+              <div className="small_text">Freelance Graphic Designer</div>
+            </div>
+
+            <div className="work_item_des">
+              <ul>
+                <li className="work_list">
+                  Designed, and created branding collateral, such as
+                  itineraries, letters, and catalogs.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="list_wrap">
+            <div className="list">
               <p className="list_title">Northern Esports Academy</p>
               <div className="small_text margin_s">2019</div>
               <div className="small_text">Freelance Graphic Designer</div>
@@ -198,22 +218,7 @@ const About = () => {
               </ul>
             </div>
           </div>
-          <div className="list_wrap">
-            <div className="list">
-              <p className="list_title">Cheum Tour</p>
-              <div className="small_text margin_s">2019</div>
-              <div className="small_text">Freelance Graphic Designer</div>
-            </div>
 
-            <div className="work_item_des">
-              <ul>
-                <li className="work_list">
-                  Designed, and created branding collateral, such as
-                  itineraries, letters and catalogs.
-                </li>
-              </ul>
-            </div>
-          </div>
           <div className="list_wrap">
             <div className="list">
               <p className="list_title">Chicago City Sports</p>
