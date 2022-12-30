@@ -4,6 +4,8 @@ const fragmentShader = `
 
 // animation
 uniform float uTime;
+uniform vec2 uMouse;
+uniform float uMouseTrigger;
 
 // simulation
 uniform sampler2D textureA;
@@ -104,6 +106,15 @@ void main() {
   vec3 ring = mix(people, sceneE, scrollTriggerF);
 
   vec3 final = mix(ring, animated, scrollTriggerG);
+
+
+  // mouse animation
+  float distortion = snoise4(vec4(final * 5., sin(
+    (2. * PI * uTime * .0003) 
+  )));
+  float distanceToMouse = pow(1. - clamp(length(uMouse.rg - final.rg) -.001, -2., 1.), 2.5);
+  final.r -= distanceToMouse * distortion * .8 * cos(rand.r * PI) * uMouseTrigger;
+  final.g -= distanceToMouse * distortion * .8 * sin(rand.g * PI) * uMouseTrigger;
 
   gl_FragColor = vec4(final, 1.0);
 
