@@ -1,8 +1,10 @@
-import { ScrollControls } from "@react-three/drei";
+import { ScrollControls, useGLTF } from "@react-three/drei";
 import TextScene from "./textScene";
 import FboParticles from "./fboParticles";
 
-const ScrollWrap = ({ isMobile, router }) => {
+const ScrollWrap = ({ router }) => {
+  const { nodes } = useGLTF("models.gltf");
+
   return (
     <ScrollControls
       pages={12}
@@ -12,9 +14,11 @@ const ScrollWrap = ({ isMobile, router }) => {
       infinite={false}
     >
       <TextScene router={router} />
-      <FboParticles isMobile={isMobile} />
+      <FboParticles nodes={nodes} />
     </ScrollControls>
   );
 };
 
 export default ScrollWrap;
+
+useGLTF.preload("models.gltf");
