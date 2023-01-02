@@ -12,7 +12,4 @@ void main() {
 }
 
 `;
-
 export default vertexShader;
-
-// simulation vertexShader에는 따른 data를 받지않는다.
