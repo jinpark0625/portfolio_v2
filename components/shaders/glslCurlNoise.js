@@ -343,6 +343,7 @@ vec3 curl(float	x,	float	y,	float	z)
             return	curl;
           }
 
+
 `;
 
 export default glslCurlNoise;
