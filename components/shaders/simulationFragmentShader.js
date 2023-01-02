@@ -117,7 +117,6 @@ void main() {
   final.g -= distanceToMouse * distortion * .8 * sin(rand.g * PI) * uMouseTrigger;
 
   gl_FragColor = vec4(final, 1.0);
-
 }
 `;
 
