@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Perf } from "r3f-perf";
+// import { Perf } from "r3f-perf";
 import ScrollWrap from "./scrollWrap";
 import Loader from "../loader";
 import { Suspense } from "react";
