@@ -1,20 +1,11 @@
-import { useRef, useMemo, useEffect } from "react";
-import {
-  useCursor,
-  useScroll,
-  useFBX,
-  Center,
-  useFBO,
-  useGLTF,
-} from "@react-three/drei";
-import { useFrame, extend, useThree, createPortal } from "@react-three/fiber";
+import { useRef, useMemo, useLayoutEffect } from "react";
+import { useScroll, useFBO } from "@react-three/drei";
+import { useFrame, createPortal } from "@react-three/fiber";
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry.js";
-import useRefs from "react-use-refs";
 import { Color } from "three/src/math/Color";
-import SimulationMaterial from "./simulationMaterial";
+import "./simulationMaterial";
 import fragmentShader from "../shaders/fragmentShader";
 import vertexShader from "../shaders/vertexShader";
-
 import {
   RGBAFormat,
   FloatType,
@@ -23,37 +14,34 @@ import {
 } from "three/src/constants";
 import { Scene } from "three/src/scenes/Scene";
 import { OrthographicCamera } from "three/src/cameras/OrthographicCamera.js";
-import { randInt, randFloat } from "three/src/math/MathUtils";
-import { BufferAttribute } from "three/src/core/BufferAttribute";
-import Loader from "../loader";
+import { randInt } from "three/src/math/MathUtils";
+import { Vector2 } from "three/src/math/Vector2.js";
 
-extend({ SimulationMaterial });
+let opacity;
+const size = 80;
 
-const FboParticles = ({ isMobile, size = 72 }) => {
-  /**
-   * models
-   */
-  //   text model
-  const modelObj = useFBX(["man.fbx", "people.fbx"]);
-  const { nodes } = useGLTF("font.gltf");
-  //   humen model
+const FboParticles = ({ models, viewportWidth, viewportHeight }) => {
+  const scroll = useScroll();
 
   /**
    * Particles options
    */
-
   // This reference gives us direct access to our points
   const points = useRef();
   const simulationMaterialRef = useRef();
 
   // Create a camera and a scene for our FBO
   // Create a simple square geometry with custom uv and positions attributes
-  const scene = new Scene();
-  const camera = new OrthographicCamera(-1, 1, 1, -1, 1 / Math.pow(2, 53), 1);
-  const positions = new Float32Array([
-    -1, -1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0,
-  ]);
-  const uvs = new Float32Array([0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0]);
+  const [scene, camera, positions, uvs] = useMemo(() => {
+    return [
+      new Scene(),
+      new OrthographicCamera(-1, 1, 1, -1, 1 / Math.pow(2, 53), 1),
+      new Float32Array([
+        -1, -1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0,
+      ]),
+      new Float32Array([0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0]),
+    ];
+  }, []);
 
   // Create our FBO render target
   const renderTarget = useFBO(size, size, {
@@ -74,7 +62,7 @@ const FboParticles = ({ isMobile, size = 72 }) => {
       particles[i3 + 1] = i / size / size;
     }
     return particles;
-  }, [size]);
+  }, []);
 
   const uniforms = useMemo(
     () => ({
@@ -90,84 +78,132 @@ const FboParticles = ({ isMobile, size = 72 }) => {
       vColor: {
         value: 0,
       },
+      defaultTime: {
+        value: 0,
+      },
+      uOpacity: {
+        value: 0,
+      },
+      uColorTrigger: {
+        value: 0,
+      },
     }),
     []
   );
 
-  //   FBO useFrame
-  useFrame((state) => {
-    const { gl, clock } = state;
+  useLayoutEffect(() => {
+    if (viewportWidth < 4.8) {
+      points.current.material.uniforms.uMobile.value = 0.1;
+    }
+  }, []);
 
+  //   FBO useFrame
+  useFrame(({ gl, clock }) => {
     gl.setRenderTarget(renderTarget);
     gl.clear();
     gl.render(scene, camera);
     gl.setRenderTarget(null);
 
     points.current.material.uniforms.uPositions.value = renderTarget.texture;
+    points.current.material.uniforms.defaultTime.value = clock.elapsedTime;
     simulationMaterialRef.current.uniforms.uTime.value = clock.elapsedTime;
   });
 
-  const { viewport } = useThree();
+  const [scales, colors] = useMemo(() => {
+    const length = size * size * 3;
 
-  useEffect(() => {
-    // simulation
-    const leng = size * size * 4;
-    const angle = new Float32Array(leng);
-
-    for (let i = 0; i < leng; i++) {
-      angle[i] = Math.random() * Math.PI;
-    }
-
-    // points
-    const pointLen = size * size * 3;
-    const scale = new Float32Array(pointLen);
     const color = new Color();
-    const aColor = new Float32Array(pointLen * 3);
-    var q = ["white", "white", 0x2675ad, 0x0b5394, 0x0b9490];
+    const sca = [];
+    const cols = [];
+    let q = ["white", "white", 0x2675ad, 0x0b5394, 0x0b9490];
 
-    for (let i = 0; i < pointLen; i++) {
+    const range = viewportWidth < 4.8 ? 20 : 40;
+
+    for (let i = 0; i < length; i++) {
       const i3 = i * 3;
 
       //   color
       color.set(q[randInt(0, 4)]);
-      aColor[i3 + 0] = color.r;
-      aColor[i3 + 1] = color.g;
-      aColor[i3 + 2] = color.b;
+      cols[i3 + 0] = color.r;
+      cols[i3 + 1] = color.g;
+      cols[i3 + 2] = color.b;
 
       //   particles scale
-      scale[i] = Math.random() * 40;
+      sca[i] = Math.random() * range;
     }
-
-    // simuation uniform
-    simulationMaterialRef.current.uniforms.angle.value = angle;
-
-    // points attributes
-    points.current.geometry.setAttribute(
-      "color",
-      new BufferAttribute(aColor, 3)
-    );
-    points.current.geometry.setAttribute(
-      "aScale",
-      new BufferAttribute(scale, 1)
-    );
+    return [new Float32Array(sca), new Float32Array(cols)];
   }, []);
 
   /**
    * mouse event
    */
-  //  plane geo for mouse event
   const hoveredRef = useRef();
   const planeGeo = useMemo(() => {
-    return new PlaneGeometry(viewport.width, viewport.height, 1, 1);
+    return new PlaneGeometry(viewportWidth, viewportHeight, 1, 1);
   }, []);
 
   /**
    * scroll
    */
-
-  const scroll = useScroll();
-
   //   scroll animation
+
+  useFrame(({ mouse }) => {
+    const x = (mouse.x * viewportWidth) / 2;
+    const y = (mouse.y * viewportHeight) / 2;
+
+    if (viewportWidth > 6.7) {
+      if (hoveredRef.current) {
+        simulationMaterialRef.current.uniforms.uMouse.value = new Vector2(x, y);
+        simulationMaterialRef.current.uniforms.uMouseTrigger.value = 1;
+      } else simulationMaterialRef.current.uniforms.uMouseTrigger.value = 0;
+    }
+
+    const aRange = scroll.range(0.0, 1 / 12);
+    const bRange = scroll.range(0.7 / 12, 1 / 12);
+
+    simulationMaterialRef.current.uniforms.scrollTriggerA.value = aRange;
+
+    const cRange = scroll.range(1.7 / 12, 1 / 12);
+    const dRange = scroll.range(3.6 / 12, 1 / 12);
+    const c = scroll.visible(1.7 / 12, 1 / 12);
+    const d = scroll.visible(2.7 / 12, 1.9 / 12);
+
+    simulationMaterialRef.current.uniforms.scrollTriggerB.value = cRange;
+
+    const e = scroll.visible(4.8 / 12, 2 / 12);
+    const eRange = scroll.range(4.8 / 12, 1 / 12);
+
+    simulationMaterialRef.current.uniforms.scrollTriggerC.value = eRange;
+
+    const f = scroll.visible(6.8 / 12, 1 / 12);
+    const g = scroll.visible(7.6 / 12, 1 / 12);
+    const fRange = scroll.range(6.8 / 12, 1 / 12);
+    const gRange = scroll.range(7.6 / 12, 1 / 12);
+
+    simulationMaterialRef.current.uniforms.scrollTriggerD.value = fRange;
+    simulationMaterialRef.current.uniforms.scrollTriggerE.value = gRange;
+
+    const h = scroll.visible(9.6 / 12, 2.4 / 12);
+    const hRange = scroll.range(9.6 / 12, 1 / 12);
+
+    simulationMaterialRef.current.uniforms.scrollTriggerF.value = hRange;
+    points.current.material.uniforms.uColorTrigger.value = hRange;
+
+    const iRange = scroll.range(10.6 / 12, 1.4 / 12);
+
+    simulationMaterialRef.current.uniforms.scrollTriggerG.value = iRange;
+
+    // opacity
+    opacity = 1 - bRange;
+    c && (opacity = cRange);
+    d && (opacity = 1 - dRange);
+    e && (opacity = eRange);
+    f && (opacity = 1 - fRange);
+    g && (opacity = fRange);
+    h && (opacity = hRange);
+
+    points.current.material.uniforms.uOpacity.value = opacity;
+  });
 
   return (
     <>
@@ -180,13 +216,13 @@ const FboParticles = ({ isMobile, size = 72 }) => {
         visible={false}
         geometry={planeGeo}
       />
-      {/* <Center> */}
       {/* Render off-screen our simulation material and square geometry */}
       {createPortal(
         <mesh>
           <simulationMaterial
             ref={simulationMaterialRef}
-            args={[size, scroll, viewport, nodes, modelObj]}
+            // args={[size, viewport, models]}
+            args={[size, viewportWidth, viewportHeight, models]}
           />
           <bufferGeometry>
             <bufferAttribute
@@ -206,10 +242,7 @@ const FboParticles = ({ isMobile, size = 72 }) => {
         scene
       )}
 
-      <points
-        ref={points}
-        scale={[viewport.width / 18, viewport.width / 18, 1]}
-      >
+      <points ref={points}>
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
@@ -217,11 +250,23 @@ const FboParticles = ({ isMobile, size = 72 }) => {
             array={particlesPosition}
             itemSize={3}
           />
+          <bufferAttribute
+            attach="attributes-color"
+            count={colors.length / 3}
+            array={colors}
+            itemSize={3}
+          />
+          <bufferAttribute
+            attach="attributes-aScale"
+            count={scales.length}
+            array={scales}
+            itemSize={1}
+          />
         </bufferGeometry>
         <shaderMaterial
           blending={AdditiveBlending}
           depthWrite={false}
-          //   transparent={true}
+          // transparent={true}
           fragmentShader={fragmentShader}
           vertexShader={vertexShader}
           uniforms={uniforms}
@@ -232,5 +277,3 @@ const FboParticles = ({ isMobile, size = 72 }) => {
 };
 
 export default FboParticles;
-
-useGLTF.preload("font.gltf");
