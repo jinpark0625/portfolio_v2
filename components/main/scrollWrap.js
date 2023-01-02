@@ -1,9 +1,13 @@
 import { ScrollControls, useGLTF } from "@react-three/drei";
 import TextScene from "./textScene";
 import FboParticles from "./fboParticles";
+import { useThree } from "@react-three/fiber";
 
 const ScrollWrap = ({ router }) => {
   const { nodes } = useGLTF("models.gltf");
+  const {
+    viewport: { width, height },
+  } = useThree();
 
   return (
     <ScrollControls
@@ -14,7 +18,11 @@ const ScrollWrap = ({ router }) => {
       infinite={false}
     >
       <TextScene router={router} />
-      <FboParticles nodes={nodes} />
+      <FboParticles
+        models={nodes}
+        viewportWidth={width}
+        viewportHeight={height}
+      />
     </ScrollControls>
   );
 };
