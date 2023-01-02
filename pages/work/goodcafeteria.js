@@ -102,7 +102,10 @@ const Goodcafeteria = () => {
                   </dd>
                 </dl>
               </div>
-              <Link href="https://ybasket.co.kr/" passHref>
+              <Link
+                href="http://goodcafeteria.s3-website.ap-northeast-2.amazonaws.com/"
+                passHref
+              >
                 <a
                   target="_blank"
                   rel="website link"
