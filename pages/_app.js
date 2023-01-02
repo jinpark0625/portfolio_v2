@@ -5,6 +5,7 @@ import "../styles/nprogress.min.css";
 import "../public/fonts/font.css";
 import Router, { useRouter } from "next/router";
 import nProgress from "nprogress";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App({ Component, pageProps }) {
   // nProgress
@@ -42,6 +43,7 @@ export default function App({ Component, pageProps }) {
   return (
     <Layout asPath={asPath}>
       <Component {...pageProps} />
+      <Analytics />
     </Layout>
   );
 }
