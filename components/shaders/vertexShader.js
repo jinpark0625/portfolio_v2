@@ -1,4 +1,3 @@
-import glslCurlNoise from "./glslCurlNoise";
 const vertexShader = `
 uniform sampler2D uPositions;
 uniform float uTime;
@@ -9,7 +8,6 @@ uniform float uPixelRatio;
 attribute float aScale;
 attribute vec3 color;
 varying vec3 vColor;
-${glslCurlNoise}
 
 void main() {
   vec3 pos = texture2D(uPositions, position.xy).xyz;
@@ -20,12 +18,10 @@ void main() {
   gl_Position = projectedPosition;
 
   float radiusRange = .4 * uMobile;
-  float pct = abs(sin(defaultTime * .4));
-  vec3 culr = curlNoise(pos);
 
-  float curlPos = mix(min(culr.x, .7), 1., pct);
-  // gl_PointSize =  uPixelRatio * aScale * curlPos;
-  gl_PointSize =  uPixelRatio * aScale;
+  float radiusRand = radiusRange * sin(defaultTime * aScale * .1) + 1.;
+  
+  gl_PointSize = radiusRand * uPixelRatio * aScale;
   gl_PointSize *= (1.0 / - viewPosition.z);
 
   vColor = color;
