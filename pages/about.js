@@ -39,7 +39,7 @@ const About = () => {
             </Link>
           </div>
           <div className="intro">
-            I love turning my ideas into a reality with code.
+            I love turning my ideas into reality with code.
             <br />A creative Web Frontend Developer having an experience of
             building Web and Mobile applications with Javascript, React, React
             Native and some other libraries. I come from a graphic design and
