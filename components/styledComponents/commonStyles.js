@@ -13,7 +13,7 @@ export const LostWay = styled.div`
   }
 `;
 
-export const ProjectFooter = styled.div`
+export const StyledProjectFooter = styled.div`
   height: auto;
 
   .footer_container {
