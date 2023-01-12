@@ -16,8 +16,7 @@ import {
   FoimgM11,
   FoimgM12,
 } from "../../components/project/images";
-import VideoPlayer from "../../components/styledComponents/video";
-import { ScrollSmooth } from "../../components/project";
+import ScrollContainer from "../../components/project/scrollContainer";
 import {
   WorkHeader,
   WorkDevelopment,
@@ -26,18 +25,26 @@ import {
   FullImageContainer,
   MobileContainer,
 } from "../../components/project/projectStyles";
-import Link from "next/link";
 import Seo from "../../components/seo";
 import Image from "next/image";
 import { m, useTransform } from "framer-motion";
 import useRefs from "react-use-refs";
 import useIntersectionObserver from "../../components/project/useIntersectionObserver";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 
-const customThreshold = [...Array(100).keys()].map((x) => x / 100);
+const Video = dynamic(() => import("../../components/project/videoContainer"), {
+  loading: () => <div></div>,
+  ssr: false,
+});
 
 const FourToon = () => {
   const [mobileFirst, mobileSecond] = useRefs();
+
+  const customThreshold = useMemo(
+    () => [...Array(100).keys()].map((x) => x / 100),
+    []
+  );
 
   const [_isMobile, set] = useState(null);
 
@@ -87,7 +94,7 @@ const FourToon = () => {
   return (
     <>
       <Seo title="FourToon" />
-      <ScrollSmooth
+      <ScrollContainer
         mainColor="#fcb118"
         subColor="#fff"
         pointColor="#1a5285"
@@ -96,32 +103,19 @@ const FourToon = () => {
         nextImage={RcWork}
       >
         {/* header */}
-        <WorkHeader mainColor="#1a5285" subColor="#291919">
-          <div className="work_container">
-            <div className="work_wrap">
-              <h1 className="work_title">Four Toon</h1>
-              <div className="work_overview">
-                <p className="work_overview_text">
-                  Fourtoon is a new platform that allows users to freely share
-                  their webtoons, which means comics posted online. Fourtoon
-                  allows communication between writers and readers by enabling
-                  viewers to post comments and writers to check responses to
-                  their latest work. Through Fourtoon, everyone can now share
-                  their different stories with webtoons.
-                </p>
-                <div className="work_overview_des">
-                  <p className="work_date">2021</p>
-                  <ul className="work_role">
-                    <li>Front-end development</li>
-                    <li>
-                      <span className="circle"></span>
-                    </li>
-                    <li>Web design</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+        <WorkHeader
+          mainColor="#1a5285"
+          subColor="#291919"
+          title="Four Toon"
+          date="2021"
+          roles={["Front-end development", "Web design"]}
+        >
+          Fourtoon is a new platform that allows users to freely share their
+          webtoons, which means comics posted online. Fourtoon allows
+          communication between writers and readers by enabling viewers to post
+          comments and writers to check responses to their latest work. Through
+          Fourtoon, everyone can now share their different stories with
+          webtoons.
         </WorkHeader>
 
         {/* full_width image */}
@@ -140,40 +134,16 @@ const FourToon = () => {
           mainColor="#1a5285"
           subColor="#000"
           grayColor="#6c4e44"
+          title="Four Toon"
+          language="HTML / CSS / Vanila JS"
+          link="https://linktr.ee/fourtoon"
         >
-          <div className="work_development">
-            <div className="work_development_list">
-              <div className="work_development_tools">
-                <dl>
-                  <dt>CLIENT</dt>
-                  <dd>Four Toon</dd>
-                </dl>
-                <dl>
-                  <dt>TOOLS</dt>
-                  <dd>HTML / CSS / Vanila JS</dd>
-                </dl>
-              </div>
-              <Link href="https://linktr.ee/fourtoon" passHref>
-                <a
-                  target="_blank"
-                  rel="website link"
-                  className="work_link"
-                  aria-label="Link to website"
-                >
-                  View Website
-                </a>
-              </Link>
-            </div>
-
-            <p className="work_text">
-              I built a simple and responsive single-page website to aim to
-              provide just the right amount of information for a user to make a
-              decision and act on it, using HTML, CSS, and JS. I added
-              animations to the site. In addition to web development, I designed
-              mobile application, contributing to the entire design process from
-              design strategy to design execution with a web designer.
-            </p>
-          </div>
+          I built a simple and responsive single-page website to aim to provide
+          just the right amount of information for a user to make a decision and
+          act on it, using HTML, CSS, and JS. I added animations to the site. In
+          addition to web development, I designed mobile application,
+          contributing to the entire design process from design strategy to
+          design execution with a web designer.
         </WorkDevelopment>
 
         {/* section */}
@@ -181,15 +151,13 @@ const FourToon = () => {
           {/* first section */}
           <div className="section_margin">
             <div className="project_image_wrap">
-              <ImageContainer padding="56.25" border="#e7e7e7">
-                <div className="image_wrap">
-                  <VideoPlayer
-                    source="/images/fourtoon/fourtoon_video_1.mp4"
-                    scale="1.015"
-                    poster="/images/fourtoon/video_poster.webp"
-                  />
-                </div>
-              </ImageContainer>
+              <Video
+                padding="56.25"
+                border="#e7e7e7"
+                source="/images/fourtoon/fourtoon_video_1.mp4"
+                scale="1.015"
+                poster="/images/fourtoon/video_poster.webp"
+              />
 
               <ImageContainer padding="160" border="#e7e7e7" marginTop>
                 <div className="image_wrap">
@@ -448,7 +416,7 @@ const FourToon = () => {
             </MobileContainer>
           </div>
         </WorkSection>
-      </ScrollSmooth>
+      </ScrollContainer>
     </>
   );
 };

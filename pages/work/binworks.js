@@ -10,7 +10,7 @@ import {
   BwimgM2,
   BwimgM3,
 } from "../../components/project/images";
-import { ScrollSmooth } from "../../components/project";
+import ScrollContainer from "../../components/project/scrollContainer";
 import {
   WorkHeader,
   WorkDevelopment,
@@ -20,16 +20,20 @@ import {
   FullConceptContainer,
   MobileContainer,
 } from "../../components/project/projectStyles";
-import VideoPlayer from "../../components/styledComponents/video";
-import Link from "next/link";
 import Seo from "../../components/seo";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const Video = dynamic(() => import("../../components/project/videoContainer"), {
+  loading: () => <div></div>,
+  ssr: false,
+});
 
 const BinWorks = () => {
   return (
     <>
       <Seo title="BinWorks" />
-      <ScrollSmooth
+      <ScrollContainer
         mainColor="#090909"
         subColor="#fff"
         pointColor="#feae2e"
@@ -38,31 +42,18 @@ const BinWorks = () => {
         nextImage={FoNext}
       >
         {/* header */}
-        <WorkHeader mainColor="#feae2e" subColor="#fff">
-          <div className="work_container">
-            <div className="work_wrap">
-              <h1 className="work_title">Bin Works</h1>
-              <div className="work_overview">
-                <p className="work_overview_text">
-                  Binworks is a web space where Lee Da Bin expresses his ideas
-                  with various artworks. The Nike Incense holder counts among
-                  his major works. Ceramics and wood are materials that are
-                  often used for an incense holder, but He used plastic
-                  materials to think outside the box.
-                </p>
-                <div className="work_overview_des">
-                  <p className="work_date">2021</p>
-                  <ul className="work_role">
-                    <li>Front-end development</li>
-                    <li>
-                      <span className="circle"></span>
-                    </li>
-                    <li>Web design</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+        <WorkHeader
+          mainColor="#feae2e"
+          subColor="#fff"
+          title="Bin Works"
+          date="2021"
+          roles={["Front-end development", "Web design"]}
+        >
+          Binworks is a web space where Lee Da Bin expresses his ideas with
+          various artworks. The Nike Incense holder counts among his major
+          works. Ceramics and wood are materials that are often used for an
+          incense holder, but He used plastic materials to think outside the
+          box.
         </WorkHeader>
 
         {/* full_width image */}
@@ -81,40 +72,16 @@ const BinWorks = () => {
           mainColor="#feae2e"
           subColor="#fff"
           grayColor="#8D8D8D"
+          title="Bin Works"
+          language="HTML / CSS / Vanila JS"
+          link="https://binworks.kr/"
         >
-          <div className="work_development">
-            <div className="work_development_list">
-              <div className="work_development_tools">
-                <dl>
-                  <dt>CLIENT</dt>
-                  <dd>Bin Works</dd>
-                </dl>
-                <dl>
-                  <dt>TOOLS</dt>
-                  <dd>HTML / CSS / Vanila JS</dd>
-                </dl>
-              </div>
-              <Link href="https://binworks.kr/" passHref>
-                <a
-                  target="_blank"
-                  rel="website link"
-                  className="work_link"
-                  aria-label="Link to website"
-                >
-                  View Website
-                </a>
-              </Link>
-            </div>
-
-            <p className="work_text">
-              BinWorks has a unique and premium feel to it. The design of
-              website needed to fit accordingly and to translate those core
-              values into the visual. I designed the site with light text on a
-              black background to ensure brand consistency. I created most of
-              the visual elements like header, hero section, buttons, and so on.
-              All pages are fully responsive and optimised for mobile viewing.
-            </p>
-          </div>
+          BinWorks has a unique and premium feel to it. The design of website
+          needed to fit accordingly and to translate those core values into the
+          visual. I designed the site with light text on a black background to
+          ensure brand consistency. I created most of the visual elements like
+          header, hero section, buttons, and so on. All pages are fully
+          responsive and optimised for mobile viewing.
         </WorkDevelopment>
 
         {/* section */}
@@ -122,15 +89,13 @@ const BinWorks = () => {
           {/* first section */}
           <div className="section_margin">
             <div className="project_image_wrap">
-              <ImageContainer padding="56.25" border="#282828">
-                <div className="image_wrap">
-                  <VideoPlayer
-                    source="/images/binworks/binworks_video_1.mp4"
-                    scale="1.015"
-                    poster="/images/binworks/video_poster.webp"
-                  />
-                </div>
-              </ImageContainer>
+              <Video
+                padding="56.25"
+                border="#282828"
+                source="/images/binworks/binworks_video_1.mp4"
+                scale="1.015"
+                poster="/images/binworks/video_poster.webp"
+              ></Video>
 
               <ImageContainer padding="147" border="#282828" marginTop>
                 <div className="image_wrap">
@@ -241,7 +206,7 @@ const BinWorks = () => {
             </MobileContainer>
           </div>
         </WorkSection>
-      </ScrollSmooth>
+      </ScrollContainer>
     </>
   );
 };

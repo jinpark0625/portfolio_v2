@@ -18,8 +18,7 @@ import {
   CoimgM11,
   CoimgM12,
 } from "../../components/project/images";
-import VideoPlayer from "../../components/styledComponents/video";
-import { ScrollSmooth } from "../../components/project";
+import ScrollContainer from "../../components/project/scrollContainer";
 import {
   WorkHeader,
   WorkDevelopment,
@@ -28,17 +27,25 @@ import {
   FullImageContainer,
   MobileContainer,
 } from "../../components/project/projectStyles";
-import Link from "next/link";
 import Image from "next/image";
 import Seo from "../../components/seo";
 import { m, useTransform } from "framer-motion";
 import useRefs from "react-use-refs";
 import useIntersectionObserver from "../../components/project/useIntersectionObserver";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 
-const customThreshold = [...Array(100).keys()].map((x) => x / 100);
+const Video = dynamic(() => import("../../components/project/videoContainer"), {
+  loading: () => <div></div>,
+  ssr: false,
+});
 
 const CoffeeBak = () => {
+  const customThreshold = useMemo(
+    () => [...Array(100).keys()].map((x) => x / 100),
+    []
+  );
+
   const [mobileFirst, mobileSecond] = useRefs();
 
   const [_isMobile, set] = useState(null);
@@ -89,7 +96,7 @@ const CoffeeBak = () => {
   return (
     <>
       <Seo title="CoffeeBak" />
-      <ScrollSmooth
+      <ScrollContainer
         mainColor="#193624"
         subColor="#fff"
         pointColor="#eb9109"
@@ -98,30 +105,20 @@ const CoffeeBak = () => {
         nextImage={BwWork}
       >
         {/* header */}
-        <WorkHeader mainColor="#eb9109" subColor="#fff">
-          <div className="work_container">
-            <div className="work_wrap">
-              <h1 className="work_title">Coffee Bak</h1>
-              <div className="work_overview">
-                <p className="work_overview_text">
-                  Coffee grounds are an unavoidable byproduct of coffee
-                  consumption. And while many of us assume it’s safe to toss
-                  grounds out with other organic waste, that often isn’t the
-                  case. Coffee grounds can actually have a significant impact on
-                  the environment when they end up going to landfill. So,
-                  Coffeebak finds a new use for coffee grounds that gets
-                  discarded every day, and processes them into sustainable
-                  materials for a circular economy.
-                </p>
-                <div className="work_overview_des">
-                  <p className="work_date">2021</p>
-                  <ul className="work_role">
-                    <li>Front-end development</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+        <WorkHeader
+          mainColor="#eb9109"
+          subColor="#fff"
+          title="Coffee Bak"
+          date="2021"
+          roles={["Front-end development"]}
+        >
+          Coffee grounds are an unavoidable byproduct of coffee consumption. And
+          while many of us assume it’s safe to toss grounds out with other
+          organic waste, that often isn’t the case. Coffee grounds can actually
+          have a significant impact on the environment when they end up going to
+          landfill. So, Coffeebak finds a new use for coffee grounds that gets
+          discarded every day, and processes them into sustainable materials for
+          a circular economy.
         </WorkHeader>
 
         {/* full_width image */}
@@ -140,43 +137,19 @@ const CoffeeBak = () => {
           mainColor="#eb9109"
           subColor="#fff"
           grayColor="#8c9d84"
+          title="Coffee Bak"
+          language="React Native / REST API / Styled-Components"
+          link="http://coffeebak.kr/"
         >
-          <div className="work_development">
-            <div className="work_development_list">
-              <div className="work_development_tools">
-                <dl>
-                  <dt>CLIENT</dt>
-                  <dd>Coffee Bak</dd>
-                </dl>
-                <dl>
-                  <dt>TOOLS</dt>
-                  <dd>React Native / REST API / Styled-Components</dd>
-                </dl>
-              </div>
-              <Link href="http://coffeebak.kr/" passHref>
-                <a
-                  target="_blank"
-                  rel="website link"
-                  className="work_link"
-                  aria-label="Link to website"
-                >
-                  View Website
-                </a>
-              </Link>
-            </div>
-
-            <p className="work_text">
-              I built CoffeeBak mobile application supporing both iOS and
-              Android with React Native, JWT Auth, WebView, working with a
-              Back-end developer to complete all parts of the app’s
-              infrastructure. CoffeeBak mobile app allows users to request
-              coffee grounds collection and view history of a request. Further,
-              I worked on registration page, login page, notice page, mobile
-              authentication, and other pages. I used WebView to render any web
-              components in a React Native application, so a client can easily
-              add and remove notice content from administrator page in the web.
-            </p>
-          </div>
+          I built CoffeeBak mobile application supporing both iOS and Android
+          with React Native, JWT Auth, WebView, working with a Back-end
+          developer to complete all parts of the app’s infrastructure. CoffeeBak
+          mobile app allows users to request coffee grounds collection and view
+          history of a request. Further, I worked on registration page, login
+          page, notice page, mobile authentication, and other pages. I used
+          WebView to render any web components in a React Native application, so
+          a client can easily add and remove notice content from administrator
+          page in the web.
         </WorkDevelopment>
 
         {/* section */}
@@ -184,15 +157,12 @@ const CoffeeBak = () => {
           {/* first section */}
           <div className="section_margin">
             <div className="project_image_wrap">
-              <ImageContainer padding="56.25">
-                <div className="image_wrap">
-                  <VideoPlayer
-                    source="/images/coffeebak/coffee_video_1.mp4"
-                    scale="1.015"
-                    poster="/images/coffeebak/video_poster.webp"
-                  />
-                </div>
-              </ImageContainer>
+              <Video
+                padding="56.25"
+                source="/images/coffeebak/coffee_video_1.mp4"
+                scale="1.015"
+                poster="/images/coffeebak/video_poster.webp"
+              />
 
               <ImageContainer padding="56.25" marginTop>
                 <div className="image_wrap">
@@ -480,7 +450,7 @@ const CoffeeBak = () => {
             </MobileContainer>
           </div>
         </WorkSection>
-      </ScrollSmooth>
+      </ScrollContainer>
     </>
   );
 };
