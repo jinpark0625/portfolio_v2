@@ -1,8 +1,12 @@
-import Navbar from "./navBar";
 import { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const Navbar = dynamic(() => import("./navBar"), {
+  ssr: false,
+  loading: () => <div></div>,
+});
 
 const variants = {
   in: {
@@ -22,14 +26,12 @@ const variants = {
 };
 
 function Layout({ asPath, children }) {
-  const [exitBefore, setExitBefore] = useState(false);
-
   return (
     <ThemeProvider theme={theme}>
       <Navbar path={asPath} />
       {/* page transition */}
       <LazyMotion features={domAnimation}>
-        <AnimatePresence exitBeforeEnter={!exitBefore}>
+        <AnimatePresence mode="wait">
           <m.div
             key={asPath}
             className="container"
