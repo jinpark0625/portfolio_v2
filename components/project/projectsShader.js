@@ -1,4 +1,3 @@
-import { Color } from "three/src/math/Color";
 import { ShaderMaterial } from "three/src/materials/ShaderMaterial.js";
 import { extend } from "@react-three/fiber";
 
@@ -22,8 +21,6 @@ class CustomMaterial extends ShaderMaterial {
       uniform float hasTexture;
       uniform float shift;
       uniform float scale;
-      uniform vec3 color;
-      uniform float opacity;
       varying vec2 vUv;
 
       void main() {
@@ -37,18 +34,16 @@ class CustomMaterial extends ShaderMaterial {
         vec4 texture = texture2D(uTexture, p);
         // vec4 test = texture2D(uTexture, vUv);
 
-        // if (hasTexture == 1.0) gl_FragColor =  vec4(cr.r, cga.g, cb.b, cga.a);
         if (hasTexture == 1.0) gl_FragColor =  texture;
-        else gl_FragColor = vec4(color, opacity);
+        else gl_FragColor = vec4(vec3(1.), 1.);
       }`,
       uniforms: {
         uTexture: { value: null },
         hasTexture: { value: 0 },
         scale: { value: 0 },
         shift: { value: 0 },
-        opacity: { value: 1 },
-        color: { value: new Color("white") },
       },
+      precision: "lowp",
     });
   }
 
@@ -75,18 +70,6 @@ class CustomMaterial extends ShaderMaterial {
 
   get map() {
     return this.uniforms.uTexture.value;
-  }
-
-  get color() {
-    return this.uniforms.color.value;
-  }
-
-  get opacity() {
-    return this.uniforms.opacity.value;
-  }
-
-  set opacity(value) {
-    if (this.uniforms) this.uniforms.opacity.value = value;
   }
 }
 
