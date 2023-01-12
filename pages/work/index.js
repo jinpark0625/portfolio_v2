@@ -1,16 +1,12 @@
-import { Canvas } from "@react-three/fiber";
-import "../../components/project/projectsShader";
 import Seo from "../../components/seo";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-// import { Perf } from "r3f-perf";
+import LazyLoader from "../../components/lazyLoader";
 
-const ProjectContentWrap = dynamic(
-  () => import("../../components/project/projectContentWrap"),
-  {
-    ssr: false,
-  }
-);
+const Scene = dynamic(() => import("../../components/project/projectScene"), {
+  ssr: false,
+  loading: () => <LazyLoader />,
+});
 
 const Work = () => {
   const router = useRouter();
@@ -18,17 +14,7 @@ const Work = () => {
   return (
     <div className="canvasWrap">
       <Seo title="Work" />
-      <Canvas
-        className="canvas"
-        linear
-        orthographic
-        frameloop="demand"
-        gl={{ antialias: false }}
-        camera={{ zoom: 75, position: [0, 0, 500] }}
-      >
-        {/* <Perf deepAnalyze showGraph matrixUpdate /> */}
-        <ProjectContentWrap router={router} />
-      </Canvas>
+      <Scene router={router} />
     </div>
   );
 };
