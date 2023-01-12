@@ -1,11 +1,11 @@
 import styled from "styled-components";
-
+import Link from "next/link";
 /**
  * Project detail styles
  */
 
 // header
-export const WorkHeader = styled.header`
+const StyledWorkHeader = styled.header`
   max-width: 1800px;
   margin: 0 auto;
 
@@ -46,6 +46,15 @@ export const WorkHeader = styled.header`
     display: flex;
     align-items: center;
     color: ${({ mainColor }) => mainColor};
+  }
+  .work_role > li:nth-child(2):before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: ${({ mainColor }) => mainColor};
+    border-radius: 100%;
+    margin: 0 8px 2px;
   }
   .circle {
     display: block;
@@ -90,8 +99,38 @@ export const WorkHeader = styled.header`
   }
 `;
 
+export const WorkHeader = ({
+  children,
+  title,
+  roles,
+  date,
+  mainColor,
+  subColor,
+}) => {
+  return (
+    <StyledWorkHeader mainColor={mainColor} subColor={subColor}>
+      <div className="work_container">
+        <div className="work_wrap">
+          <h1 className="work_title">{title}</h1>
+          <div className="work_overview">
+            <p className="work_overview_text">{children}</p>
+            <div className="work_overview_des">
+              <p className="work_date">{date}</p>
+              <ul className="work_role">
+                {roles.map((role) => (
+                  <li key={role}>{role}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </StyledWorkHeader>
+  );
+};
+
 // project description
-export const WorkDevelopment = styled.div`
+const StyledWorkDevelopment = styled.div`
   margin: ${({ theme: { space } }) => `0 auto ${space[10]}px`};
   display: flex;
   justify-content: center;
@@ -118,6 +157,9 @@ export const WorkDevelopment = styled.div`
     margin-top: ${({ theme: { space } }) => space[3]}px;
     color: ${({ mainColor }) => mainColor};
   }
+  .pre {
+    white-space: pre-line;
+  }
 
   @media screen and (max-width: ${({ theme: { mediaQuery } }) =>
       mediaQuery.tablet}px) {
@@ -141,6 +183,54 @@ export const WorkDevelopment = styled.div`
     margin: ${({ theme: { space } }) => `0 auto ${space[8]}px`};
   }
 `;
+
+export const WorkDevelopment = ({
+  children,
+  mainColor,
+  subColor,
+  grayColor,
+  title,
+  language,
+  link,
+}) => {
+  return (
+    <StyledWorkDevelopment
+      mainColor={mainColor}
+      subColor={subColor}
+      grayColor={grayColor}
+    >
+      <div className="work_development">
+        <div className="work_development_list">
+          <div className="work_development_tools">
+            <dl>
+              <dt>CLIENT</dt>
+              <dd>{title}</dd>
+            </dl>
+            <dl>
+              <dt>TOOLS</dt>
+              <dd className="pre">{language}</dd>
+            </dl>
+          </div>
+          {link === "none" ? (
+            <span className="work_link">View Website (currently closed)</span>
+          ) : (
+            <Link href={link} passHref>
+              <a
+                target="_blank"
+                rel="website link"
+                className="work_link"
+                aria-label="Link to website"
+              >
+                View Website
+              </a>
+            </Link>
+          )}
+        </div>
+        <p className="work_text">{children}</p>
+      </div>
+    </StyledWorkDevelopment>
+  );
+};
 
 // project section
 export const WorkSection = styled.section`
