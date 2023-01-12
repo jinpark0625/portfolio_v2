@@ -35,10 +35,8 @@ function useBlock() {
   const { sections, zoom } = state;
   const { size, viewport } = useThree();
   const offset = useContext(offsetContext);
-  const viewportWidth = viewport.width;
-  const viewportHeight = viewport.height;
-  const canvasWidth = viewportWidth;
-  const canvasHeight = viewportHeight;
+  const canvasWidth = viewport.width;
+  const canvasHeight = viewport.height;
   const mobile = size.width < 1025;
   const margin = (canvasWidth * zoom - 138) / zoom;
   const marginMobile = (canvasWidth * zoom - 70) / zoom;
@@ -51,22 +49,14 @@ function useBlock() {
     ? (((offset / 3) % 2.5) * 0.03) / sections
     : ((offset % 2.5) * 0.01) / sections;
 
-  // main index
-  const currentScale = (canvasWidth * 75) / 1800;
-
   return {
-    viewport,
     offset,
-    viewportWidth,
-    viewportHeight,
     canvasWidth,
     canvasHeight,
     mobile,
-    margin,
     align,
     contentMaxWidth,
     offsetFactor,
-    currentScale,
     aspect,
   };
 }
