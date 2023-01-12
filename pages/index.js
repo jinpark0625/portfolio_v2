@@ -1,6 +1,12 @@
 import Seo from "../components/seo";
 import { useRouter } from "next/router";
-import Scene from "../components/main/scene";
+import dynamic from "next/dynamic";
+import LazyLoader from "../components/lazyLoader";
+
+const Scene = dynamic(() => import("../components/main/scene"), {
+  ssr: false,
+  loading: () => <LazyLoader />,
+});
 
 export default function Home() {
   const router = useRouter();
