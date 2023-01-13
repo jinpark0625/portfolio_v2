@@ -11,11 +11,14 @@ const SmoothScroll = forwardRef(function SmoothScroll(
     m,
     useSpring,
     useTransform,
+    isMobile,
   },
   ref
 ) {
   const transform = useTransform(scrollY, [0, pageHeight], [0, -pageHeight]);
-  const physics = { damping: 15, mass: 0.27, stiffness: 55 }; // easing of smooth scroll
+  const physics = isMobile
+    ? { damping: 30, mass: 1, stiffness: 100 }
+    : { damping: 15, mass: 0.27, stiffness: 55 }; // easing of smooth scroll
   const spring = useSpring(transform, physics); // apply easing to the negative scroll value
 
   const backgroundFramer = useTransform(
