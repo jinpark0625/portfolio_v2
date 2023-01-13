@@ -4,7 +4,9 @@ import ResizeObserver from "resize-observer-polyfill";
 import SmoothScroll from "./smoothScroll";
 import dynamic from "next/dynamic";
 import { m, useSpring, useTransform } from "framer-motion";
+import { isMobile } from "react-device-detect";
 
+// const ScrollBar = dynamic(() => import("./scrollBar"));
 const ScrollBar = dynamic(() => import("./scrollBar"));
 const ProjectFooter = dynamic(() => import("./projectFooter"));
 
@@ -53,6 +55,7 @@ const ScrollContainer = ({
         m={m}
         useSpring={useSpring}
         useTransform={useTransform}
+        isMobile={isMobile}
       >
         {children}
       </SmoothScroll>
@@ -60,10 +63,11 @@ const ScrollContainer = ({
       {/* scroll progress bar */}
       <ScrollBar
         pointColor={pointColor}
-        scrollYProgress={scrollYProgress}
+        scrollYProgress={isMobile ? 0 : scrollYProgress}
         m={m}
         useSpring={useSpring}
       />
+
       {/* the basis for content height  */}
       <div style={{ height: pageHeight }} />
 
