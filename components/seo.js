@@ -24,6 +24,10 @@ const Seo = ({ title }) => {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000" />
       <meta name="msapplication-TileColor" content="#000" />
       <meta name="theme-color" content="#ffffff" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+      ></meta>
       <title>{title} | Jin Park</title>
       <meta name="description" content="Jin Park's portfolio" />
       <meta
