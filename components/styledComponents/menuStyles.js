@@ -7,8 +7,9 @@ export const StyledMenu = styled(m.div)`
   left: 0px;
   z-index: 9999999;
   width: 100%;
-  height: 100vh;
-  height: -webkit-fill-available;
+  // height: 100vh;
+  // height: -webkit-fill-available;
+  height: 100%;
   background: ${({ theme: { color } }) => color.background};
 
   @keyframes center {
@@ -66,7 +67,6 @@ export const StyledMenu = styled(m.div)`
   .li {
     font-size: ${({ theme: { fontSize } }) => fontSize.headerIntro}rem;
   }
-
   .cont {
     color: #fff;
     font-size: ${({ theme: { fontSize } }) => fontSize.tagline}rem;
