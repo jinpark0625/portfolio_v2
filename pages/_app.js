@@ -1,8 +1,6 @@
 import Layout from "../components/layout";
 import { useLayoutEffect, useReducer, useCallback } from "react";
 import "../styles/globals.min.css";
-import "../styles/nprogress.min.css";
-import "../public/fonts/font.css";
 import Router, { useRouter } from "next/router";
 import nProgress from "nprogress";
 import { Analytics } from "@vercel/analytics/react";
