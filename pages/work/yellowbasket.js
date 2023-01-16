@@ -73,7 +73,7 @@ const YellowBasket = () => {
           grayColor="#8D8D8D"
           title="Yellow basket"
           language="HTML / CSS / Vanila JS"
-          link="https://ybasket.co.kr/"
+          link="https://yellowbasket.co.kr/"
         >
           Together with my senior developer, we built the front and back-end of
           this website. I Built the front-end with HTML, CSS, and JS to improve
